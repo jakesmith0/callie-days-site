@@ -136,6 +136,7 @@ function clearFilters(){
 function detail(p){
  const cat=categoryFor(p),es=eventsFor(p.id),link=safeLink(p.source);
  const dir="https://www.google.com/maps/dir/?api=1&destination="+encodeURIComponent(p.title+", "+p.area+", UK");
+ const feedback="https://github.com/jakesmith0/callie-days/issues/new?template=outing-feedback.yml&title="+encodeURIComponent("Visited: "+p.title);
  const ageWarning=p.minimumAgeMonths?"Official minimum age "+Math.floor(p.minimumAgeMonths/12)+"; check before booking.":null;
  $("detailBody").innerHTML='<div class="detail-art cat-'+cat+'">'+SYMBOLS[cat]+'</div><div class="detail-content">'+
  '<p class="eyebrow green">'+escapeHTML(CATEGORIES[cat].label)+' · '+escapeHTML(TIER_LABELS[p.tier])+'</p><h2>'+escapeHTML(p.title)+'</h2>'+
@@ -146,7 +147,8 @@ function detail(p){
  '<p>Times, tickets, age limits and opening status can change. An entry in this catalogue is not a live availability confirmation. Map markers are approximate area hubs.</p>'+
  '<div class="detail-buttons">'+(link?'<a class="button button-dark" target="_blank" rel="noopener noreferrer" href="'+escapeHTML(link)+'">Official info ↗</a>':"")+
  '<a class="button button-light" target="_blank" rel="noopener noreferrer" href="'+escapeHTML(dir)+'">Directions ↗</a>'+
- '<button class="button button-light" id="detailSave">'+(state.saved.has(p.id)?"♥ Saved":"♡ Save idea")+'</button></div></div>';
+ '<button class="button button-light" id="detailSave">'+(state.saved.has(p.id)?"♥ Saved":"♡ Save idea")+'</button>'+
+ '<a class="button button-light" target="_blank" rel="noopener noreferrer" href="'+escapeHTML(feedback)+'">Visited? Leave feedback ↗</a></div></div>';
  $("detailSave").addEventListener("click",()=>{toggleSaved(p.id);$("detailSave").textContent=state.saved.has(p.id)?"♥ Saved":"♡ Save idea";});
  $("detailDialog").showModal();
 }
