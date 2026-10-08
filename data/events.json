@@ -1,0 +1,293 @@
+{
+  "schemaVersion": 1,
+  "updated": "2026-10-09",
+  "events": [
+    {
+      "id": "event-wb-rhyme-10",
+      "placeId": "place-1",
+      "title": "Rattle, Rhyme and Roll (10am)",
+      "recurrence": "weekly",
+      "weekday": 5,
+      "time": "10:00",
+      "end": "10:30",
+      "termTime": true,
+      "note": "Free tickets available from 9:45am; term-time sessions and cancellations must be checked.",
+      "source": "https://www.inspireculture.org.uk/reading-information/find-a-library/west-bridgford-library/events/",
+      "confidence": "weekly"
+    },
+    {
+      "id": "event-wb-rhyme-11",
+      "placeId": "place-1",
+      "title": "Rattle, Rhyme and Roll (11am)",
+      "recurrence": "weekly",
+      "weekday": 5,
+      "time": "11:00",
+      "end": "11:30",
+      "termTime": true,
+      "note": "Adult ticket required; term-time sessions and cancellations must be checked.",
+      "confidence": "weekly"
+    },
+    {
+      "id": "event-rockets",
+      "placeId": "place-3",
+      "title": "Little Rockets",
+      "recurrence": "weekly",
+      "weekday": 5,
+      "time": "10:00",
+      "end": "11:30",
+      "termTime": true,
+      "note": "£2.50 per family; term-time session.",
+      "confidence": "weekly"
+    },
+    {
+      "id": "event-st-giles",
+      "placeId": "place-2",
+      "title": "Story & Singing",
+      "recurrence": "weekly",
+      "weekday": 5,
+      "time": null,
+      "end": null,
+      "termTime": true,
+      "note": "Friday morning; exact start time not confirmed.",
+      "confidence": "weekly"
+    },
+    {
+      "id": "event-bingham",
+      "placeId": "place-24",
+      "title": "Bingham Rattle, Rhyme and Roll",
+      "recurrence": "weekly",
+      "weekday": 5,
+      "time": "10:00",
+      "end": "10:30",
+      "termTime": true,
+      "confidence": "weekly"
+    },
+    {
+      "id": "event-meadows",
+      "placeId": "place-69",
+      "title": "Fun Fridays Totstime",
+      "recurrence": "weekly",
+      "weekday": 5,
+      "time": "11:00",
+      "end": "11:30",
+      "termTime": false,
+      "confidence": "weekly"
+    },
+    {
+      "id": "event-radford",
+      "placeId": "place-70",
+      "title": "Radford-Lenton Totstime",
+      "recurrence": "weekly",
+      "weekday": 5,
+      "time": "10:30",
+      "end": "11:00",
+      "confidence": "weekly"
+    },
+    {
+      "id": "event-sherwood",
+      "placeId": "place-71",
+      "title": "Sherwood Totstime",
+      "recurrence": "weekly",
+      "weekday": 5,
+      "time": "10:30",
+      "end": "11:00",
+      "confidence": "weekly"
+    },
+    {
+      "id": "event-cotgrave",
+      "placeId": "place-25",
+      "title": "Places of Welcome",
+      "recurrence": "weekly",
+      "weekday": 5,
+      "time": "10:30",
+      "end": "12:00",
+      "confidence": "weekly",
+      "note": "Social group rather than toddler-specific."
+    },
+    {
+      "id": "event-att-adventurers",
+      "placeId": "place-27",
+      "title": "Attenborough Adventurers",
+      "recurrence": "once",
+      "dates": [
+        "2026-10-09"
+      ],
+      "time": "09:30",
+      "end": "11:30",
+      "confidence": "dated",
+      "note": "Under-fives woodland stay-and-play; booking essential; date published but availability unconfirmed."
+    },
+    {
+      "id": "event-littlefarmers",
+      "placeId": "place-48",
+      "title": "Little Farmers — World Animal Day",
+      "recurrence": "once",
+      "dates": [
+        "2026-10-09"
+      ],
+      "time": "10:00",
+      "end": "12:00",
+      "confidence": "dated",
+      "note": "Official age range 2–4. Confirm the minimum age with the organiser before booking."
+    },
+    {
+      "id": "event-hucknall-creatives",
+      "placeId": "place-72",
+      "title": "Little Creatives (Hucknall)",
+      "recurrence": "once",
+      "dates": [
+        "2026-10-09"
+      ],
+      "time": "10:00",
+      "end": "10:45",
+      "confidence": "dated",
+      "note": "Ages 2–5, booking; verify younger admission."
+    },
+    {
+      "id": "event-market",
+      "placeId": "place-75",
+      "title": "Nottingham International Market",
+      "recurrence": "range",
+      "from": "2026-10-07",
+      "to": "2026-10-11",
+      "time": "10:00",
+      "end": "19:00",
+      "confidence": "dated",
+      "note": "Friday advertised 10am–7pm; other days' exact hours require checking."
+    },
+    {
+      "id": "event-twycross",
+      "placeId": "place-76",
+      "title": "Room on the Broom Corn Maze",
+      "recurrence": "range",
+      "from": "2026-10-03",
+      "to": "2026-11-01",
+      "time": null,
+      "end": null,
+      "confidence": "dated",
+      "note": "Additional £5 per child on top of general admission; booking details from zoo."
+    },
+    {
+      "id": "event-bluebells",
+      "placeId": "place-77",
+      "title": "Autumn Fun on the Farm",
+      "recurrence": "custom",
+      "dates": [
+        "2026-10-03",
+        "2026-10-04",
+        "2026-10-05",
+        "2026-10-09",
+        "2026-10-10",
+        "2026-10-11",
+        "2026-10-12",
+        "2026-10-16",
+        "2026-10-17",
+        "2026-10-18",
+        "2026-10-19",
+        "2026-10-20",
+        "2026-10-21",
+        "2026-10-22",
+        "2026-10-23"
+      ],
+      "time": null,
+      "end": null,
+      "confidence": "dated",
+      "note": "Operator identifies participating dates, but some dates may have different entry times. Friday 9 farm 10–4, ice cream parlour closed."
+    },
+    {
+      "id": "event-oxton-pumpkin",
+      "placeId": "place-60",
+      "title": "Oxton pick-your-own pumpkins",
+      "recurrence": "custom",
+      "dates": [
+        "2026-10-10",
+        "2026-10-11",
+        "2026-10-17",
+        "2026-10-18",
+        "2026-10-24",
+        "2026-10-25",
+        "2026-10-26",
+        "2026-10-27",
+        "2026-10-28",
+        "2026-10-29",
+        "2026-10-30",
+        "2026-10-31"
+      ],
+      "time": null,
+      "end": null,
+      "confidence": "dated",
+      "note": "Some dates based on seasonal programme; confirm before travel."
+    },
+    {
+      "id": "event-maxeys",
+      "placeId": "place-61",
+      "title": "Pick Up a Pumpkin (Kirklington)",
+      "recurrence": "custom",
+      "dates": [
+        "2026-10-10",
+        "2026-10-11"
+      ],
+      "time": "09:00",
+      "end": "17:00",
+      "confidence": "dated",
+      "note": "Only dates independently recorded so far; check other dates separately."
+    },
+    {
+      "id": "event-steam",
+      "placeId": "place-58",
+      "title": "Autumn Steam Weekend",
+      "recurrence": "custom",
+      "dates": [
+        "2026-10-10",
+        "2026-10-11"
+      ],
+      "time": null,
+      "end": null,
+      "confidence": "dated",
+      "note": "Great Central Railway heritage service, tickets/timetables to check."
+    },
+    {
+      "id": "event-arts-cunningham",
+      "placeId": "place-36",
+      "title": "Sarah Cunningham and Julia Isídrez exhibitions open",
+      "recurrence": "once",
+      "dates": [
+        "2026-10-09"
+      ],
+      "time": "10:00",
+      "end": "17:00",
+      "confidence": "dated",
+      "note": "Exhibitions begin on this date; galleries are not a toddler-specific class."
+    },
+    {
+      "id": "event-lakeside-exhib",
+      "placeId": "place-29",
+      "title": "Prehistoric Lives in the Trent Valley",
+      "recurrence": "range",
+      "from": "2026-07-24",
+      "to": "2027-01-10",
+      "allowedWeekdays": [
+        0,
+        4,
+        5,
+        6
+      ],
+      "time": "12:00",
+      "end": "16:00",
+      "confidence": "dated",
+      "note": "Publication lists Thursday through Sunday; final date/access must be checked."
+    },
+    {
+      "id": "event-workhouse",
+      "placeId": "place-53",
+      "title": "Cheer Up Chuckaboo trail",
+      "recurrence": "range",
+      "from": "2026-10-09",
+      "to": "2026-10-16",
+      "time": "10:30",
+      "end": "16:00",
+      "confidence": "dated",
+      "note": "Historic experience, may be better for adults/older children."
+    }
+  ]
+}

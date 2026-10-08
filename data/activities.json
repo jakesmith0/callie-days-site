@@ -1,0 +1,1826 @@
+{
+  "schemaVersion": 1,
+  "updated": "2026-10-09",
+  "publicSite": true,
+  "sourceRepo": "Private curated source; no personal preferences exposed",
+  "entries": [
+    {
+      "id": "place-1",
+      "title": "West Bridgford Library — Rattle, Rhyme and Roll",
+      "description": "(Friday 10:00–10:30 and 11:00–11:30; free; adults need free tickets from 09:45). Singing/socialising.",
+      "category": [
+        "group"
+      ],
+      "kind": "session",
+      "area": "West Bridgford",
+      "tier": "local",
+      "locationGroup": "West Bridgford",
+      "mapPoint": {
+        "lat": 52.93,
+        "lng": -1.129,
+        "precision": "area"
+      },
+      "source": "https://www.inspireculture.org.uk/reading-information/find-a-library/west-bridgford-library/events/",
+      "price": "free",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08",
+      "weekday": 5
+    },
+    {
+      "id": "place-2",
+      "title": "St Giles Church — Story & Singing",
+      "description": "(Friday term-time, free drop-in; exact time requires confirmation). Songs, stories, crafts/toys.",
+      "category": [
+        "group"
+      ],
+      "kind": "session",
+      "area": "West Bridgford",
+      "tier": "local",
+      "locationGroup": "West Bridgford",
+      "mapPoint": {
+        "lat": 52.93,
+        "lng": -1.129,
+        "precision": "area"
+      },
+      "source": "https://www.stgilesparish.com/whats-on.html",
+      "price": "free",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08",
+      "weekday": 5
+    },
+    {
+      "id": "place-3",
+      "title": "Little Rockets, Edwalton",
+      "description": "(The Rock Hub, 13–15 Wellin Lane; Friday term-time 10:00–11:30; £2.50/family). Toys, craft/messy play, soft play, songs.",
+      "category": [
+        "group"
+      ],
+      "kind": "session",
+      "area": "Edwalton",
+      "tier": "local",
+      "locationGroup": "Edwalton",
+      "mapPoint": {
+        "lat": 52.913,
+        "lng": -1.11,
+        "precision": "area"
+      },
+      "source": "https://www.the-rock.org.uk/in-the-community/littlerockets",
+      "price": "priced",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08",
+      "weekday": 5
+    },
+    {
+      "id": "place-4",
+      "title": "Bridgford Park play area",
+      "description": "(Central Avenue). Sand factory, swings, climbing, local option.",
+      "category": [
+        "play"
+      ],
+      "kind": "place",
+      "area": "West Bridgford",
+      "tier": "local",
+      "locationGroup": "West Bridgford",
+      "mapPoint": {
+        "lat": 52.93,
+        "lng": -1.129,
+        "precision": "area"
+      },
+      "source": "https://www.rushcliffe.gov.uk/parks",
+      "price": "unknown",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-5",
+      "title": "Boundary Road play area",
+      "description": "(NG2 7DB). Modern rope/climbing/zip line, features for young children.",
+      "category": [
+        "play"
+      ],
+      "kind": "place",
+      "area": "West Bridgford",
+      "tier": "local",
+      "locationGroup": "West Bridgford",
+      "mapPoint": {
+        "lat": 52.93,
+        "lng": -1.129,
+        "precision": "area"
+      },
+      "source": "https://www.rushcliffe.gov.uk/parks",
+      "price": "unknown",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-6",
+      "title": "Greythorn Drive play area",
+      "description": "(NG2 7GD). New jeep, swings, play panels and climbing; very convenient for a short local outing.",
+      "category": [
+        "play"
+      ],
+      "kind": "place",
+      "area": "West Bridgford",
+      "tier": "local",
+      "locationGroup": "West Bridgford",
+      "mapPoint": {
+        "lat": 52.93,
+        "lng": -1.129,
+        "precision": "area"
+      },
+      "source": "https://www.rushcliffe.gov.uk/parks",
+      "price": "unknown",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-7",
+      "title": "Alford Road pirate playground",
+      "description": "(Edwalton NG2 6HP). Pirate 'walk the plank' and climbing.",
+      "category": [
+        "play"
+      ],
+      "kind": "place",
+      "area": "Edwalton",
+      "tier": "local",
+      "locationGroup": "Edwalton",
+      "mapPoint": {
+        "lat": 52.913,
+        "lng": -1.11,
+        "precision": "area"
+      },
+      "source": "https://www.rushcliffe.gov.uk/parks",
+      "price": "unknown",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-8",
+      "title": "West Park junior play area",
+      "description": "(Loughborough Road NG2 7JE). Local park/play.",
+      "category": [
+        "play"
+      ],
+      "kind": "place",
+      "area": "West Bridgford",
+      "tier": "local",
+      "locationGroup": "West Bridgford",
+      "mapPoint": {
+        "lat": 52.93,
+        "lng": -1.129,
+        "precision": "area"
+      },
+      "source": "https://www.rushcliffe.gov.uk/parks",
+      "price": "unknown",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-9",
+      "title": "The Hook junior play area and reserve",
+      "description": "(Holme Road NG2 5BG). Play then natural area/river proximity.",
+      "category": [
+        "play"
+      ],
+      "kind": "place",
+      "area": "Lady Bay",
+      "tier": "local",
+      "locationGroup": "Lady Bay",
+      "mapPoint": {
+        "lat": 52.944,
+        "lng": -1.105,
+        "precision": "area"
+      },
+      "source": "https://www.rushcliffe.gov.uk/parks",
+      "price": "unknown",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-10",
+      "title": "Bridge Field playground",
+      "description": "(Bridgford Road NG2 6AN). Useful short stop.",
+      "category": [
+        "play"
+      ],
+      "kind": "place",
+      "area": "West Bridgford",
+      "tier": "local",
+      "locationGroup": "West Bridgford",
+      "mapPoint": {
+        "lat": 52.93,
+        "lng": -1.129,
+        "precision": "area"
+      },
+      "source": "https://www.rushcliffe.gov.uk/parks",
+      "price": "unknown",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-11",
+      "title": "Adbolton Lane playground",
+      "description": "(Lady Bay NG2 5AX). Modern equipment incl music/tactile features.",
+      "category": [
+        "play"
+      ],
+      "kind": "place",
+      "area": "Lady Bay",
+      "tier": "local",
+      "locationGroup": "Lady Bay",
+      "mapPoint": {
+        "lat": 52.944,
+        "lng": -1.105,
+        "precision": "area"
+      },
+      "source": "https://www.rushcliffe.gov.uk/parks",
+      "price": "unknown",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-12",
+      "title": "Oak Tree Close playground",
+      "description": "(Lady Bay NG2 5DE). Compact local play.",
+      "category": [
+        "play"
+      ],
+      "kind": "place",
+      "area": "Lady Bay",
+      "tier": "local",
+      "locationGroup": "Lady Bay",
+      "mapPoint": {
+        "lat": 52.944,
+        "lng": -1.105,
+        "precision": "area"
+      },
+      "source": "https://www.rushcliffe.gov.uk/parks",
+      "price": "unknown",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-13",
+      "title": "Victoria Embankment and Memorial Gardens",
+      "description": "(NG2 2AA). River, paths and playground; can spot boats and bridges. Source/park search: Nottingham City Council.",
+      "category": [
+        "nature"
+      ],
+      "kind": "place",
+      "area": "Wilford",
+      "tier": "local",
+      "locationGroup": "Wilford",
+      "mapPoint": {
+        "lat": 52.925,
+        "lng": -1.158,
+        "precision": "area"
+      },
+      "source": null,
+      "price": "unknown",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-14",
+      "title": "Wilford Village Green / riverside",
+      "description": "(NG11 7AH). Short local ramble; use direct verified route.",
+      "category": [
+        "nature"
+      ],
+      "kind": "place",
+      "area": "Wilford",
+      "tier": "local",
+      "locationGroup": "Wilford",
+      "mapPoint": {
+        "lat": 52.925,
+        "lng": -1.158,
+        "precision": "area"
+      },
+      "source": null,
+      "price": "unknown",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-15",
+      "title": "Skylarks Nature Reserve",
+      "description": "(Adbolton Lane NG12 2LU). Pond/wildlife and paths; outdoor. Source: Nottinghamshire Wildlife Trust.",
+      "category": [
+        "nature"
+      ],
+      "kind": "place",
+      "area": "Holme Pierrepont",
+      "tier": "local",
+      "locationGroup": "Holme Pierrepont",
+      "mapPoint": {
+        "lat": 52.947,
+        "lng": -1.07,
+        "precision": "area"
+      },
+      "source": null,
+      "price": "unknown",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-16",
+      "title": "Holme Pierrepont Country Park / watersports centre",
+      "description": "(NG12 2LU). Watch watersports on operating days, walk lake; check activities/open access.",
+      "category": [
+        "nature",
+        "transport"
+      ],
+      "kind": "place",
+      "area": "Holme Pierrepont",
+      "tier": "local",
+      "locationGroup": "Holme Pierrepont",
+      "mapPoint": {
+        "lat": 52.947,
+        "lng": -1.07,
+        "precision": "area"
+      },
+      "source": "https://www.nwscnotts.com/",
+      "price": "unknown",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-17",
+      "title": "The Hook Nature Reserve",
+      "description": "(Holme Grove area): nature/water routes separate from playground. Council/local listing; check path conditions.",
+      "category": [
+        "nature"
+      ],
+      "kind": "place",
+      "area": "Lady Bay",
+      "tier": "local",
+      "locationGroup": "Lady Bay",
+      "mapPoint": {
+        "lat": 52.944,
+        "lng": -1.105,
+        "precision": "area"
+      },
+      "source": null,
+      "price": "unknown",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-18",
+      "title": "West Bridgford Methodist Toddler Time",
+      "description": "(Musters Road): TUESDAY, not Friday, during term, 09:30–11:30. Keep for other dates.",
+      "category": [
+        "group"
+      ],
+      "kind": "session",
+      "area": "West Bridgford",
+      "tier": "local",
+      "locationGroup": "West Bridgford",
+      "mapPoint": {
+        "lat": 52.93,
+        "lng": -1.129,
+        "precision": "area"
+      },
+      "source": "https://wbmethodist.org.uk/children-and-young-people/",
+      "price": "unknown",
+      "caution": "Not operating on Friday 9 October; check actual dates",
+      "archived": false,
+      "avoidFriday20261009": true,
+      "lastChecked": "2026-10-08",
+      "weekday": 2
+    },
+    {
+      "id": "place-19",
+      "title": "Rushcliffe Arena",
+      "description": "(Rugby Road): swimming with published public schedule subject to pool availability. Check leisure provider.",
+      "category": [
+        "nature"
+      ],
+      "kind": "place",
+      "area": "West Bridgford",
+      "tier": "local",
+      "locationGroup": "West Bridgford",
+      "mapPoint": {
+        "lat": 52.93,
+        "lng": -1.129,
+        "precision": "area"
+      },
+      "source": null,
+      "price": "unknown",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-20",
+      "title": "Lady Bay local church/community events",
+      "description": "explore for actual dated children's/community events; don't claim public preschool is drop-in.",
+      "category": [
+        "nature"
+      ],
+      "kind": "place",
+      "area": "Nottingham city",
+      "tier": "nearby",
+      "locationGroup": "Nottingham city",
+      "mapPoint": {
+        "lat": 52.953,
+        "lng": -1.148,
+        "precision": "area"
+      },
+      "source": "https://www.ladybaychurch.org.uk/",
+      "price": "unknown",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-21",
+      "title": "Rushcliffe Country Park",
+      "description": "(Ruddington). Giant renovated climbing/play area, lake circuit, ducks and railway heritage alongside; park free, parking £1.50 up to 3h, car park 08:00–18:00.",
+      "category": [
+        "play"
+      ],
+      "kind": "place",
+      "area": "Ruddington",
+      "tier": "local",
+      "locationGroup": "Ruddington",
+      "mapPoint": {
+        "lat": 52.892,
+        "lng": -1.15,
+        "precision": "area"
+      },
+      "source": "https://www.rushcliffe.gov.uk/leisure-and-culture/rushcliffe-country-park/visiting-the-park/",
+      "price": "free",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-22",
+      "title": "Framework Knitters Museum",
+      "description": "(Ruddington). Historic knitting machinery and possible demonstrations; listed Friday 11am–4pm; confirm opening and demonstrations.",
+      "category": [
+        "nature"
+      ],
+      "kind": "place",
+      "area": "Ruddington",
+      "tier": "local",
+      "locationGroup": "Ruddington",
+      "mapPoint": {
+        "lat": 52.892,
+        "lng": -1.15,
+        "precision": "area"
+      },
+      "source": "https://frameworkknittersmuseum.org.uk/",
+      "price": "unknown",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-23",
+      "title": "Nottingham Transport Heritage Centre",
+      "description": "(Ruddington): rolling stock and heritage rail. Weekend hours in structured listing; not generally open Friday — only include for Friday if special event published.",
+      "category": [
+        "transport"
+      ],
+      "kind": "place",
+      "area": "Ruddington",
+      "tier": "local",
+      "locationGroup": "Ruddington",
+      "mapPoint": {
+        "lat": 52.892,
+        "lng": -1.15,
+        "precision": "area"
+      },
+      "source": "https://gcrn.co.uk/",
+      "price": "unknown",
+      "caution": "Not operating on Friday 9 October; check actual dates",
+      "archived": false,
+      "avoidFriday20261009": true,
+      "lastChecked": "2026-10-08",
+      "weekday": 6
+    },
+    {
+      "id": "place-24",
+      "title": "Bingham Library — Rattle, Rhyme and Roll",
+      "description": "Friday 10:00–10:30 term time, free. ONLY worth visiting as a group if already in Bingham or there's another interesting reason; similar much closer to home.",
+      "category": [
+        "group"
+      ],
+      "kind": "session",
+      "area": "Bingham",
+      "tier": "nearby",
+      "locationGroup": "Bingham",
+      "mapPoint": {
+        "lat": 52.95,
+        "lng": -0.95,
+        "precision": "area"
+      },
+      "source": "https://www.inspireculture.org.uk/reading-information/childrens-library/rattle-rhyme-and-roll/",
+      "price": "free",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08",
+      "weekday": 5
+    },
+    {
+      "id": "place-25",
+      "title": "Cotgrave Library — Places of Welcome",
+      "description": "Fridays 10:30–12; not a toddler class but sociable stop. Friday rhyme time NOT published.",
+      "category": [
+        "group"
+      ],
+      "kind": "session",
+      "area": "Cotgrave",
+      "tier": "local",
+      "locationGroup": "Cotgrave",
+      "mapPoint": {
+        "lat": 52.911,
+        "lng": -1.044,
+        "precision": "area"
+      },
+      "source": "https://www.inspireculture.org.uk/reading-information/find-a-library/cotgrave-library/events/",
+      "price": "unknown",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08",
+      "weekday": 5
+    },
+    {
+      "id": "place-26",
+      "title": "Attenborough Nature Centre and reserve",
+      "description": "(Barton Lane NG9 6DY). Wetlands, wildlife, cafe, accessible paths; free entry with paid parking.",
+      "category": [
+        "nature",
+        "animals"
+      ],
+      "kind": "place",
+      "area": "Attenborough",
+      "tier": "nearby",
+      "locationGroup": "Attenborough",
+      "mapPoint": {
+        "lat": 52.909,
+        "lng": -1.231,
+        "precision": "area"
+      },
+      "source": "https://www.nottinghamshirewildlife.org/nature-reserves/attenborough-nature-reserve",
+      "price": "free",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-27",
+      "title": "Attenborough Adventurers Stay and Play",
+      "description": "under-5s woodland session, Friday 09:30–11:30 on multiple 2026 autumn dates. Must verify requested date and book.",
+      "category": [
+        "group",
+        "animals"
+      ],
+      "kind": "session",
+      "area": "Attenborough",
+      "tier": "nearby",
+      "locationGroup": "Attenborough",
+      "mapPoint": {
+        "lat": 52.909,
+        "lng": -1.231,
+        "precision": "area"
+      },
+      "source": "https://www.nottinghamshirewildlife.org/events",
+      "price": "unknown",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08",
+      "weekday": 5
+    },
+    {
+      "id": "place-28",
+      "title": "Highfields Park boating lake and playground",
+      "description": "(University Boulevard NG7). Boats seasonal, playground, paths; venue open Friday. Verify boat activity separately.",
+      "category": [
+        "play"
+      ],
+      "kind": "place",
+      "area": "Highfields",
+      "tier": "nearby",
+      "locationGroup": "Highfields",
+      "mapPoint": {
+        "lat": 52.939,
+        "lng": -1.185,
+        "precision": "area"
+      },
+      "source": null,
+      "price": "unknown",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-29",
+      "title": "Lakeside Arts / Djanogly Gallery",
+      "description": "(University Park NG7 2RD). Exhibitions and family programmes; 2026 Trent Valley prehistoric exhibition Thu–Sun noon–16h.",
+      "category": [
+        "culture"
+      ],
+      "kind": "place",
+      "area": "Nottingham city",
+      "tier": "nearby",
+      "locationGroup": "Nottingham city",
+      "mapPoint": {
+        "lat": 52.953,
+        "lng": -1.148,
+        "precision": "area"
+      },
+      "source": "https://www.lakesidearts.org.uk/whats-on/",
+      "price": "unknown",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-30",
+      "title": "Little Foxes Play Town",
+      "description": "(100 Chilwell Rd, Beeston NG9 1ES): 90-min role-play, listed Friday 09:30–15h, check bookable slots.",
+      "category": [
+        "nature"
+      ],
+      "kind": "place",
+      "area": "Beeston",
+      "tier": "nearby",
+      "locationGroup": "Beeston",
+      "mapPoint": {
+        "lat": 52.922,
+        "lng": -1.215,
+        "precision": "area"
+      },
+      "source": "https://www.littlefoxesplaytown.co.uk/book-now/",
+      "price": "unknown",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-31",
+      "title": "Hocus Pocus Soft Play",
+      "description": "(131 Queens Road East, Beeston NG9 2FE). Indoor play; listings show Friday 09:30–18h; confirm toddler suitability/prices.",
+      "category": [
+        "play"
+      ],
+      "kind": "place",
+      "area": "Beeston",
+      "tier": "nearby",
+      "locationGroup": "Beeston",
+      "mapPoint": {
+        "lat": 52.922,
+        "lng": -1.215,
+        "precision": "area"
+      },
+      "source": null,
+      "price": "unknown",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-32",
+      "title": "Bramcote Leisure Centre splash pool",
+      "description": "public parent/toddler swim times must be checked; under-4s free with leisure pass.",
+      "category": [
+        "play"
+      ],
+      "kind": "place",
+      "area": "Beeston",
+      "tier": "nearby",
+      "locationGroup": "Beeston",
+      "mapPoint": {
+        "lat": 52.922,
+        "lng": -1.215,
+        "precision": "area"
+      },
+      "source": "https://www.lleisure.co.uk/sport-and-fitness/bramcote-leisure-centre/swimming-timetable/",
+      "price": "free",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-33",
+      "title": "Colwick Country Park",
+      "description": "(Racecourse Road NG2 4BH). Lakes and wildlife, good carrier/wellies walk.",
+      "category": [
+        "nature"
+      ],
+      "kind": "place",
+      "area": "Nottingham city",
+      "tier": "nearby",
+      "locationGroup": "Nottingham city",
+      "mapPoint": {
+        "lat": 52.953,
+        "lng": -1.148,
+        "precision": "area"
+      },
+      "source": null,
+      "price": "unknown",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-34",
+      "title": "Stonebridge City Farm",
+      "description": "(Stonebridge Road NG3 2FR). Free/donation animals and playground, published Fri 10–16:15.",
+      "category": [
+        "animals"
+      ],
+      "kind": "place",
+      "area": "Nottingham city",
+      "tier": "nearby",
+      "locationGroup": "Nottingham city",
+      "mapPoint": {
+        "lat": 52.953,
+        "lng": -1.148,
+        "precision": "area"
+      },
+      "source": "https://stonebridgecityfarm.com/",
+      "price": "free",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-35",
+      "title": "Green's Windmill Science Centre & garden",
+      "description": "(Windmill Lane NG2 4QB): free, Wed–Sun 10–16h. Windmill tower CLOSED for repairs since Nov 2025; science centre/garden open.",
+      "category": [
+        "culture"
+      ],
+      "kind": "place",
+      "area": "Nottingham city",
+      "tier": "nearby",
+      "locationGroup": "Nottingham city",
+      "mapPoint": {
+        "lat": 52.953,
+        "lng": -1.148,
+        "precision": "area"
+      },
+      "source": "https://www.greensmill.org.uk/visit-the-mill/",
+      "price": "free",
+      "caution": "Windmill building closed for repairs; science centre and garden open",
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-36",
+      "title": "Nottingham Contemporary",
+      "description": "(Weekday Cross NG1). Free art exhibitions, family activities on selected dates; Fri 10–17h.",
+      "category": [
+        "nature",
+        "culture"
+      ],
+      "kind": "place",
+      "area": "Nottingham city",
+      "tier": "nearby",
+      "locationGroup": "Nottingham city",
+      "mapPoint": {
+        "lat": 52.953,
+        "lng": -1.148,
+        "precision": "area"
+      },
+      "source": "https://nottinghamcontemporary.org/whats-on/",
+      "price": "free",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-37",
+      "title": "Wollaton Hall & Deer Park",
+      "description": "(NG8 2AE). Deer spotting, grounds, natural history museum (Fri ~11–16h).",
+      "category": [
+        "nature"
+      ],
+      "kind": "place",
+      "area": "Wollaton",
+      "tier": "nearby",
+      "locationGroup": "Wollaton",
+      "mapPoint": {
+        "lat": 52.949,
+        "lng": -1.213,
+        "precision": "area"
+      },
+      "source": "https://wollatonhall.org.uk/",
+      "price": "unknown",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-38",
+      "title": "Nottingham Castle & grounds",
+      "description": "Historic Nottingham attraction; check opening times, admission and access for toddlers.",
+      "category": [
+        "culture"
+      ],
+      "kind": "place",
+      "area": "Nottingham city",
+      "tier": "nearby",
+      "locationGroup": "Nottingham city",
+      "mapPoint": {
+        "lat": 52.953,
+        "lng": -1.148,
+        "precision": "area"
+      },
+      "source": "https://www.nottinghamcastle.org.uk/",
+      "price": "unknown",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-39",
+      "title": "National Ice Centre",
+      "description": "(NG1): public skating; age 5 & under go free with paying adult, but dedicated Tots Zone is Saturday AM/Sunday PM, not Friday; weekday Parent and Tots schedule requires booking check.",
+      "category": [
+        "nature"
+      ],
+      "kind": "place",
+      "area": "Nottingham city",
+      "tier": "nearby",
+      "locationGroup": "Nottingham city",
+      "mapPoint": {
+        "lat": 52.953,
+        "lng": -1.148,
+        "precision": "area"
+      },
+      "source": "https://national-ice-centre.com/activities-for-tots/",
+      "price": "free",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-40",
+      "title": "Fun Valley",
+      "description": "(Netherfield NG4 2BA). Indoor play; listed Fri 10–18h; verify actual session/prices.",
+      "category": [
+        "play"
+      ],
+      "kind": "place",
+      "area": "Netherfield",
+      "tier": "nearby",
+      "locationGroup": "Netherfield",
+      "mapPoint": {
+        "lat": 52.966,
+        "lng": -1.086,
+        "precision": "area"
+      },
+      "source": null,
+      "price": "unknown",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-41",
+      "title": "Pirates Play, Party & Laser Centre",
+      "description": "(Rowley Drive NG5). Soft play portion, listed Fri 09:30–18h. Exclude laser activity for toddlers.",
+      "category": [
+        "play"
+      ],
+      "kind": "place",
+      "area": "Nottingham city",
+      "tier": "nearby",
+      "locationGroup": "Nottingham city",
+      "mapPoint": {
+        "lat": 52.953,
+        "lng": -1.148,
+        "precision": "area"
+      },
+      "source": null,
+      "price": "unknown",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-42",
+      "title": "Meadows Play Centre",
+      "description": "(Burge Close NG2 2JD). Indoor soft play, Friday listed 10–18h; small independent option, confirm admission.",
+      "category": [
+        "play"
+      ],
+      "kind": "place",
+      "area": "Meadows",
+      "tier": "local",
+      "locationGroup": "Meadows",
+      "mapPoint": {
+        "lat": 52.941,
+        "lng": -1.141,
+        "precision": "area"
+      },
+      "source": null,
+      "price": "unknown",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-43",
+      "title": "Floralands Farm Park",
+      "description": "(Catfoot Lane, Lambley NG4). Animals, farm setting; published Fri 10–16h; confirm animal encounter availability.",
+      "category": [
+        "animals"
+      ],
+      "kind": "place",
+      "area": "Lambley",
+      "tier": "nearby",
+      "locationGroup": "Lambley",
+      "mapPoint": {
+        "lat": 53,
+        "lng": -1.062,
+        "precision": "area"
+      },
+      "source": null,
+      "price": "unknown",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-44",
+      "title": "Manor Farm Park & Woodlands",
+      "description": "(East Leake). Farm/woodland, published Fri 10–17h, confirm admission and special activities.",
+      "category": [
+        "animals"
+      ],
+      "kind": "place",
+      "area": "East Leake",
+      "tier": "nearby",
+      "locationGroup": "East Leake",
+      "mapPoint": {
+        "lat": 52.829,
+        "lng": -1.176,
+        "precision": "area"
+      },
+      "source": null,
+      "price": "unknown",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-45",
+      "title": "National Space Centre, Leicester",
+      "description": "Science and space exhibition destination; normally open Friday 10am–4pm. Check session availability and prices.",
+      "category": [
+        "culture"
+      ],
+      "kind": "place",
+      "area": "Nottingham city",
+      "tier": "nearby",
+      "locationGroup": "Nottingham city",
+      "mapPoint": {
+        "lat": 52.953,
+        "lng": -1.148,
+        "precision": "area"
+      },
+      "source": "https://www.spacecentre.co.uk/",
+      "price": "unknown",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-46",
+      "title": "National Justice Museum/City of Caves",
+      "description": "adult-interest historic venues, but limited suitability for ~2 and hazards; low priority, check age/stairs before offering.",
+      "category": [
+        "culture"
+      ],
+      "kind": "place",
+      "area": "Nottingham city",
+      "tier": "nearby",
+      "locationGroup": "Nottingham city",
+      "mapPoint": {
+        "lat": 52.953,
+        "lng": -1.148,
+        "precision": "area"
+      },
+      "source": null,
+      "price": "unknown",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-47",
+      "title": "White Post Farm & Zoo",
+      "description": "(Farnsfield NG22 8HL): animals, indoor play, Fri published 10–17h. General day entry accepts under-twos FREE; adult paid.",
+      "category": [
+        "animals"
+      ],
+      "kind": "place",
+      "area": "Farnsfield",
+      "tier": "nearby",
+      "locationGroup": "Farnsfield",
+      "mapPoint": {
+        "lat": 53.105,
+        "lng": -1.033,
+        "precision": "area"
+      },
+      "source": "https://whitepostfarmandzoo.co.uk/",
+      "price": "free",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-48",
+      "title": "White Post Farm Little Farmers Club",
+      "description": "Term-time weekday club 10am–noon, £11.95 for child and adult; official advertised minimum age 2 and maximum 4; confirm age eligibility directly. General farm entry not included.",
+      "category": [
+        "group",
+        "animals"
+      ],
+      "kind": "session",
+      "area": "Farnsfield",
+      "tier": "nearby",
+      "locationGroup": "Farnsfield",
+      "mapPoint": {
+        "lat": 53.105,
+        "lng": -1.033,
+        "precision": "area"
+      },
+      "source": "https://whitepostfarmandzoo.co.uk/education-clubs/",
+      "price": "priced",
+      "caution": "Official minimum age is 2; check before booking",
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08",
+      "minimumAgeMonths": 24,
+      "weekday": 5
+    },
+    {
+      "id": "place-49",
+      "title": "Robin Hood's Wheelgate Park",
+      "description": "(Farnsfield NG22 8HX). Outdoor/indoor rides/play; Friday listed 10:30–17h, check age/height limits.",
+      "category": [
+        "play"
+      ],
+      "kind": "place",
+      "area": "Farnsfield",
+      "tier": "nearby",
+      "locationGroup": "Farnsfield",
+      "mapPoint": {
+        "lat": 53.105,
+        "lng": -1.033,
+        "precision": "area"
+      },
+      "source": "https://www.wheelgatepark.com/",
+      "price": "unknown",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-50",
+      "title": "Rufford Abbey Country Park",
+      "description": "(Ollerton NG22 9DF): play area, lakes, abbey ruins, free entry but parking charge.",
+      "category": [
+        "nature"
+      ],
+      "kind": "place",
+      "area": "Ollerton",
+      "tier": "special",
+      "locationGroup": "Ollerton",
+      "mapPoint": {
+        "lat": 53.2,
+        "lng": -1.01,
+        "precision": "area"
+      },
+      "source": "https://ruffordabbey.co.uk/opening-hours/",
+      "price": "free",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-51",
+      "title": "Newstead Abbey gardens/grounds",
+      "description": "gardens and historic atmosphere, park daily 10–17h, weekday car £6 published; house normally weekend only.",
+      "category": [
+        "nature"
+      ],
+      "kind": "place",
+      "area": "Newstead",
+      "tier": "nearby",
+      "locationGroup": "Newstead",
+      "mapPoint": {
+        "lat": 53.075,
+        "lng": -1.182,
+        "precision": "area"
+      },
+      "source": "https://newsteadabbey.org.uk/visit",
+      "price": "priced",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-52",
+      "title": "Clumber Park",
+      "description": "(National Trust, Worksop): expansive trails, play, cycle possibilities. Published daily 08–17h, admission/parking costs apply.",
+      "category": [
+        "nature"
+      ],
+      "kind": "place",
+      "area": "Worksop",
+      "tier": "special",
+      "locationGroup": "Worksop",
+      "mapPoint": {
+        "lat": 53.286,
+        "lng": -1.12,
+        "precision": "area"
+      },
+      "source": "https://www.nationaltrust.org.uk/visit/nottinghamshire-lincolnshire/clumber-park",
+      "price": "unknown",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-53",
+      "title": "The Workhouse and Infirmary, Southwell",
+      "description": "Victorian building and gardens; special 'Cheer Up Chuckaboo' trail listed 9–16 Oct 2026 10:30–16h, likely more suitable for adults/older kids but interesting.",
+      "category": [
+        "culture"
+      ],
+      "kind": "place",
+      "area": "Southwell",
+      "tier": "nearby",
+      "locationGroup": "Southwell",
+      "mapPoint": {
+        "lat": 53.078,
+        "lng": -0.955,
+        "precision": "area"
+      },
+      "source": "https://www.nationaltrust.org.uk/visit/nottinghamshire-lincolnshire/the-workhouse-and-infirmary/events",
+      "price": "unknown",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-54",
+      "title": "Sundown Adventureland",
+      "description": "(Retford DN22 0HX): purpose-built young-children theme park, Friday listed 10–16:30h.",
+      "category": [
+        "play"
+      ],
+      "kind": "place",
+      "area": "Retford",
+      "tier": "special",
+      "locationGroup": "Retford",
+      "mapPoint": {
+        "lat": 53.32,
+        "lng": -0.81,
+        "precision": "area"
+      },
+      "source": "https://sundownadventureland.co.uk/",
+      "price": "unknown",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-55",
+      "title": "Twycross Zoo",
+      "description": "(Atherstone CV9 3PX): animals, talks and indoor facilities; Friday published 10–16h.",
+      "category": [
+        "animals"
+      ],
+      "kind": "place",
+      "area": "Atherstone",
+      "tier": "special",
+      "locationGroup": "Atherstone",
+      "mapPoint": {
+        "lat": 52.69,
+        "lng": -1.55,
+        "precision": "area"
+      },
+      "source": "https://twycrosszoo.org/",
+      "price": "unknown",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-56",
+      "title": "CONKERS",
+      "description": "(Moira DE12 6GA): indoor discovery/play and outdoor trails, Friday published 10–17h.",
+      "category": [
+        "culture"
+      ],
+      "kind": "place",
+      "area": "Moira",
+      "tier": "special",
+      "locationGroup": "Moira",
+      "mapPoint": {
+        "lat": 52.75,
+        "lng": -1.57,
+        "precision": "area"
+      },
+      "source": "https://www.visitconkers.com/",
+      "price": "unknown",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-57",
+      "title": "Peak Wildlife Park",
+      "description": "(Winkhill, Leek ST13 7QR): animal enclosures and wildlife park, longer special drive, Fri 10–17h.",
+      "category": [
+        "animals"
+      ],
+      "kind": "place",
+      "area": "Leek",
+      "tier": "special",
+      "locationGroup": "Leek",
+      "mapPoint": {
+        "lat": 53.05,
+        "lng": -1.92,
+        "precision": "area"
+      },
+      "source": "https://www.peakwildlifepark.co.uk/",
+      "price": "unknown",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-58",
+      "title": "Great Central Railway (Loughborough)",
+      "description": "excellent journey-as-activity when TRAIN RUNNING; its public calendar on Friday 9 Oct showed no listed train services, Sat/Sun 10–11 Oct advertised Autumn Steam Weekend.",
+      "category": [
+        "transport"
+      ],
+      "kind": "place",
+      "area": "Loughborough",
+      "tier": "nearby",
+      "locationGroup": "Loughborough",
+      "mapPoint": {
+        "lat": 52.774,
+        "lng": -1.204,
+        "precision": "area"
+      },
+      "source": "https://www.gcrailway.co.uk/visit/timetables-fares/",
+      "price": "unknown",
+      "caution": "Not operating on Friday 9 October; check actual dates",
+      "archived": false,
+      "avoidFriday20261009": true,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-59",
+      "title": "East Midlands Aeropark",
+      "description": "(Castle Donington): old aeroplanes and airport viewing, structured hours shown Saturday and Sunday, not Friday, so DO NOT present as open Fridays without a specific event. Check official source.",
+      "category": [
+        "transport"
+      ],
+      "kind": "place",
+      "area": "Castle Donington",
+      "tier": "nearby",
+      "locationGroup": "Castle Donington",
+      "mapPoint": {
+        "lat": 52.83,
+        "lng": -1.33,
+        "precision": "area"
+      },
+      "source": null,
+      "price": "unknown",
+      "caution": "Not operating on Friday 9 October; check actual dates",
+      "archived": false,
+      "avoidFriday20261009": true,
+      "lastChecked": "2026-10-08",
+      "weekday": 6
+    },
+    {
+      "id": "place-60",
+      "title": "Nottinghamshire pick-your-own pumpkins, Oxton",
+      "description": "seasonal; operator/Visit Nottinghamshire says OPEN Sat 10/Sun 11 Oct then 17–31 Oct 2026; NOT Fri 9.",
+      "category": [
+        "seasonal"
+      ],
+      "kind": "place",
+      "area": "Oxton",
+      "tier": "nearby",
+      "locationGroup": "Oxton",
+      "mapPoint": {
+        "lat": 53.056,
+        "lng": -1.063,
+        "precision": "area"
+      },
+      "source": "https://www.visit-nottinghamshire.co.uk/whats-on/nottinghamshire-pick-your-own-pumpkins-p841381",
+      "price": "unknown",
+      "caution": "Not operating on Friday 9 October; check actual dates",
+      "archived": false,
+      "avoidFriday20261009": true,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-61",
+      "title": "Maxeys Farm Shop Pick up a Pumpkin, Kirklington",
+      "description": "seasonal; NOT Fri 9 Oct on published 2026 schedule; open Sat/Sun 10/11.",
+      "category": [
+        "seasonal"
+      ],
+      "kind": "place",
+      "area": "Kirklington",
+      "tier": "nearby",
+      "locationGroup": "Kirklington",
+      "mapPoint": {
+        "lat": 53.118,
+        "lng": -1.013,
+        "precision": "area"
+      },
+      "source": "https://www.pickupapumpkin.com/",
+      "price": "unknown",
+      "caution": "Not operating on Friday 9 October; check actual dates",
+      "archived": false,
+      "avoidFriday20261009": true,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-62",
+      "title": "Leicester Abbey Pumping Station",
+      "description": "giant beam engines/vehicles/narrow gauge railway only open select Mondays and event days; NOT regular Friday outing.",
+      "category": [
+        "transport"
+      ],
+      "kind": "place",
+      "area": "Leicester",
+      "tier": "special",
+      "locationGroup": "Leicester",
+      "mapPoint": {
+        "lat": 52.635,
+        "lng": -1.13,
+        "precision": "area"
+      },
+      "source": "https://www.leicestermuseums.org/abbey-pumping-station/",
+      "price": "unknown",
+      "caution": "Not operating on Friday 9 October; check actual dates",
+      "archived": false,
+      "avoidFriday20261009": true,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-63",
+      "title": "Warwickshire Toddler Trundles",
+      "description": "(Ryton Pools/Kingsbury, NOT Nottingham): Friday 10am term-time ranger nature sessions, alternating sites, special drive only if novel enough.",
+      "category": [
+        "group"
+      ],
+      "kind": "session",
+      "area": "Warwickshire",
+      "tier": "special",
+      "locationGroup": "Warwickshire",
+      "mapPoint": {
+        "lat": 52.34,
+        "lng": -1.58,
+        "precision": "area"
+      },
+      "source": "https://countryparks.warwickshire.gov.uk/activities",
+      "price": "unknown",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-64",
+      "title": "NCT bus from West Bridgford into Nottingham",
+      "description": "an activity in itself, maybe stay on for interesting vehicles/city centre; under-5s free on NCT.",
+      "category": [
+        "transport"
+      ],
+      "kind": "journey",
+      "area": "Nottingham city",
+      "tier": "nearby",
+      "locationGroup": "Nottingham city",
+      "mapPoint": {
+        "lat": 52.953,
+        "lng": -1.148,
+        "precision": "area"
+      },
+      "source": "https://apps.nctx.co.uk/cash-fares",
+      "price": "free",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-65",
+      "title": "Tram outing from city/park-and-ride",
+      "description": "choose an interesting route, windows and stations are part of outing; verify timetable/fares.",
+      "category": [
+        "transport"
+      ],
+      "kind": "journey",
+      "area": "Nottingham city",
+      "tier": "nearby",
+      "locationGroup": "Nottingham city",
+      "mapPoint": {
+        "lat": 52.953,
+        "lng": -1.148,
+        "precision": "area"
+      },
+      "source": "https://www.thetram.net/",
+      "price": "unknown",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-66",
+      "title": "Regular train short trip to Beeston, Attenborough, Derby, Newark, Leicester",
+      "description": "train ride itself plus brief exploration at destination, check train service and return route.",
+      "category": [
+        "transport"
+      ],
+      "kind": "journey",
+      "area": "Nottingham city",
+      "tier": "nearby",
+      "locationGroup": "Nottingham city",
+      "mapPoint": {
+        "lat": 52.953,
+        "lng": -1.148,
+        "precision": "area"
+      },
+      "source": "https://www.nationalrail.co.uk/",
+      "price": "unknown",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-67",
+      "title": "Station viewing at Nottingham / railway bridge in public areas",
+      "description": "see different trains without making a paid long visit; choose safe public viewing locations.",
+      "category": [
+        "transport"
+      ],
+      "kind": "journey",
+      "area": "Nottingham city",
+      "tier": "nearby",
+      "locationGroup": "Nottingham city",
+      "mapPoint": {
+        "lat": 52.953,
+        "lng": -1.148,
+        "precision": "area"
+      },
+      "source": null,
+      "price": "unknown",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-68",
+      "title": "East Midlands Airport plane spotting from public permitted viewing areas",
+      "description": "aircraft movements are interesting, distinct from the CLOSED-on-Friday Aeropark museum; verify legal public access/parking before suggesting a specific spot.",
+      "category": [
+        "transport"
+      ],
+      "kind": "journey",
+      "area": "Castle Donington",
+      "tier": "nearby",
+      "locationGroup": "Castle Donington",
+      "mapPoint": {
+        "lat": 52.83,
+        "lng": -1.33,
+        "precision": "area"
+      },
+      "source": null,
+      "price": "unknown",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-69",
+      "title": "The Meadows Library, Fun Fridays Totstime",
+      "description": "Wilford Grove NG2 2DR; every Friday 11:00–11:30, free walk-in songs, rhymes, puppets.",
+      "category": [
+        "group"
+      ],
+      "kind": "session",
+      "area": "Meadows",
+      "tier": "local",
+      "locationGroup": "Meadows",
+      "mapPoint": {
+        "lat": 52.941,
+        "lng": -1.141,
+        "precision": "area"
+      },
+      "source": "https://www.nottinghamcitylibraries.co.uk/library/the-meadows-library/",
+      "price": "free",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08",
+      "weekday": 5
+    },
+    {
+      "id": "place-70",
+      "title": "Radford-Lenton Library Totstime",
+      "description": "Fridays 10:30–11:00, free walk-in; farther than Meadows/Bridgford and not worth a standalone long journey.",
+      "category": [
+        "group"
+      ],
+      "kind": "session",
+      "area": "Radford",
+      "tier": "nearby",
+      "locationGroup": "Radford",
+      "mapPoint": {
+        "lat": 52.956,
+        "lng": -1.177,
+        "precision": "area"
+      },
+      "source": "https://www.nottinghamcitylibraries.co.uk/totstime/",
+      "price": "free",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08",
+      "weekday": 5
+    },
+    {
+      "id": "place-71",
+      "title": "Sherwood Library Totstime",
+      "description": "Fridays 10:30–11:00, free walk-in; similar.",
+      "category": [
+        "group"
+      ],
+      "kind": "session",
+      "area": "Sherwood",
+      "tier": "nearby",
+      "locationGroup": "Sherwood",
+      "mapPoint": {
+        "lat": 52.989,
+        "lng": -1.149,
+        "precision": "area"
+      },
+      "source": "https://www.nottinghamcitylibraries.co.uk/totstime/",
+      "price": "free",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08",
+      "weekday": 5
+    },
+    {
+      "id": "place-72",
+      "title": "Hucknall Library Little Creatives",
+      "description": "Special booked workshop Friday 9 October 2026 at 10am, 45 minutes of art and messy play. Advertised for ages 2–5; check age suitability.",
+      "category": [
+        "group"
+      ],
+      "kind": "session",
+      "area": "Hucknall",
+      "tier": "nearby",
+      "locationGroup": "Hucknall",
+      "mapPoint": {
+        "lat": 53.039,
+        "lng": -1.2,
+        "precision": "area"
+      },
+      "source": "https://www.eventbrite.co.uk/e/little-creatives-hucknall-library-9-october-session-one-tickets-1993522931753",
+      "price": "free",
+      "caution": "Official minimum age is 2; check before booking",
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08",
+      "minimumAgeMonths": 24,
+      "weekday": 5
+    },
+    {
+      "id": "place-73",
+      "title": "East Midlands Airport Trail",
+      "description": "public countryside trail with views over East Midlands Airport, not dependent on Aeropark opening. Check trail entry and safe viewing spots.",
+      "category": [
+        "transport"
+      ],
+      "kind": "journey",
+      "area": "Castle Donington",
+      "tier": "nearby",
+      "locationGroup": "Castle Donington",
+      "mapPoint": {
+        "lat": 52.83,
+        "lng": -1.33,
+        "precision": "area"
+      },
+      "source": "https://mediacentre.eastmidlandsairport.com/take-the-airport-trail-for-a-rural-stroll--with-extra-aviation-interest/",
+      "price": "unknown",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-74",
+      "title": "Crich Tramway Village",
+      "description": "excellent special transport ride when open, but CLOSED Friday 9 October 2026; autumn Friday opening variable.",
+      "category": [
+        "transport"
+      ],
+      "kind": "place",
+      "area": "Crich",
+      "tier": "special",
+      "locationGroup": "Crich",
+      "mapPoint": {
+        "lat": 53.086,
+        "lng": -1.483,
+        "precision": "area"
+      },
+      "source": "https://tramway.co.uk/",
+      "price": "unknown",
+      "caution": "Not operating on Friday 9 October; check actual dates",
+      "archived": false,
+      "avoidFriday20261009": true,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-75",
+      "title": "Nottingham International Market",
+      "description": "Old Market Square: five-day event 7–11 Oct 2026, Friday 9 Oct 10:00–19:00, free entry. Plenty of stalls and street food; interesting bus/tram-centred town visit with toddler, not a specialised children's activity.",
+      "category": [
+        "culture",
+        "seasonal"
+      ],
+      "kind": "place",
+      "area": "Nottingham city",
+      "tier": "nearby",
+      "locationGroup": "Nottingham city",
+      "mapPoint": {
+        "lat": 52.953,
+        "lng": -1.148,
+        "precision": "area"
+      },
+      "source": "https://www.visit-nottinghamshire.co.uk/whats-on/nottingham-international-market-p735831",
+      "price": "free",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-76",
+      "title": "Twycross Zoo Room on the Broom Corn Maze",
+      "description": "3 Oct–1 Nov 2026 daily, themed activity plus Gruffalo Discovery Land and animals. Additional £5 per child for special tote/maze entry on top of ordinary zoo admission.",
+      "category": [
+        "animals",
+        "seasonal"
+      ],
+      "kind": "place",
+      "area": "Atherstone",
+      "tier": "special",
+      "locationGroup": "Atherstone",
+      "mapPoint": {
+        "lat": 52.69,
+        "lng": -1.55,
+        "precision": "area"
+      },
+      "source": "https://twycrosszoo.org/latest-news/step-into-the-world-of-room-on-a-broom-this-october-at-twycross-zoo/",
+      "price": "priced",
+      "caution": null,
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-77",
+      "title": "Bluebells Farm Park & Dairy",
+      "description": "Locko Rd, Spondon, Derby DE21 7AR: seasonal farm, indoor/outdoor play, animals, pumpkins. Operator calendar specifically lists Fri 9 October 2026 10:00–16:00 open. Ice cream parlour specifically CLOSED that Friday. Special Autumn Fun on the Farm event includes Pumpkin Village, pumpkins, animal areas and play, 3–5, 9–12 and 16–23 Oct 2026 (check admission ticket type). and",
+      "category": [
+        "animals",
+        "seasonal"
+      ],
+      "kind": "place",
+      "area": "Spondon",
+      "tier": "nearby",
+      "locationGroup": "Derby",
+      "mapPoint": {
+        "lat": 52.922,
+        "lng": -1.398,
+        "precision": "area"
+      },
+      "source": "https://bluebelldairy.co.uk/find-us-opening-hours/",
+      "price": "unknown",
+      "caution": "Ice cream parlour closed on Fri 9 Oct though farm park open",
+      "archived": false,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    },
+    {
+      "id": "place-78",
+      "title": "Eden Softplay St Saviour's Church, Meadows",
+      "description": "former indoor play; multiple platforms now label PERMANENTLY CLOSED, despite outdated listings showing hours. Do not recommend without direct proof of reopening.",
+      "category": [
+        "play"
+      ],
+      "kind": "place",
+      "area": "Meadows",
+      "tier": "local",
+      "locationGroup": "Meadows",
+      "mapPoint": {
+        "lat": 52.941,
+        "lng": -1.141,
+        "precision": "area"
+      },
+      "source": "https://www.tripadvisor.co.uk/Attraction_Review-g186356-d7174991-Reviews-Eden_Softplay-Nottingham_Nottinghamshire_England.html",
+      "price": "unknown",
+      "caution": "Permanently closed in more recent listings",
+      "archived": true,
+      "avoidFriday20261009": false,
+      "lastChecked": "2026-10-08"
+    }
+  ]
+}
