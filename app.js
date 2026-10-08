@@ -135,7 +135,7 @@ function clearFilters(){
 }
 function detail(p){
  const cat=categoryFor(p),es=eventsFor(p.id),link=safeLink(p.source);
- const dir="https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(p.title+", "+p.area+", UK");
+ const dir="https://www.google.com/maps/dir/?api=1&destination="+encodeURIComponent(p.title+", "+p.area+", UK");
  const ageWarning=p.minimumAgeMonths?"Official minimum age "+Math.floor(p.minimumAgeMonths/12)+"; check before booking.":null;
  $("detailBody").innerHTML='<div class="detail-art cat-'+cat+'">'+SYMBOLS[cat]+'</div><div class="detail-content">'+
  '<p class="eyebrow green">'+escapeHTML(CATEGORIES[cat].label)+' · '+escapeHTML(TIER_LABELS[p.tier])+'</p><h2>'+escapeHTML(p.title)+'</h2>'+
