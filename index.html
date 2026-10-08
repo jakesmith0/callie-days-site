@@ -9,10 +9,12 @@
   <link rel="icon" href="./favicon.svg" type="image/svg+xml">
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="stylesheet" href="./styles.css">
-  <link rel="preconnect" href="https://unpkg.com">
   <link rel="preconnect" href="https://tile.openstreetmap.org">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzxN5v6b+7RmZk2fSK0q3L8+Q4=" crossorigin="">
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
+  <link rel="stylesheet" href="./assets/leaflet.css">
+  <link rel="stylesheet" href="./assets/MarkerCluster.css">
+  <link rel="stylesheet" href="./assets/MarkerCluster.Default.css">
+  <script src="./assets/leaflet.js" defer></script>
+  <script src="./assets/leaflet.markercluster.js" defer></script>
   <script src="./app.js" defer></script>
 </head>
 <body>
@@ -30,10 +32,11 @@
     </header>
 
     <main id="main">
+      <h1 class="sr-only">Callie Days family outing finder</h1>
       <section class="hero">
         <div class="hero-copy">
           <p class="eyebrow"><span class="eyebrow-dot"></span> THE FAMILY ADVENTURE FINDER</p>
-          <h1>Good days start <em>somewhere.</em></h1>
+          <h2>Good days start <em>somewhere.</em></h2>
           <p>Little local discoveries, brilliant big days out, and all the things you didn't know were happening.</p>
           <div class="hero-actions">
             <button id="todayBtn" class="button button-dark">What's on today <span aria-hidden="true">↗</span></button>
@@ -50,15 +53,26 @@
         <button class="button button-filter" id="filterToggle" aria-expanded="false" aria-controls="filterPanel">☷ <span>Filters</span><span id="activeFilters" class="filter-bubble" hidden>0</span></button>
       </section>
 
+      <div class="quick-controls" aria-label="Quick filters">
+        <button class="quick-chip quick-day" data-quick="today" aria-pressed="false">Today</button>
+        <button class="quick-chip quick-day" data-quick="friday" aria-pressed="false">Friday</button>
+        <button class="quick-chip" data-quick="scheduled" aria-pressed="false">📅 On this date</button>
+        <button class="quick-chip" data-quick="local" aria-pressed="false">⌖ Really local</button>
+        <button class="quick-chip" data-quick="free" aria-pressed="false">£ Free</button>
+        <button class="quick-chip" data-quick="animals" aria-pressed="false">🐑 Animals</button>
+        <button class="quick-chip" data-quick="transport" aria-pressed="false">🚂 Transport</button>
+      </div>
+      <div class="filter-backdrop" id="filterBackdrop" hidden></div>
       <div class="content-layout">
         <aside class="filters" id="filterPanel" aria-label="Activity filters">
+          <div class="mobile-filter-heading"><h2>Filter adventures</h2><button id="closeFilters" aria-label="Close filters" class="icon-button">×</button></div>
           <div class="filter-title"><h2>Make it your kind of day</h2><button id="resetFilters" class="text-button">Reset</button></div>
           <div class="filter-block"><h3>What sounds fun?</h3><div class="category-list" id="categoryFilters"></div></div>
           <div class="filter-block"><h3>How far would you go?</h3>
             <label class="radio-line"><input type="radio" name="distance" value="all" checked><span>Anywhere worth it</span></label>
             <label class="radio-line"><input type="radio" name="distance" value="local"><span>Easy local <small>~20 mins</small></span></label>
-            <label class="radio-line"><input type="radio" name="distance" value="nearby"><span>Normal trip <small>~45 mins</small></span></label>
-            <label class="radio-line"><input type="radio" name="distance" value="special"><span>Big adventures <small>90+ mins okay</small></span></label>
+            <label class="radio-line"><input type="radio" name="distance" value="nearby"><span>Within normal range <small>~45 mins, including local</small></span></label>
+            <label class="radio-line"><input type="radio" name="distance" value="special"><span>Only special trips <small>Further afield</small></span></label>
             <p class="filter-hint">Rough bands, not live journey-time estimates.</p>
           </div>
           <div class="filter-block"><h3>Type of activity</h3><select id="kindFilter" aria-label="Activity type"><option value="all">Everything</option><option value="scheduled">Scheduled events & groups</option><option value="place">Places to go</option><option value="journey">Journey is the adventure</option></select></div>
@@ -69,19 +83,21 @@
             <label class="check-line"><input id="showDateOnly" type="checkbox"><span>Only activities scheduled for the date</span></label>
           </div>
           <div class="filter-footer"><p><strong>A note on times</strong> Regular weekly listings may change during holidays. Always check the linked organiser before setting off.</p></div>
+          <button class="button button-dark mobile-done" id="applyFilters">Show <span id="applyFilterCount">ideas</span> →</button>
         </aside>
 
         <div class="main-column">
           <section id="discoverView" class="view" aria-label="Discover activities">
             <div class="section-heading"><div><p class="eyebrow green">YOUR NEXT ADVENTURE</p><h2>Things to get excited about<span class="heading-star">✳</span></h2><p id="resultsSubtitle" class="subtle">Finding discoveries…</p></div><label class="sort-select">Sort by <select id="sortSelect"><option value="recommended">Recommended</option><option value="near">Nearest tier first</option><option value="name">A to Z</option><option value="fresh">Recently checked</option></select></label></div>
             <div class="summary-row"><span id="resultCount" class="pill-count">0 ideas</span><button id="clearDate" class="text-button">All dates instead</button></div>
-            <div id="cards" class="cards" aria-live="polite"></div>
+            <div id="cards" class="card-sections" aria-live="polite"></div>
+            <button class="button button-light load-more" id="loadMore" hidden>Show more discoveries ↓</button>
             <div id="noResults" class="empty" hidden><div class="empty-graphic">✳</div><h3>Nothing quite matches yet.</h3><p>Try relaxing a filter — or check the source directory for new discoveries.</p><button id="emptyReset" class="button button-dark">Show all ideas</button></div>
           </section>
 
           <section id="mapView" class="view" hidden aria-label="Map of activities">
             <div class="section-heading"><div><p class="eyebrow green">FIND YOUR WAY</p><h2>Explore the neighbourhood</h2><p class="subtle">Area-level markers, not exact door-to-door locations. Use Directions for a precise venue search.</p></div></div>
-            <div class="map-layout"><div id="map" role="application" aria-label="Interactive map of approximate activity areas"></div><div class="map-list"><h3>Places in view <span id="mapTotal"></span></h3><div id="mapResults"></div></div></div>
+<div class="map-layout"><div id="map" role="application" aria-label="Interactive map of approximate activity areas"></div><div class="map-list" id="mapListing"><h3>Explore places <span id="mapTotal"></span></h3><div id="mapResults"></div></div></div>
             <p class="map-note">Map data © OpenStreetMap contributors. The circles are approximate localities and can include several venues; they are not precise premises pins.</p>
           </section>
 

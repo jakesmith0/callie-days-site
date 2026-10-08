@@ -1,0 +1,14 @@
+{
+  "name": "callie-days-site",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Public-safe static family outing finder",
+  "scripts": {
+    "test:data": "python3 scripts/validate_catalogue.py",
+    "test:ui": "node tests/smoke.cjs"
+  },
+  "devDependencies": {
+    "axe-core": "4.10.3",
+    "puppeteer": "24.25.0"
+  }
+}

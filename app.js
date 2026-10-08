@@ -13,7 +13,7 @@ const displayDate=(iso,opts={weekday:"long",day:"numeric",month:"long",year:"num
 const fromDate=d=>[d.getUTCFullYear(),String(d.getUTCMonth()+1).padStart(2,"0"),String(d.getUTCDate()).padStart(2,"0")].join("-");
 const nextFriday=()=>{const d=dateObj(isoUK());const diff=(5-d.getUTCDay()+7)%7;d.setUTCDate(d.getUTCDate()+diff);return fromDate(d);};
 const STORAGE_KEY="calliedays:favourites:v1";
-const state={places:[],events:[],view:"discover",date:isoUK(),search:"",categories:new Set(),distance:"all",kind:"all",free:false,hideAge:false,archived:false,dateOnly:false,sort:"recommended",saved:new Set(),calendarMonth:null,calendarDay:null,map:null,markers:null,mapGroup:null};
+const state={places:[],events:[],view:"discover",date:isoUK(),search:"",categories:new Set(),distance:"all",kind:"all",free:false,hideAge:false,archived:false,dateOnly:false,sort:"recommended",visibleLimit:18,saved:new Set(),calendarMonth:null,calendarDay:null,map:null,markers:null,mapGroup:null};
 const URLdate=new URLSearchParams(location.search).get("date");
 if(URLdate && /^\d{4}-\d{2}-\d{2}$/.test(URLdate)&&!Number.isNaN(dateObj(URLdate).getTime()))state.date=URLdate;
 try{const parsed=JSON.parse(localStorage.getItem(STORAGE_KEY)||"[]");if(Array.isArray(parsed))state.saved=new Set(parsed.filter(x=>typeof x==="string"));}catch{}
@@ -40,13 +40,17 @@ const matchesPlace=p=>{
  if(p.archived&&!state.archived)return false;
  if(state.search&&!([p.title,p.description,p.area,p.category.map(k=>CATEGORIES[k]?.label).join(" ")].join(" ").toLowerCase().includes(state.search)))return false;
  if(state.categories.size && !p.category.some(c=>state.categories.has(c)))return false;
- if(state.distance!=="all"&&p.tier!==state.distance)return false;
+ if(state.distance==="local"&&p.tier!=="local")return false;
+ if(state.distance==="nearby"&&p.tier==="special")return false;
+ if(state.distance==="special"&&p.tier!=="special")return false;
  if(state.free&&p.price!=="free")return false;
  if(state.hideAge && (p.minimumAgeMonths||0)>=24)return false;
  const nowEvents=eventsFor(p.id);
  const hasRecorded=state.events.some(e=>e.placeId===p.id);
  if(state.date){
    if(p.avoidFriday20261009 && state.date==="2026-10-09" && !nowEvents.length)return false;
+   if(p.kind==="session" && typeof p.weekday==="number" && weekday(state.date)!==p.weekday && !nowEvents.length)return false;
+   if(Array.isArray(p.publishedWeekdays)&&!p.publishedWeekdays.includes(weekday(state.date))&&!nowEvents.length)return false;
    if(p.kind==="session" && hasRecorded && !nowEvents.length)return false;
    if(isSeasonalSpecific(p) && hasRecorded&&!nowEvents.length)return false;
  }
@@ -71,17 +75,29 @@ function selectedPlaces(){
  return list;
 }
 function categoryFor(p){const c=p.category[0];return CATEGORIES[c]?c:"nature";}
+
+function publicDescription(p){
+ if(p.summary)return p.summary;
+ let s=p.description||"Discover what this place has to offer.";
+ s=s.replace(/^\([^)]{1,80}\)\.?(?:\s+|$)/,"");
+ s=s.replace(/\b(?:listed|published)\s+Fri(?:day)?\s+\d{1,2}[^.;]*[.;]?/gi,"");
+ s=s.replace(/\bCallie\b/g,"young children");
+ s=s.replace(/\s{2,}/g," ").trim();
+ return s.length>190?s.slice(0,187).replace(/\s+\S*$/,"")+"…":s;
+}
+
 function card(p){
  const cat=categoryFor(p),ev=eventsFor(p.id),dated=ev.find(e=>e.confidence==="dated"),main=dated||ev[0];
- const status=main?(main.confidence==="dated"?"Date listed":"Usual weekly slot"):(p.kind==="journey"?"Journey idea":"Opening to check");
- const mainTime=main?momentLabel(main):"";
+ const status=main?(main.confidence==="dated"?(state.date?"On the calendar":"Recorded event"):"Usual weekly listing"):(p.kind==="journey"?"Journey idea":"Opening not confirmed");
+ const mainTime=main?(state.date?momentLabel(main):main.recurrence==="weekly"?"Usually "+["Sun","Mon","Tue","Wed","Thu","Fri","Sat"][main.weekday]+" · "+momentLabel(main):(main.dates?.[0]||main.from||"Dates to check")):"";
+ const desc=publicDescription(p);
  const safeTitle=escapeHTML(p.title);
  const hearts=state.saved.has(p.id);
  return '<article class="activity-card">'+
  '<div class="card-visual cat-'+cat+'"><span class="visual-symbol" aria-hidden="true">'+SYMBOLS[cat]+'</span>'+
  '<button class="heart '+(hearts?"saved":"")+'" data-save="'+escapeHTML(p.id)+'" aria-label="'+(hearts?"Remove from saved":"Save")+' '+safeTitle+'" aria-pressed="'+hearts+'">'+(hearts?"♥":"♡")+'</button></div>'+
  '<div class="card-body"><div class="card-kicker">'+escapeHTML(p.area)+' · '+escapeHTML(TIER_LABELS[p.tier])+'</div>'+
- '<h3>'+safeTitle+'</h3><p class="card-desc">'+escapeHTML(p.description||"Discover what this place has to offer.")+'</p>'+
+ '<h3><button class="card-title-link" data-open="'+escapeHTML(p.id)+'" aria-label="View details: '+safeTitle+'">'+safeTitle+'</button></h3><p class="card-desc">'+escapeHTML(desc)+'</p>'+
  '<div class="card-tags"><span class="tag '+(dated?"dated":main?"weekly":"")+'">'+escapeHTML(status)+'</span>'+
  (mainTime?'<span class="tag">'+escapeHTML(mainTime)+'</span>':"")+
  (p.price==="free"?'<span class="tag">Free</span>':"")+
@@ -90,11 +106,24 @@ function card(p){
 }
 function renderDiscover(){
  const places=selectedPlaces();
- $("cards").innerHTML=places.map(card).join("");
+ const visible=places.slice(0,state.visibleLimit);
+ const scheduled=visible.filter(p=>state.date&&eventsFor(p.id).length);
+ const explore=visible.filter(p=>!state.date||!eventsFor(p.id).length);
+ const section=(title,description,items,kind)=>{
+  if(!items.length)return "";
+  return '<section class="discovery-section" aria-label="'+escapeHTML(title)+'"><div class="discovery-heading"><div><h3>'+escapeHTML(title)+'</h3><p>'+escapeHTML(description)+'</p></div><span class="section-count">'+items.length+'</span></div><div class="cards">'+items.map(card).join("")+'</div></section>';
+ };
+ const headline=(state.date?'<div class="date-context"><span class="date-context-dot"></span> Searching for '+escapeHTML(displayDate(state.date))+' <span>· Dates and opening times still need checking</span></div>':'');
+ $("cards").innerHTML=headline+
+ section("On the calendar","Recorded one-offs and regular sessions for this day. Check spaces, term dates and cancellations.",scheduled,"events")+
+ section(state.date?"More places to explore":"All adventure ideas",state.date?"Attractions and outings that could be suitable; their opening on this date has not been confirmed.":"Places, journeys, activities and recurring ideas from the catalogue.",explore,"places");
  $("resultCount").textContent=places.length+" "+(places.length===1?"idea":"ideas");
+ $("loadMore").hidden=places.length<=state.visibleLimit;
+ $("loadMore").textContent="Show more ideas · "+(places.length-visible.length)+" remaining ↓";
  $("noResults").hidden=places.length>0;
- $("resultsSubtitle").textContent=state.date?("For "+displayDate(state.date)+" · dated sessions and ideas to check"):"All dates · recurring and one-off discoveries";
- $("clearDate").textContent=state.date?"Browse all dates instead":"Show today";
+ $("resultsSubtitle").textContent=state.date?("Ideas for "+displayDate(state.date)+" — not all verified open"):"Browse the whole discovery catalogue";
+ $("clearDate").textContent=state.date?"All dates instead":"Choose today";
+ $("applyFilterCount").textContent=places.length+" "+(places.length===1?"idea":"ideas");
 }
 function renderSaved(){
  const saved=state.places.filter(p=>state.saved.has(p.id));
@@ -103,26 +132,36 @@ function renderSaved(){
 }
 function showView(view){
  state.view=view;
+ document.body.dataset.view=view;
+ closeMobileFilters();
  document.querySelectorAll(".view").forEach(el=>el.hidden=el.id!==view+"View");
- document.querySelectorAll("[data-view]").forEach(el=>{const on=el.dataset.view===view;el.classList.toggle("active",on);if(el.matches(".nav-tab")){if(on)el.setAttribute("aria-current","page");else el.removeAttribute("aria-current");}});
+ document.querySelectorAll("button[data-view]").forEach(el=>{const on=el.dataset.view===view;el.classList.toggle("active",on);if(on)el.setAttribute("aria-current","page");else el.removeAttribute("aria-current");});
  if(view==="map")renderMap();else if(view==="calendar")renderCalendar();else if(view==="saved")renderSaved();else renderDiscover();
 }
 function renderView(){
  if(state.view==="map")renderMap();else if(state.view==="calendar")renderCalendar();else if(state.view==="saved")renderSaved();else renderDiscover();
 }
 function renderFilterUI(){
- $("categoryFilters").innerHTML=Object.entries(CATEGORIES).map(([key,obj])=>'<button class="cat-chip '+(state.categories.has(key)?"active":"")+'" data-cat="'+key+'" aria-pressed="'+state.categories.has(key)+'"><span class="cat-icon">'+obj.icon+'</span>'+escapeHTML(obj.label)+'</button>').join("");
+ $("categoryFilters").innerHTML=Object.entries(CATEGORIES).map(([key,obj])=>'<button class="cat-chip '+(state.categories.has(key)?"active":"")+'" data-cat="'+key+'" aria-pressed="'+state.categories.has(key)+'"><span class="cat-icon" aria-hidden="true">'+obj.icon+'</span>'+escapeHTML(obj.label)+'</button>').join("");
  $("searchInput").value=state.search;
  $("dateInput").value=state.date;
  $("kindFilter").value=state.kind;
  $("sortSelect").value=state.sort;
  document.querySelector('input[name="distance"][value="'+state.distance+'"]').checked=true;
  $("freeOnly").checked=state.free;$("hideAge").checked=state.hideAge;$("showArchived").checked=state.archived;$("showDateOnly").checked=state.dateOnly;
+ document.querySelectorAll("[data-quick]").forEach(btn=>{
+  const key=btn.dataset.quick;
+  const active=key==="today"?state.date===isoUK():key==="friday"?state.date===nextFriday():key==="scheduled"?state.dateOnly:key==="local"?state.distance==="local":key==="free"?state.free:state.categories.has(key);
+  btn.classList.toggle("active",active);btn.setAttribute("aria-pressed",String(active));
+ });
  const n=state.categories.size+(state.distance!=="all")+(state.kind!=="all")+(state.free?1:0)+(state.hideAge?1:0)+(state.archived?1:0)+(state.dateOnly?1:0);
  $("activeFilters").textContent=n;$("activeFilters").hidden=n===0;
 }
 function updateDate(d){
+ state.visibleLimit=18;
  state.date=d;
+ if(d){state.calendarDay=d;state.calendarMonth=d.slice(0,7);}
+ document.body.classList.toggle("date-selected",Boolean(d));
  const url=new URL(location.href);
  if(d)url.searchParams.set("date",d);else url.searchParams.delete("date");
  history.replaceState(null,"",url.pathname+url.search+url.hash);
@@ -130,7 +169,7 @@ function updateDate(d){
  renderFilterUI();renderView();
 }
 function clearFilters(){
- state.categories.clear();state.distance="all";state.kind="all";state.free=false;state.hideAge=false;state.archived=false;state.dateOnly=false;state.search="";
+ state.categories.clear();state.distance="all";state.kind="all";state.free=false;state.hideAge=false;state.archived=false;state.dateOnly=false;state.search="";state.visibleLimit=18;
  renderFilterUI();renderView();
 }
 function detail(p){
@@ -140,12 +179,12 @@ function detail(p){
  const ageWarning=p.minimumAgeMonths?"Official minimum age "+Math.floor(p.minimumAgeMonths/12)+"; check before booking.":null;
  $("detailBody").innerHTML='<div class="detail-art cat-'+cat+'">'+SYMBOLS[cat]+'</div><div class="detail-content">'+
  '<p class="eyebrow green">'+escapeHTML(CATEGORIES[cat].label)+' · '+escapeHTML(TIER_LABELS[p.tier])+'</p><h2>'+escapeHTML(p.title)+'</h2>'+
- '<p>'+escapeHTML(p.description)+'</p>'+
+ '<p>'+escapeHTML(publicDescription(p))+'</p>'+
  '<div class="detail-meta"><div>📍 <b>Area:</b> '+escapeHTML(p.area)+'</div><div>🔎 <b>Source last catalogued:</b> '+escapeHTML(p.lastChecked)+'</div><div>🗓️ <b>Date status:</b> '+(es.length?es.map(e=>escapeHTML(e.title+" — "+momentLabel(e)+" ("+(e.confidence==="dated"?"dated listing":"usual weekly")+")")).join("<br>"):"Opening for the selected date has not been confirmed")+'</div><div>💷 <b>Admission:</b> '+(p.price==="free"?"Listed as free":p.price==="priced"?"Price mentioned — see organiser":"Check with organiser")+'</div></div>'+
  (p.caution||ageWarning?'<div class="detail-caution"><strong>Before you go:</strong> '+escapeHTML([p.caution,ageWarning].filter(Boolean).join(" · "))+'</div>':"")+
  (es.map(e=>e.note).filter(Boolean).length?'<p><strong>Event notes:</strong> '+escapeHTML(es.map(e=>e.note).filter(Boolean).join(" · "))+'</p>':"")+
  '<p>Times, tickets, age limits and opening status can change. An entry in this catalogue is not a live availability confirmation. Map markers are approximate area hubs.</p>'+
- '<div class="detail-buttons">'+(link?'<a class="button button-dark" target="_blank" rel="noopener noreferrer" href="'+escapeHTML(link)+'">Official info ↗</a>':"")+
+ '<div class="detail-buttons">'+(link?'<a class="button button-dark" target="_blank" rel="noopener noreferrer" href="'+escapeHTML(link)+'">Source / details ↗</a>':"")+
  '<a class="button button-light" target="_blank" rel="noopener noreferrer" href="'+escapeHTML(dir)+'">Directions ↗</a>'+
  '<button class="button button-light" id="detailSave">'+(state.saved.has(p.id)?"♥ Saved":"♡ Save idea")+'</button>'+
  '<a class="button button-light" target="_blank" rel="noopener noreferrer" href="'+escapeHTML(feedback)+'">Visited? Leave feedback ↗</a></div></div>';
@@ -165,12 +204,25 @@ function renderMap(){
  if(!state.map){
    state.map=window.L.map("map",{scrollWheelZoom:false}).setView([52.95,-1.15],10);
    window.L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',maxZoom:18}).addTo(state.map);
-   state.markers=window.L.layerGroup().addTo(state.map);
+   state.markers=window.L.markerClusterGroup?window.L.markerClusterGroup({
+    showCoverageOnHover:false,
+    spiderfyOnMaxZoom:true,
+    disableClusteringAtZoom:15,
+    maxClusterRadius:48,
+    iconCreateFunction:cluster=>window.L.divIcon({
+     className:"",
+     html:'<div class="map-pin cluster">'+cluster.getAllChildMarkers().reduce((sum,m)=>sum+(m.options.activityCount||1),0)+'</div>',
+     iconSize:[44,44],iconAnchor:[22,22]
+    })
+   }).addTo(state.map):window.L.layerGroup().addTo(state.map);
  }
  state.markers.clearLayers();
  groups.forEach((data,name)=>{
    const icon=window.L.divIcon({className:"",html:'<div class="map-pin">'+data.places.length+'</div>',iconSize:[37,37],iconAnchor:[18,18]});
-   window.L.marker([data.lat,data.lng],{icon,title:name+" area (approximate)"}).addTo(state.markers).bindTooltip(name+" · "+data.places.length+" ideas").on("click",()=>{state.mapGroup=name;renderMap();});
+   window.L.marker([data.lat,data.lng],{icon,title:name+" area (approximate)",activityCount:data.places.length}).addTo(state.markers).bindTooltip(escapeHTML(name)+" · "+data.places.length+" ideas").on("click",()=>{
+    state.mapGroup=name;renderMap();
+    if(window.innerWidth<=900)document.getElementById("mapListing").scrollIntoView({behavior:"smooth",block:"start"});
+   });
  });
  setTimeout(()=>state.map.invalidateSize(),60);
 }
@@ -192,7 +244,7 @@ function renderCalendar(){
  }
  $("calendarGrid").innerHTML=html;
  $("calendarDateHeading").textContent=displayDate(selected);
- const filtered=state.events.filter(e=>hasEventOn(e,selected));
+ const filtered=state.events.filter(e=>hasEventOn(e,selected)).filter(e=>{const p=getPlace(e.placeId);return p&&(!state.categories.size||p.category.some(c=>state.categories.has(c)));});
  $("calendarAgenda").innerHTML=filtered.length?filtered.sort((a,b)=>(a.time||"99:99").localeCompare(b.time||"99:99")).map(e=>{
    const p=getPlace(e.placeId);if(!p)return "";
    return '<div class="agenda-item"><div><h4>'+escapeHTML(e.title)+'</h4><p>'+escapeHTML(p.area)+' · '+escapeHTML(momentLabel(e))+' · '+(e.confidence==="dated"?"Dated listing":"Regular listing: recheck")+'</p></div><button aria-label="Details" data-open="'+escapeHTML(p.id)+'">↗</button></div>';
@@ -202,6 +254,25 @@ function refreshMonth(delta){
  const [year,month]=state.calendarMonth.split("-").map(Number);
  const d=new Date(Date.UTC(year,month-1+delta,1));state.calendarMonth=fromDate(d).slice(0,7);state.calendarDay=state.calendarMonth+"-01";renderCalendar();
 }
+
+function closeMobileFilters(){
+ $("filterPanel").classList.remove("open");
+ $("filterPanel").removeAttribute("role");$("filterPanel").removeAttribute("aria-modal");
+ $("filterBackdrop").hidden=true;
+ $("filterToggle").setAttribute("aria-expanded","false");
+ document.body.classList.remove("filters-open");
+}
+function toggleMobileFilters(){
+ const isOpen=$("filterPanel").classList.contains("open");
+ if(isOpen){closeMobileFilters();return;}
+ $("filterPanel").classList.add("open");
+ $("filterPanel").setAttribute("role","dialog");$("filterPanel").setAttribute("aria-modal","true");$("filterPanel").setAttribute("aria-label","Activity filters");
+ $("filterBackdrop").hidden=false;
+ $("filterToggle").setAttribute("aria-expanded","true");
+ document.body.classList.add("filters-open");
+ $("closeFilters").focus();
+}
+function resetResults(){state.visibleLimit=18;renderFilterUI();renderView();}
 function renderFreshness(){
  const days=Math.floor((dateObj(isoUK()).getTime()-dateObj("2026-10-09").getTime())/86400000);
  if(days>14){$("freshness").hidden=false;$("freshness").textContent="Heads-up: this catalogue was last researched in October 2026. Some listings may now be out of date. This site is a discovery directory, not an automatically verified diary. Check organiser links before travelling.";}
@@ -214,28 +285,52 @@ async function initialize(){
    state.places=p.entries;state.events=e.events;
  }catch(err){$("cards").innerHTML='<div class="empty"><h3>Could not load activities</h3><p>'+escapeHTML(err.message)+'</p><p>Check your connection and try refreshing.</p></div>';return;}
  state.calendarDay=state.date;state.calendarMonth=state.date.slice(0,7);
- renderSavedCount();renderFilterUI();renderDiscover();renderFreshness();
+ document.body.dataset.view="discover";document.body.classList.toggle("date-selected",Boolean(state.date));renderSavedCount();renderFilterUI();renderDiscover();renderFreshness();
 }
 document.addEventListener("click",evt=>{
  const save=evt.target.closest("[data-save]");if(save){evt.preventDefault();toggleSaved(save.dataset.save);return;}
  const open=evt.target.closest("[data-open]");if(open){const p=getPlace(open.dataset.open);if(p)detail(p);return;}
- const cat=evt.target.closest("[data-cat]");if(cat){const key=cat.dataset.cat;if(state.categories.has(key))state.categories.delete(key);else state.categories.add(key);renderFilterUI();renderView();return;}
- const view=evt.target.closest("[data-view]");if(view){showView(view.dataset.view);return;}
- const day=evt.target.closest("[data-calendar-date]");if(day){state.calendarDay=day.dataset.calendarDate;renderCalendar();return;}
+ const cat=evt.target.closest("[data-cat]");if(cat){const key=cat.dataset.cat;if(state.categories.has(key))state.categories.delete(key);else state.categories.add(key);resetResults();return;}
+ const quick=evt.target.closest("[data-quick]");if(quick){
+  const key=quick.dataset.quick;
+  if(key==="today"){state.calendarDay=isoUK();state.calendarMonth=isoUK().slice(0,7);updateDate(isoUK());return;}
+  if(key==="friday"){state.calendarDay=nextFriday();state.calendarMonth=nextFriday().slice(0,7);updateDate(nextFriday());return;}
+  if(key==="scheduled")state.dateOnly=!state.dateOnly;
+  else if(key==="local")state.distance=state.distance==="local"?"all":"local";
+  else if(key==="free")state.free=!state.free;
+  else if(state.categories.has(key))state.categories.delete(key);else state.categories.add(key);
+  resetResults();return;
+ }
+ const view=evt.target.closest("button[data-view]");if(view){showView(view.dataset.view);return;}
+ const day=evt.target.closest("[data-calendar-date]");if(day){updateDate(day.dataset.calendarDate);return;}
  if(evt.target.closest("#showAllMap")){state.mapGroup=null;renderMap();}
 });
-$("searchInput").addEventListener("input",e=>{state.search=e.target.value.trim().toLowerCase();renderView();});
+$("searchInput").addEventListener("input",e=>{state.search=e.target.value.trim().toLowerCase();state.visibleLimit=18;renderView();});
 $("dateInput").addEventListener("change",e=>{state.calendarDay=e.target.value||isoUK();state.calendarMonth=state.calendarDay.slice(0,7);updateDate(e.target.value);});
 $("todayBtn").addEventListener("click",()=>{updateDate(isoUK());showView("discover");});
 $("fridayBtn").addEventListener("click",()=>{updateDate(nextFriday());showView("discover");});
 $("clearDate").addEventListener("click",()=>updateDate(state.date?"":isoUK()));
-$("filterToggle").addEventListener("click",()=>{const open=$("filterPanel").classList.toggle("open");$("filterToggle").setAttribute("aria-expanded",String(open));});
+$("filterToggle").addEventListener("click",toggleMobileFilters);
+$("closeFilters").addEventListener("click",closeMobileFilters);
+$("applyFilters").addEventListener("click",closeMobileFilters);
+$("filterBackdrop").addEventListener("click",closeMobileFilters);
+document.addEventListener("keydown",e=>{
+ if(!$("filterPanel").classList.contains("open"))return;
+ if(e.key==="Escape"){e.preventDefault();closeMobileFilters();$("filterToggle").focus();return;}
+ if(e.key==="Tab"){
+  const elements=[...$("filterPanel").querySelectorAll('button,input,select')].filter(x=>x.getBoundingClientRect().height>0&&!x.disabled);
+  if(!elements.length)return;
+  if(e.shiftKey&&document.activeElement===elements[0]){e.preventDefault();elements[elements.length-1].focus();}
+  else if(!e.shiftKey&&document.activeElement===elements[elements.length-1]){e.preventDefault();elements[0].focus();}
+ }
+});
+$("loadMore").addEventListener("click",()=>{state.visibleLimit+=18;renderDiscover();});
 $("resetFilters").addEventListener("click",clearFilters);
 $("emptyReset").addEventListener("click",clearFilters);
-$("kindFilter").addEventListener("change",e=>{state.kind=e.target.value;renderView();});
+$("kindFilter").addEventListener("change",e=>{state.kind=e.target.value;resetResults();});
 $("sortSelect").addEventListener("change",e=>{state.sort=e.target.value;renderView();});
-document.querySelectorAll('input[name="distance"]').forEach(el=>el.addEventListener("change",e=>{state.distance=e.target.value;renderView();}));
-[["freeOnly","free"],["hideAge","hideAge"],["showArchived","archived"],["showDateOnly","dateOnly"]].forEach(([id,key])=>$(id).addEventListener("change",e=>{state[key]=e.target.checked;renderView();}));
+document.querySelectorAll('input[name="distance"]').forEach(el=>el.addEventListener("change",e=>{state.distance=e.target.value;resetResults();}));
+[["freeOnly","free"],["hideAge","hideAge"],["showArchived","archived"],["showDateOnly","dateOnly"]].forEach(([id,key])=>$(id).addEventListener("change",e=>{state[key]=e.target.checked;resetResults();}));
 $("goDiscover").addEventListener("click",()=>showView("discover"));
 $("prevMonth").addEventListener("click",()=>refreshMonth(-1));$("nextMonth").addEventListener("click",()=>refreshMonth(1));
 $("monthToday").addEventListener("click",()=>{state.calendarMonth=isoUK().slice(0,7);state.calendarDay=isoUK();renderCalendar();});

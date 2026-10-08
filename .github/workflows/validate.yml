@@ -12,7 +12,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+      - name: Install browser test dependencies
+        run: npm ci
       - name: Check JavaScript syntax
         run: node --check app.js
       - name: Check structured data and privacy
         run: python3 scripts/validate_catalogue.py
+      - name: Test responsive UI and accessibility
+        run: npm run test:ui

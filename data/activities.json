@@ -26,7 +26,8 @@
       "archived": false,
       "avoidFriday20261009": false,
       "lastChecked": "2026-10-08",
-      "weekday": 5
+      "weekday": 5,
+      "summary": "Free, friendly singing and rhymes at West Bridgford Library. Two usual Friday sessions — collect a free adult ticket first."
     },
     {
       "id": "place-2",
@@ -50,7 +51,8 @@
       "archived": false,
       "avoidFriday20261009": false,
       "lastChecked": "2026-10-08",
-      "weekday": 5
+      "weekday": 5,
+      "summary": "Songs, stories, crafts and toys at a welcoming local church group. Term-time Friday mornings; check the start time."
     },
     {
       "id": "place-3",
@@ -74,7 +76,8 @@
       "archived": false,
       "avoidFriday20261009": false,
       "lastChecked": "2026-10-08",
-      "weekday": 5
+      "weekday": 5,
+      "summary": "A relaxed Edwalton playgroup with toys, crafts, songs and space to meet other children. Listed £2.50 per family."
     },
     {
       "id": "place-4",
@@ -97,7 +100,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "Central West Bridgford playground with sand play, climbing and swings. Great for an easy short outing."
     },
     {
       "id": "place-5",
@@ -120,7 +124,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "Local climbing, rope play and a zip wire. A convenient choice for energetic explorers."
     },
     {
       "id": "place-6",
@@ -143,7 +148,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "Climbing, swings and play panels near Edwalton. Good for a quick fresh-air outing."
     },
     {
       "id": "place-7",
@@ -166,7 +172,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "Pirate-themed play equipment and climbing in Edwalton."
     },
     {
       "id": "place-8",
@@ -291,12 +298,12 @@
         "nature"
       ],
       "kind": "place",
-      "area": "Wilford",
+      "area": "Nottingham city",
       "tier": "local",
-      "locationGroup": "Wilford",
+      "locationGroup": "Nottingham city",
       "mapPoint": {
-        "lat": 52.925,
-        "lng": -1.158,
+        "lat": 52.953,
+        "lng": -1.148,
         "precision": "area"
       },
       "source": null,
@@ -350,7 +357,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "Nature trails, birds and wetland wildlife. Bring wellies after rain."
     },
     {
       "id": "place-16",
@@ -428,7 +436,7 @@
       "title": "Rushcliffe Arena",
       "description": "(Rugby Road): swimming with published public schedule subject to pool availability. Check leisure provider.",
       "category": [
-        "nature"
+        "play"
       ],
       "kind": "place",
       "area": "West Bridgford",
@@ -451,21 +459,21 @@
       "title": "Lady Bay local church/community events",
       "description": "explore for actual dated children's/community events; don't claim public preschool is drop-in.",
       "category": [
-        "nature"
+        "group"
       ],
       "kind": "place",
-      "area": "Nottingham city",
-      "tier": "nearby",
-      "locationGroup": "Nottingham city",
+      "area": "Lady Bay",
+      "tier": "local",
+      "locationGroup": "Lady Bay",
       "mapPoint": {
-        "lat": 52.953,
-        "lng": -1.148,
+        "lat": 52.944,
+        "lng": -1.105,
         "precision": "area"
       },
       "source": "https://www.ladybaychurch.org.uk/",
       "price": "unknown",
-      "caution": null,
-      "archived": false,
+      "caution": "Lead only: no dated event or public session established yet. Verify with organiser before recommending.",
+      "archived": true,
       "avoidFriday20261009": false,
       "lastChecked": "2026-10-08"
     },
@@ -490,14 +498,15 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "Big adventure playground, country park paths and a lake. A strong nearby option for active little legs."
     },
     {
       "id": "place-22",
       "title": "Framework Knitters Museum",
       "description": "(Ruddington). Historic knitting machinery and possible demonstrations; listed Friday 11am–4pm; confirm opening and demonstrations.",
       "category": [
-        "nature"
+        "culture"
       ],
       "kind": "place",
       "area": "Ruddington",
@@ -537,7 +546,11 @@
       "archived": false,
       "avoidFriday20261009": true,
       "lastChecked": "2026-10-08",
-      "weekday": 6
+      "weekday": 6,
+      "publishedWeekdays": [
+        0,
+        6
+      ]
     },
     {
       "id": "place-24",
@@ -609,7 +622,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "Wetland trails, ducks and birds with a nature centre. Look out for special under-fives sessions."
     },
     {
       "id": "place-27",
@@ -634,7 +648,8 @@
       "archived": false,
       "avoidFriday20261009": false,
       "lastChecked": "2026-10-08",
-      "weekday": 5
+      "weekday": 5,
+      "summary": "Under-fives woodland play at Attenborough Nature Reserve. Check the organiser's date and remaining spaces."
     },
     {
       "id": "place-28",
@@ -687,7 +702,7 @@
       "title": "Little Foxes Play Town",
       "description": "(100 Chilwell Rd, Beeston NG9 1ES): 90-min role-play, listed Friday 09:30–15h, check bookable slots.",
       "category": [
-        "nature"
+        "play"
       ],
       "kind": "place",
       "area": "Beeston",
@@ -795,7 +810,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "Free-to-visit city farm with animals, a playground and opportunities to get up close to farm life."
     },
     {
       "id": "place-35",
@@ -818,14 +834,14 @@
       "caution": "Windmill building closed for repairs; science centre and garden open",
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "Hands-on science centre and gardens. The windmill tower itself is closed for repairs."
     },
     {
       "id": "place-36",
       "title": "Nottingham Contemporary",
       "description": "(Weekday Cross NG1). Free art exhibitions, family activities on selected dates; Fri 10–17h.",
       "category": [
-        "nature",
         "culture"
       ],
       "kind": "place",
@@ -842,14 +858,16 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "Free contemporary art exhibitions, with family activities on selected dates."
     },
     {
       "id": "place-37",
       "title": "Wollaton Hall & Deer Park",
       "description": "(NG8 2AE). Deer spotting, grounds, natural history museum (Fri ~11–16h).",
       "category": [
-        "nature"
+        "nature",
+        "animals"
       ],
       "kind": "place",
       "area": "Wollaton",
@@ -865,7 +883,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "Deer-spotting, parkland and a natural history museum — with different opening arrangements for grounds and hall."
     },
     {
       "id": "place-38",
@@ -895,7 +914,7 @@
       "title": "National Ice Centre",
       "description": "(NG1): public skating; age 5 & under go free with paying adult, but dedicated Tots Zone is Saturday AM/Sunday PM, not Friday; weekday Parent and Tots schedule requires booking check.",
       "category": [
-        "nature"
+        "play"
       ],
       "kind": "place",
       "area": "Nottingham city",
@@ -1003,7 +1022,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "A smaller farm-park experience close to Nottingham, with animals and outdoor space."
     },
     {
       "id": "place-44",
@@ -1026,7 +1046,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "Animals, woodland and active play, with indoor options too."
     },
     {
       "id": "place-45",
@@ -1036,12 +1057,12 @@
         "culture"
       ],
       "kind": "place",
-      "area": "Nottingham city",
+      "area": "Leicester",
       "tier": "nearby",
-      "locationGroup": "Nottingham city",
+      "locationGroup": "Leicester",
       "mapPoint": {
-        "lat": 52.953,
-        "lng": -1.148,
+        "lat": 52.635,
+        "lng": -1.13,
         "precision": "area"
       },
       "source": "https://www.spacecentre.co.uk/",
@@ -1095,7 +1116,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "Farm animals, indoor play and animal encounters. Under-twos normally get free general admission."
     },
     {
       "id": "place-48",
@@ -1121,7 +1143,8 @@
       "avoidFriday20261009": false,
       "lastChecked": "2026-10-08",
       "minimumAgeMonths": 24,
-      "weekday": 5
+      "weekday": 5,
+      "summary": "A small-group farm experience with animals and themed activities. Advertised for children aged two to four."
     },
     {
       "id": "place-49",
@@ -1144,7 +1167,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "A family adventure park with rides and play; check ride height and age restrictions."
     },
     {
       "id": "place-50",
@@ -1259,7 +1283,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "A theme park designed with younger children in mind, with rides, play and colourful attractions."
     },
     {
       "id": "place-55",
@@ -1282,14 +1307,16 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "Zoo animals, Gruffalo Discovery Land and seasonal themed extras."
     },
     {
       "id": "place-56",
       "title": "CONKERS",
       "description": "(Moira DE12 6GA): indoor discovery/play and outdoor trails, Friday published 10–17h.",
       "category": [
-        "culture"
+        "nature",
+        "play"
       ],
       "kind": "place",
       "area": "Moira",
@@ -1351,7 +1378,8 @@
       "caution": "Not operating on Friday 9 October; check actual dates",
       "archived": false,
       "avoidFriday20261009": true,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "Heritage steam trains from Loughborough when services are running — check the railway's operating calendar."
     },
     {
       "id": "place-59",
@@ -1375,7 +1403,11 @@
       "archived": false,
       "avoidFriday20261009": true,
       "lastChecked": "2026-10-08",
-      "weekday": 6
+      "weekday": 6,
+      "publishedWeekdays": [
+        0,
+        6
+      ]
     },
     {
       "id": "place-60",
@@ -1490,7 +1522,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "A bus ride into Nottingham can be the adventure itself, with lots to watch through the windows."
     },
     {
       "id": "place-65",
@@ -1513,7 +1546,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "Ride the Nottingham tram just for the fun of the journey, with an easy stop somewhere new."
     },
     {
       "id": "place-66",
@@ -1536,7 +1570,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "Take a local train to somewhere like Beeston, Newark, Leicester or Derby — the train can be the highlight."
     },
     {
       "id": "place-67",
@@ -1582,7 +1617,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "See aircraft approaching East Midlands Airport from a suitable publicly accessible viewing point."
     },
     {
       "id": "place-69",
@@ -1606,7 +1642,8 @@
       "archived": false,
       "avoidFriday20261009": false,
       "lastChecked": "2026-10-08",
-      "weekday": 5
+      "weekday": 5,
+      "summary": "Free Friday songs, rhymes and puppets at Meadows Library, with a drop-in session."
     },
     {
       "id": "place-70",
@@ -1679,7 +1716,8 @@
       "avoidFriday20261009": false,
       "lastChecked": "2026-10-08",
       "minimumAgeMonths": 24,
-      "weekday": 5
+      "weekday": 5,
+      "summary": "A booked arts and messy-play workshop. Advertised for ages two to five; check the age policy."
     },
     {
       "id": "place-73",
@@ -1702,7 +1740,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "A countryside trail near East Midlands Airport with views of aircraft. A short stretch works better than the full route with toddlers."
     },
     {
       "id": "place-74",
@@ -1732,8 +1771,8 @@
       "title": "Nottingham International Market",
       "description": "Old Market Square: five-day event 7–11 Oct 2026, Friday 9 Oct 10:00–19:00, free entry. Plenty of stalls and street food; interesting bus/tram-centred town visit with toddler, not a specialised children's activity.",
       "category": [
-        "culture",
-        "seasonal"
+        "seasonal",
+        "culture"
       ],
       "kind": "place",
       "area": "Nottingham city",
@@ -1749,7 +1788,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "International market stalls, colourful sights and street food in Nottingham's Old Market Square."
     },
     {
       "id": "place-76",
@@ -1773,7 +1813,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "Julia Donaldson-inspired seasonal corn maze, plus zoo animals and Gruffalo Discovery Land. Check the extra ticket cost."
     },
     {
       "id": "place-77",
@@ -1797,7 +1838,8 @@
       "caution": "Ice cream parlour closed on Fri 9 Oct though farm park open",
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "Animals, indoor and outdoor play and seasonal Pumpkin Village activities. Check the farm's specific opening date."
     },
     {
       "id": "place-78",

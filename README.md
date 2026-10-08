@@ -1,27 +1,44 @@
-# Callie Days — interactive outing finder
+# Callie Days — family adventures finder
 
-Public-safe front end for discovering family days out around Nottingham and beyond.
+**Live website:** https://jakesmith0.github.io/callie-days-site/
 
-- **Explore:** search, category, distance, date and suitability filters.
-- **Map:** approximate area hubs (not precise venue geocodes), with direct venue directions links.
-- **Calendar:** recorded dated events and usual recurring sessions, always labelled by certainty.
-- **Saved:** favourites stay in local browser storage.
+A fast, responsive directory for finding family outings near Nottingham and beyond: date-specific events, recurring sessions, attractions, transport adventures, maps, calendar, filters and local saved ideas.
 
-**Do not publish private family preferences here.** The working catalogue/research remains in a separate private repository. This public site contains venue/event information only.
+## Privacy
 
-Source data: `data/activities.json` and `data/events.json`.
-Update this data and commit to `main` to refresh GitHub Pages. A dated event is not a live booking availability confirmation. Source last checked October 2026.
+**This repository and its website are public.** The companion `jakesmith0/callie-days` research repository is private and holds family preferences, private feedback and the home postcode. Never copy private family details into this public repository. Public map markers are *approximate area positions* and do not identify a family address.
 
-## Build
+## Growing the directory
 
-Zero build steps. Static HTML, CSS, JavaScript and JSON. Open via a local HTTP server (e.g. `python3 -m http.server`) for testing.
+- `data/activities.json`: editable activities with stable IDs, summaries, categories, broad travel bands, approximate area map coordinates, source URLs and honest check dates.
+- `data/events.json`: one-off dates, date ranges and usual weekly sessions linked by `placeId`. Never assume booking availability or term-time sessions are guaranteed.
+- `index.html`, `styles.css`, `app.js`, `assets/`: static public site; no build process required.
+- [UX review and remaining gaps](UX_REVIEW_2026-10-09.md).
 
-## Update policy
+### Contribute to catalogue
 
-1. Confirm new/revised details with organiser source.
-2. Edit data files, preserve IDs, and update `lastChecked`.
-3. Keep exact personal addresses, family birthdays, family routines and private notes **out** of this repository.
-4. Validate JSON and JavaScript syntax; smoke-test the UI.
-5. Commit to `main`; GitHub Pages will rebuild.
+1. Verify a venue/session with its organiser, noting date, opening, age suitability, booking and cost.
+2. Edit `data/activities.json`; preserve stable IDs, concise `summary` and truthful `lastChecked` values.
+3. Edit `data/events.json` for new dated or recurring events.
+4. Validate and run the UI smoke tests. A commit on `main` triggers GitHub Pages publishing.
+5. Keep *personal* notes and outing feedback in the private research repository.
 
-Saved favourites are device-local only, not synced across devices.
+### Local development and tests
+
+```bash
+npm ci
+npm run test:data
+node --check app.js
+npm run test:ui
+python3 -m http.server 8000
+```
+
+To run tests using macOS's installed Chrome: `CHROME_PATH="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" npm run test:ui`.
+
+CI verifies JSON integrity, privacy indicators, JavaScript syntax, and browser UX/accessibility at phone/tablet/desktop widths. The site deploys via GitHub Pages from `main`.
+
+**Limits:** no automatic web research/refresh, no real-time availability, no accurate door-to-door travel times, no favourites sync across devices. The site warns if its catalogue is old.
+
+### Open-source and map credits
+
+Leaflet 1.9.4 and Leaflet.markercluster 1.5.3 are bundled under MIT licences (in `assets/LICENSE-Leaflet.txt` and `assets/LICENSE-Leaflet.markercluster.txt`). Map tiles © OpenStreetMap contributors, requiring network access.

@@ -40,6 +40,8 @@ for index, p in enumerate(places):
     if p.get("tier") not in TIERS: err(f"{key}: invalid tier")
     if p.get("kind") not in KINDS: err(f"{key}: invalid kind")
     if not isinstance(p.get("category"), list) or not p["category"] or not set(p["category"]) <= ALLOWED: err(f"{key}: invalid category")
+    if p.get("summary") is not None and (not isinstance(p["summary"], str) or not p["summary"].strip() or len(p["summary"]) > 360): err(f"{key}: summary must be readable text under 360 characters")
+    if p.get("publishedWeekdays") is not None and (not isinstance(p["publishedWeekdays"], list) or any(w not in range(7) for w in p["publishedWeekdays"])): err(f"{key}: invalid published weekdays")
     if p.get("source") and not p["source"].startswith("https://"): err(f"{key}: source must be HTTPS")
     if not is_date(p.get("lastChecked")): err(f"{key}: invalid check date")
     pt = p.get("mapPoint")
