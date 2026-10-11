@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updated": "2026-10-09",
+  "updated": "2026-10-11",
   "publicSite": true,
   "sourceRepo": "Private curated source; no personal preferences exposed",
   "entries": [
@@ -619,11 +619,13 @@
       },
       "source": "https://www.nottinghamshirewildlife.org/nature-reserves/attenborough-nature-reserve",
       "price": "free",
-      "caution": null,
+      "caution": "Access notice: 12–16 October 2026 temporary parking restriction along Attenborough Lane and Allendale Avenue 09:30–16:00, connected with Works Bridge replacement.",
       "archived": false,
       "avoidFriday20261009": false,
       "lastChecked": "2026-10-08",
-      "summary": "Wetland trails, ducks and birds with a nature centre. Look out for special under-fives sessions."
+      "summary": "Wetland trails, ducks and birds with a nature centre. Look out for special under-fives sessions.",
+      "accessNoticeSource": "https://www.nottinghamshirewildlife.org/attenborough",
+      "accessNoticeChecked": "2026-10-11"
     },
     {
       "id": "place-27",
