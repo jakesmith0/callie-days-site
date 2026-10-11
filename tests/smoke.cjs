@@ -69,7 +69,18 @@ const test=async(browser,base,width)=>{
  await page.click(nav+' [data-view="saved"]');
  await page.waitForSelector("#savedCards .activity-card");
  await page.click(nav+' [data-view="calendar"]');
+ // Inject one cancelled weekly occurrence and one rescheduled time without mutating stored data.
+ await page.evaluate(()=>{
+   const e=state.events?.find?.(x=>x.id==="event-wb-rhyme-10");
+   if(e)e.exceptions={"2026-10-09":{status:"cancelled"},"2026-10-16":{time:"11:45",end:"12:15"}};
+ });
+
  assert.ok((await page.$$eval(".calendar-cell",a=>a.length))>=28,"calendar days not rendered");
+ const calendarChange=await page.evaluate(()=>({cancelled:occurrenceFor(state.events.find(e=>e.id==="event-wb-rhyme-10"),"2026-10-09").status,available:eventsFor("place-1","2026-10-09").some(e=>e.id==="event-wb-rhyme-10"),moved:occurrenceFor(state.events.find(e=>e.id==="event-wb-rhyme-10"),"2026-10-16").time}));
+ assert.equal(calendarChange.cancelled,"cancelled","per-date cancellation not captured");
+ assert.equal(calendarChange.available,false,"cancelled event still recommended");
+ assert.equal(calendarChange.moved,"11:45","per-date time override not applied");
+
  await page.click('[data-calendar-date="2026-10-10"]');
  assert.equal(await page.$eval("#dateInput",el=>el.value),"2026-10-10","calendar date and date field out of sync");
  await page.click(nav+' [data-view="map"]');

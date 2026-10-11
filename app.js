@@ -19,15 +19,21 @@ if(URLdate && /^\d{4}-\d{2}-\d{2}$/.test(URLdate)&&!Number.isNaN(dateObj(URLdate
 try{const parsed=JSON.parse(localStorage.getItem(STORAGE_KEY)||"[]");if(Array.isArray(parsed))state.saved=new Set(parsed.filter(x=>typeof x==="string"));}catch{}
 const inform=msg=>{const e=$("toast");e.textContent=msg;e.classList.add("show");setTimeout(()=>e.classList.remove("show"),3000);};
 const getPlace=id=>state.places.find(p=>p.id===id);
-const hasEventOn=(e,d)=>{
- if(!d)return true;
- if(e.recurrence==="once" || e.recurrence==="custom")return(e.dates||[]).includes(d);
- if(e.recurrence==="range")return d>=e.from && d<=e.to && (!e.allowedWeekdays||e.allowedWeekdays.includes(weekday(d)));
- if(e.recurrence==="weekly")return weekday(d)===e.weekday;
- return false;
+const occurrenceFor=(e,d)=>{
+ if(!d)return null;
+ const x=(e.exceptions||{})[d]||{};
+ if((e.excludedDates||[]).includes(d)&&!x.added)return null;
+ let match=false;
+ if(e.recurrence==="once"||e.recurrence==="custom")match=(e.dates||[]).includes(d);
+ if(e.recurrence==="range")match=d>=e.from&&d<=e.to&&(!e.allowedWeekdays||e.allowedWeekdays.includes(weekday(d)));
+ if(e.recurrence==="weekly")match=weekday(d)===e.weekday&&(!e.startsOn||d>=e.startsOn)&&(!e.endsOn||d<=e.endsOn);
+ if(x.added===true)match=true;
+ return match?{...e,...x,occurrenceDate:d,status:x.status||e.status||"scheduled"}:null;
 };
+const hasEventOn=(e,d)=>!d?true:!!occurrenceFor(e,d);
+const isActive=e=>!["cancelled","postponed"].includes(e.status);
 const matchesDate=ev=>hasEventOn(ev,state.date);
-const eventsFor=(id,date=state.date)=>state.events.filter(e=>e.placeId===id && hasEventOn(e,date));
+const eventsFor=(id,date=state.date)=>state.events.flatMap(e=>{if(e.placeId!==id)return [];if(!date)return [e];const x=occurrenceFor(e,date);return x&&isActive(x)?[x]:[];});
 const momentLabel=e=>(e.time?(e.time+(e.end?"–"+e.end:"")):"Time varies")+(e.recurrence==="weekly"?" · usual weekly listing":"");
 function toggleSaved(id){
  if(state.saved.has(id))state.saved.delete(id);else state.saved.add(id);
@@ -237,17 +243,17 @@ function renderCalendar(){
  for(let cell=0;cell<offset+monthDays;cell++){
    if(cell<offset){html+='<div class="calendar-cell other" aria-hidden="true"></div>';continue;}
    const day=cell-offset+1,d=state.calendarMonth+"-"+String(day).padStart(2,"0");
-   const els=state.events.filter(e=>hasEventOn(e,d)).filter(e=>{const p=getPlace(e.placeId);return p&&(!state.categories.size||p.category.some(k=>state.categories.has(k)));});
-   const dated=els.filter(e=>e.confidence==="dated");
-   const item=dated[0]||els[0];
-   html+='<button class="calendar-cell '+(d===today?"today ":"")+(d===selected?"selected":"")+'" data-calendar-date="'+d+'" aria-label="'+escapeHTML(displayDate(d))+'; '+els.length+' listed activities"><span class="day-number">'+day+'</span>'+(item?'<span class="event-indicator">'+escapeHTML(item.title)+'</span>':"")+(els.length>1?'<span class="event-more">+'+(els.length-1)+' more</span>':"")+'</button>';
+   const els=state.events.map(e=>occurrenceFor(e,d)).filter(Boolean).filter(e=>{const p=getPlace(e.placeId);return p&&(!state.categories.size||p.category.some(k=>state.categories.has(k)));});
+   const dated=els.filter(e=>e.confidence==="dated"&&isActive(e));
+   const item=dated[0]||els.find(isActive)||els[0];
+   html+='<button class="calendar-cell '+(d===today?"today ":"")+(d===selected?"selected":"")+'" data-calendar-date="'+d+'" aria-label="'+escapeHTML(displayDate(d))+'; '+els.length+' listed activities"><span class="day-number">'+day+'</span>'+(item?'<span class="event-indicator">'+escapeHTML((isActive(item)?"":"Cancelled: ")+item.title)+'</span>':"")+(els.length>1?'<span class="event-more">+'+(els.length-1)+' more</span>':"")+'</button>';
  }
  $("calendarGrid").innerHTML=html;
  $("calendarDateHeading").textContent=displayDate(selected);
- const filtered=state.events.filter(e=>hasEventOn(e,selected)).filter(e=>{const p=getPlace(e.placeId);return p&&(!state.categories.size||p.category.some(c=>state.categories.has(c)));});
+ const filtered=state.events.map(e=>occurrenceFor(e,selected)).filter(Boolean).filter(e=>{const p=getPlace(e.placeId);return p&&(!state.categories.size||p.category.some(c=>state.categories.has(c)));});
  $("calendarAgenda").innerHTML=filtered.length?filtered.sort((a,b)=>(a.time||"99:99").localeCompare(b.time||"99:99")).map(e=>{
    const p=getPlace(e.placeId);if(!p)return "";
-   return '<div class="agenda-item"><div><h4>'+escapeHTML(e.title)+'</h4><p>'+escapeHTML(p.area)+' · '+escapeHTML(momentLabel(e))+' · '+(e.confidence==="dated"?"Dated listing":"Regular listing: recheck")+'</p></div><button aria-label="Details" data-open="'+escapeHTML(p.id)+'">↗</button></div>';
+   return '<div class="agenda-item"><div><h4>'+escapeHTML(e.title)+'</h4><p>'+escapeHTML(p.area)+' · '+escapeHTML(momentLabel(e))+' · '+(!isActive(e)?e.status.toUpperCase():e.confidence==="dated"?"Dated listing":"Regular listing: recheck")+'</p></div><button aria-label="Details" data-open="'+escapeHTML(p.id)+'">↗</button></div>';
  }).join(""):'<p class="agenda-empty">No recorded sessions for this date yet. There may still be plenty of places to visit — switch to Discover.</p>';
 }
 function refreshMonth(delta){

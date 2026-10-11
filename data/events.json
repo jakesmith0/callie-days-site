@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "updated": "2026-10-09",
   "events": [
     {
@@ -289,5 +289,10 @@
       "confidence": "dated",
       "note": "Historic experience, may be better for adults/older children."
     }
-  ]
+  ],
+  "modelNotes": {
+    "exceptions": "Per-date overrides for time, status, note and added date",
+    "excludedDates": "Skipped dates for a recurrence",
+    "status": "scheduled, cancelled, postponed or sold_out"
+  }
 }

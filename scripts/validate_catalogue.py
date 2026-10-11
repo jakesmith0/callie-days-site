@@ -64,6 +64,15 @@ for index, e in enumerate(events):
         if not is_date(e.get("from")) or not is_date(e.get("to")) or e["from"]>e["to"]: err(f"{key}: invalid date range")
     if recurrence=="weekly" and e.get("weekday") not in range(7): err(f"{key}: invalid weekday")
     if e.get("confidence") not in {"dated", "weekly"}: err(f"{key}: invalid confidence")
+    if e.get("status", "scheduled") not in {"scheduled", "cancelled", "postponed", "sold_out"}: err(f"{key}: invalid event status")
+    if e.get("startsOn") and not is_date(e["startsOn"]): err(f"{key}: invalid startsOn")
+    if e.get("endsOn") and not is_date(e["endsOn"]): err(f"{key}: invalid endsOn")
+    if any(not is_date(x) for x in e.get("excludedDates", [])): err(f"{key}: invalid skipped date")
+    for date, override in e.get("exceptions", {}).items():
+        if not is_date(date) or not isinstance(override, dict): err(f"{key}: bad event exception"); continue
+        if override.get("status", "scheduled") not in {"scheduled", "cancelled", "postponed", "sold_out"}: err(f"{key}: bad exception status")
+        for field in ("time", "end"):
+            if override.get(field) is not None and not re.fullmatch(r"[0-2][0-9]:[0-5][0-9]", override[field]): err(f"{key}: invalid override time")
     if e.get("source") and not e["source"].startswith("https://"): err(f"{key}: source must be HTTPS")
 for filename in (ROOT / "data/activities.json", ROOT / "data/events.json", ROOT / "index.html", ROOT / "app.js"):
     text=filename.read_text(encoding="utf-8")
