@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#f8f8f4">
   <meta name="description" content="An ever-growing guide to family adventures, playful discoveries and days out around Nottingham and beyond.">
-  <title>Callie Days — little adventures, big discoveries</title>
+  <title>Callie Days — Things to do with under-fives</title>
   <link rel="icon" href="./favicon.svg" type="image/svg+xml">
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="stylesheet" href="./styles.css">
@@ -21,7 +21,7 @@
   <a class="skip" href="#main">Skip to activities</a>
   <div class="app-shell">
     <header class="topbar">
-      <a class="brand" href="./" aria-label="Callie Days home"><span class="brand-symbol" aria-hidden="true">✳</span><span>callie<span class="brand-accent">days</span><small>little adventures, big discoveries</small></span></a>
+      <a class="brand" href="./" aria-label="Callie Days home"><span class="brand-symbol brand-path" aria-hidden="true"><svg viewBox="0 0 48 48" width="32" height="32"><path d="M9 9h30v30H9z" fill="none"/><circle cx="34" cy="13" r="6" fill="#e5ab61"/><path d="M7 35c8-16 11-2 20-15 5-7 10-5 15-7" fill="none" stroke="#315b46" stroke-width="5" stroke-linecap="round"/><path d="M7 41c9-8 16-4 25-10 5-3 7-8 10-12" fill="none" stroke="#779b72" stroke-width="5" stroke-linecap="round"/></svg></span><span>callie<span class="brand-accent">days</span><small>Things to do with under-fives</small></span></a>
       <nav class="top-tabs" aria-label="Main navigation">
         <button class="nav-tab active" data-view="discover" aria-current="page">Discover</button>
         <button class="nav-tab" data-view="map">Map</button>
@@ -36,8 +36,8 @@
       <section class="hero">
         <div class="hero-copy">
           <p class="eyebrow"><span class="eyebrow-dot"></span> THE FAMILY ADVENTURE FINDER</p>
-          <h2>Good days start <em>somewhere.</em></h2>
-          <p>Little local discoveries, brilliant big days out, and all the things you didn't know were happening.</p>
+          <h2>Find a good day <em>out.</em></h2>
+          <p>Activities, groups and places to explore with babies, toddlers and preschoolers around Nottingham.</p>
           <div class="hero-actions">
             <button id="todayBtn" class="button button-dark">What's on today <span aria-hidden="true">↗</span></button>
             <button id="fridayBtn" class="button button-light">This Friday <span aria-hidden="true">→</span></button>
@@ -87,8 +87,17 @@
         </aside>
 
         <div class="main-column">
+          <section class="journey-section" aria-label="Find an activity by what you need">
+            <h2>What would help today?</h2>
+            <div class="journey-choices">
+              <button class="journey-choice" data-journey="now"><strong>Something to do now</strong><span>Easy options for today, including places and sessions.</span></button>
+              <button class="journey-choice" data-journey="social"><strong>Meet other families</strong><span>Stay-and-play, classes, groups and social activities.</span></button>
+              <button class="journey-choice" data-journey="plan"><strong>Plan ahead</strong><span>Choose a day and find something worth looking forward to.</span></button>
+            </div>
+            <div class="journey-location"><label for="areaInput">Looking around</label> <select id="areaInput"><option value="">All Nottingham areas</option><option>West Bridgford</option><option>Beeston</option><option>Wollaton</option><option>Mapperley</option><option>Arnold</option><option>Hucknall</option><option>Ruddington</option><option>Carlton</option><option>Sherwood</option><option>City Centre</option><option>Stapleford</option><option>Bingham</option><option>Gedling</option></select><button id="clearJourney" class="text-button" hidden>Clear choice</button></div>
+          </section>
           <section id="discoverView" class="view" aria-label="Discover activities">
-            <div class="section-heading"><div><p class="eyebrow green">YOUR NEXT ADVENTURE</p><h2>Things to get excited about<span class="heading-star">✳</span></h2><p id="resultsSubtitle" class="subtle">Finding discoveries…</p></div><label class="sort-select">Sort by <select id="sortSelect"><option value="recommended">Recommended</option><option value="near">Nearest tier first</option><option value="name">A to Z</option><option value="fresh">Recently checked</option></select></label></div>
+            <div class="section-heading"><div><p class="eyebrow green">FIND YOUR NEXT OUTING</p><h2>Good ideas, without the digging</h2><p id="resultsSubtitle" class="subtle">Finding discoveries…</p></div><label class="sort-select">Sort by <select id="sortSelect"><option value="recommended">Recommended</option><option value="near">Nearest tier first</option><option value="name">A to Z</option><option value="fresh">Recently checked</option></select></label></div>
             <div class="summary-row"><span id="resultCount" class="pill-count">0 ideas</span><button id="clearDate" class="text-button">All dates instead</button></div>
             <section id="upcomingSection" class="upcoming-section" aria-label="Upcoming scheduled events">
               <div class="upcoming-heading"><div><p class="eyebrow green">ON THE HORIZON</p><h3>Coming up next</h3><p>Actual dated listings, in chronological order — not just places that might be open.</p></div><button id="upcomingViewAll" class="button button-light">Calendar ↗</button></div>
@@ -123,7 +132,7 @@
       </div>
       <section class="bottom-note"><div class="bottom-icon">✳</div><div><h2>A living little directory</h2><p>Built from local organiser listings and real discoveries. Things change, so opening times, tickets and ages need rechecking. Got an idea? Add it to the private project catalogue.</p></div><a id="suggestLink" href="https://github.com/jakesmith0/callie-days/issues/new?template=new-discovery.yml" target="_blank" rel="noopener" class="button button-dark">Suggest a discovery ↗</a></section>
     </main>
-    <footer><span>© Callie Days · Made for curious little explorers</span><span>West Bridgford & beyond <span class="footer-sun">✳</span> <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">Map credits</a></span></footer>
+    <footer><span>© Callie Days · Things to do with under-fives</span><span>Nottingham and surrounding areas · <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">Map credits</a></span></footer>
   </div>
   <nav class="mobile-tabs" aria-label="Mobile navigation"><button data-view="discover" class="active"><span>✳</span>Discover</button><button data-view="map"><span>⌖</span>Map</button><button data-view="calendar"><span>▦</span>Calendar</button><button data-view="saved"><span>♡</span>Saved</button></nav>
   <dialog id="detailDialog" aria-label="Activity details"><button id="detailClose" class="dialog-close" aria-label="Close details">×</button><div id="detailBody"></div></dialog>

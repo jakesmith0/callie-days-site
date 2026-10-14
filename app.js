@@ -13,7 +13,7 @@ const displayDate=(iso,opts={weekday:"long",day:"numeric",month:"long",year:"num
 const fromDate=d=>[d.getUTCFullYear(),String(d.getUTCMonth()+1).padStart(2,"0"),String(d.getUTCDate()).padStart(2,"0")].join("-");
 const nextFriday=()=>{const d=dateObj(isoUK());const diff=(5-d.getUTCDay()+7)%7;d.setUTCDate(d.getUTCDate()+diff);return fromDate(d);};
 const STORAGE_KEY="calliedays:favourites:v1";
-const state={places:[],events:[],view:"discover",date:isoUK(),search:"",categories:new Set(),distance:"all",kind:"all",free:false,hideAge:false,archived:false,dateOnly:false,sort:"recommended",visibleLimit:18,saved:new Set(),calendarMonth:null,calendarDay:null,map:null,markers:null,mapGroup:null};
+const state={places:[],events:[],view:"discover",date:isoUK(),search:"",categories:new Set(),distance:"all",kind:"all",free:false,hideAge:false,archived:false,dateOnly:false,sort:"recommended",visibleLimit:18,journey:"",area:"",saved:new Set(),calendarMonth:null,calendarDay:null,map:null,markers:null,mapGroup:null};
 const URLdate=new URLSearchParams(location.search).get("date");
 if(URLdate && /^\d{4}-\d{2}-\d{2}$/.test(URLdate)&&!Number.isNaN(dateObj(URLdate).getTime()))state.date=URLdate;
 try{const parsed=JSON.parse(localStorage.getItem(STORAGE_KEY)||"[]");if(Array.isArray(parsed))state.saved=new Set(parsed.filter(x=>typeof x==="string"));}catch{}
@@ -43,6 +43,8 @@ function toggleSaved(id){
 function renderSavedCount(){const n=state.saved.size;$("savedCount").textContent=n;$("savedCount").hidden=n===0;}
 const isSeasonalSpecific=p=>[60,61,75,76].includes(Number(p.id.split("-")[1]));
 const matchesPlace=p=>{
+ if(state.area && !([p.area,p.locationGroup,p.title].join(" ").toLowerCase().includes(state.area.toLowerCase())))return false;
+ if(state.journey==="social"&&!(p.kind==="session"||p.category.includes("group")))return false;
  if(p.archived&&!state.archived)return false;
  if(state.search&&!([p.title,p.description,p.area,p.category.map(k=>CATEGORIES[k]?.label).join(" ")].join(" ").toLowerCase().includes(state.search)))return false;
  if(state.categories.size && !p.category.some(c=>state.categories.has(c)))return false;
@@ -94,8 +96,8 @@ function publicDescription(p){
 
 function card(p){
  const cat=categoryFor(p),ev=eventsFor(p.id),dated=ev.find(e=>e.confidence==="dated"),main=dated||ev[0];
- const status=main?(main.confidence==="dated"?(state.date?"On the calendar":"Recorded event"):"Usual weekly listing"):(p.kind==="journey"?"Journey idea":"Opening not confirmed");
- const mainTime=main?(state.date?momentLabel(main):main.recurrence==="weekly"?"Usually "+["Sun","Mon","Tue","Wed","Thu","Fri","Sat"][main.weekday]+" · "+momentLabel(main):(main.dates?.[0]||main.from||"Dates to check")):"";
+ const status=main?(main.status==="sold_out"?"Fully booked":main.confidence==="dated"?"Event on this date":"Regular session"):(p.kind==="journey"?"Travel idea":p.kind==="place"?"Visit any suitable day":"Details to check");
+ const mainTime=main?(state.date?momentLabel(main):main.recurrence==="weekly"?["Sun","Mon","Tue","Wed","Thu","Fri","Sat"][main.weekday]+" · "+momentLabel(main):(main.dates?.[0]?displayDate(main.dates[0],{day:"numeric",month:"short",year:"numeric"}):main.from?displayDate(main.from,{day:"numeric",month:"short",year:"numeric"}):"Date to check")):"";
  const desc=publicDescription(p);
  const safeTitle=escapeHTML(p.title);
  const hearts=state.saved.has(p.id);
@@ -103,6 +105,7 @@ function card(p){
  '<div class="card-visual cat-'+cat+'"><span class="visual-symbol" aria-hidden="true">'+SYMBOLS[cat]+'</span>'+
  '<button class="heart '+(hearts?"saved":"")+'" data-save="'+escapeHTML(p.id)+'" aria-label="'+(hearts?"Remove from saved":"Save")+' '+safeTitle+'" aria-pressed="'+hearts+'">'+(hearts?"♥":"♡")+'</button></div>'+
  '<div class="card-body"><div class="card-kicker">'+escapeHTML(p.area)+' · '+escapeHTML(TIER_LABELS[p.tier])+'</div>'+
+ (main&&main.title!==p.title?'<p class="card-event-name">'+escapeHTML(main.title)+'</p>':"")+
  '<h3><button class="card-title-link" data-open="'+escapeHTML(p.id)+'" aria-label="View details: '+safeTitle+'">'+safeTitle+'</button></h3><p class="card-desc">'+escapeHTML(desc)+'</p>'+
  '<div class="card-tags"><span class="tag '+(dated?"dated":main?"weekly":"")+'">'+escapeHTML(status)+'</span>'+
  (mainTime?'<span class="tag">'+escapeHTML(mainTime)+'</span>':"")+
@@ -157,8 +160,8 @@ function renderDiscover(){
  };
  const headline=(state.date?'<div class="date-context"><span class="date-context-dot"></span> Searching for '+escapeHTML(displayDate(state.date))+' <span>· Dates and opening times still need checking</span></div>':'');
  $("cards").innerHTML=headline+
- section("On the calendar","Recorded one-offs and regular sessions for this day. Check spaces, term dates and cancellations.",scheduled,"events")+
- section(state.date?"More places to explore":"All adventure ideas",state.date?"Attractions and outings that could be suitable; their opening on this date has not been confirmed.":"Places, journeys, activities and recurring ideas from the catalogue.",explore,"places");
+ section("Happening on this day","Events and groups scheduled for the day. Check with the organiser before setting off.",scheduled,"events")+
+ section(state.date?"Other ideas for the day":"Places and activities",state.date?"Attractions and outings that could be suitable; their opening on this date has not been confirmed.":"Places, journeys, activities and recurring ideas from the catalogue.",explore,"places");
  $("resultCount").textContent=places.length+" "+(places.length===1?"idea":"ideas");
  $("loadMore").hidden=places.length<=state.visibleLimit;
  $("loadMore").textContent="Show more ideas · "+(places.length-visible.length)+" remaining ↓";
@@ -214,16 +217,30 @@ function clearFilters(){
  state.categories.clear();state.distance="all";state.kind="all";state.free=false;state.hideAge=false;state.archived=false;state.dateOnly=false;state.search="";state.visibleLimit=18;
  renderFilterUI();renderView();
 }
+function forthcomingForPlace(id){
+ const from=isoUK(),matches=[];
+ for(let i=0;i<60;i++){
+  const day=dateObj(from);day.setUTCDate(day.getUTCDate()+i);const date=fromDate(day);
+  for(const event of state.events){
+   if(event.placeId!==id)continue;
+   const occ=occurrenceFor(event,date);
+   if(!occ||["cancelled","postponed"].includes(occ.status))continue;
+   matches.push({date,...occ});
+  }
+ }
+ return matches.slice(0,12);
+}
 function detail(p){
- const cat=categoryFor(p),es=eventsFor(p.id),link=safeLink(p.source);
+ const cat=categoryFor(p),es=eventsFor(p.id),upcoming=forthcomingForPlace(p.id),link=safeLink(p.source);
  const dir="https://www.google.com/maps/dir/?api=1&destination="+encodeURIComponent(p.title+", "+p.area+", UK");
  const feedback="https://github.com/jakesmith0/callie-days/issues/new?template=outing-feedback.yml&title="+encodeURIComponent("Visited: "+p.title);
  const ageWarning=p.minimumAgeMonths?"Official minimum age "+Math.floor(p.minimumAgeMonths/12)+"; check before booking.":null;
  $("detailBody").innerHTML='<div class="detail-art cat-'+cat+'">'+SYMBOLS[cat]+'</div><div class="detail-content">'+
  '<p class="eyebrow green">'+escapeHTML(CATEGORIES[cat].label)+' · '+escapeHTML(TIER_LABELS[p.tier])+'</p><h2>'+escapeHTML(p.title)+'</h2>'+
  '<p>'+escapeHTML(publicDescription(p))+'</p>'+
- '<div class="detail-meta"><div>📍 <b>Area:</b> '+escapeHTML(p.area)+'</div><div>🔎 <b>Source last catalogued:</b> '+escapeHTML(p.lastChecked)+'</div><div>🗓️ <b>Date status:</b> '+(es.length?es.map(e=>escapeHTML(e.title+" — "+momentLabel(e)+" ("+(e.confidence==="dated"?"dated listing":"usual weekly")+")")).join("<br>"):"Opening for the selected date has not been confirmed")+'</div><div>💷 <b>Admission:</b> '+(p.price==="free"?"Listed as free":p.price==="priced"?"Price mentioned — see organiser":"Check with organiser")+'</div></div>'+
+ '<div class="detail-meta"><div>📍 <b>Area:</b> '+escapeHTML(p.area)+'</div><div>🔎 <b>Source last catalogued:</b> '+escapeHTML(p.lastChecked)+'</div><div>🗓️ <b>For the selected date:</b> '+(es.length?es.map(e=>escapeHTML(e.title+" — "+momentLabel(e)+" ("+(e.confidence==="dated"?"dated listing":"usual weekly")+")")).join("<br>"):"Opening for the selected date has not been confirmed")+'</div><div>💷 <b>Admission:</b> '+(p.price==="free"?"Listed as free":p.price==="priced"?"Price mentioned — see organiser":"Check with organiser")+'</div></div>'+
  (p.caution||ageWarning?'<div class="detail-caution"><strong>Before you go:</strong> '+escapeHTML([p.caution,ageWarning].filter(Boolean).join(" · "))+'</div>':"")+
+ (upcoming.length?'<section class="detail-upcoming"><h3>Next listed dates</h3><div>'+upcoming.map(e=>'<p><strong>'+escapeHTML(displayDate(e.date,{weekday:"short",day:"numeric",month:"short"}))+'</strong> · '+escapeHTML(e.title)+(e.time?' · '+escapeHTML(momentLabel(e)):' · Time to confirm')+(e.status==="sold_out"?' · Fully booked':'')+'</p>').join("")+'</div></section>':"")+
  (es.map(e=>e.note).filter(Boolean).length?'<p><strong>Event notes:</strong> '+escapeHTML(es.map(e=>e.note).filter(Boolean).join(" · "))+'</p>':"")+
  '<p>Times, tickets, age limits and opening status can change. An entry in this catalogue is not a live availability confirmation. Map markers are approximate area hubs.</p>'+
  '<div class="detail-buttons">'+(link?'<a class="button button-dark" target="_blank" rel="noopener noreferrer" href="'+escapeHTML(link)+'">Source / details ↗</a>':"")+
@@ -347,6 +364,20 @@ document.addEventListener("click",evt=>{
  const day=evt.target.closest("[data-calendar-date]");if(day){updateDate(day.dataset.calendarDate);return;}
  if(evt.target.closest("#showAllMap")){state.mapGroup=null;renderMap();}
 });
+document.addEventListener("click",e=>{
+ const b=e.target.closest("[data-journey]");if(!b)return;
+ const j=b.dataset.journey;state.journey=state.journey===j?"":j;
+ state.dateOnly=false;state.visibleLimit=18;
+ if(j==="now")updateDate(isoUK());
+ if(j==="social"){state.date="";state.kind="all";}
+ if(j==="plan"){state.date="";state.calendarDay=isoUK();state.calendarMonth=isoUK().slice(0,7);}
+ document.querySelectorAll("[data-journey]").forEach(x=>{const active=x.dataset.journey===state.journey;x.classList.toggle("chosen",active);x.setAttribute("aria-pressed",String(active));});
+ $("clearJourney").hidden=!state.journey;
+ renderFilterUI();
+ if(j==="plan")showView("calendar");else showView("discover");
+});
+$("areaInput").addEventListener("change",e=>{state.area=e.target.value;state.visibleLimit=18;renderView();});
+$("clearJourney").addEventListener("click",()=>{state.journey="";document.querySelectorAll("[data-journey]").forEach(x=>{x.classList.remove("chosen");x.setAttribute("aria-pressed","false")});$("clearJourney").hidden=true;showView("discover");});
 $("searchInput").addEventListener("input",e=>{state.search=e.target.value.trim().toLowerCase();state.visibleLimit=18;renderView();});
 $("dateInput").addEventListener("change",e=>{state.calendarDay=e.target.value||isoUK();state.calendarMonth=state.calendarDay.slice(0,7);updateDate(e.target.value);});
 $("todayBtn").addEventListener("click",()=>{updateDate(isoUK());showView("discover");});

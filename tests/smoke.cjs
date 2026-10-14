@@ -40,6 +40,9 @@ const test=async(browser,base,width)=>{
  assert.ok(coming.length>0&&coming.length<=5,"upcoming list should be concise");
  assert.ok(await page.evaluate(()=>!isActive({status:"sold_out"})),"fully booked must not be advertised as active");
  assert.ok(await page.$eval("#upcomingList",el=>el.textContent.includes("Oct")),"upcoming entries must show dates");
+ assert.equal(await page.$eval(".brand",el=>el.textContent.includes("Things to do with under-fives")),true,"new brand strapline");
+ assert.ok(await page.$eval(".journey-choices",el=>el.querySelectorAll("button").length===3),"three discovery journeys");
+ assert.ok(await page.$eval("#areaInput",el=>el.options.length>=12),"area choices");
  await page.click("#loadMore");
  assert.equal(await page.$$eval(".activity-card",a=>a.length),36,"load more");
  await page.click('[data-quick="local"]');

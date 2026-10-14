@@ -191,3 +191,21 @@ footer a{color:#315d48}
 .upcoming-entry.is-full{opacity:.75}
 .upcoming-entry.is-full .upcoming-date{background:#f6e6db;color:#805135}
 @media(max-width:700px){.upcoming-list{grid-template-columns:1fr}.upcoming-section{padding:16px;margin-bottom:20px}.upcoming-heading h3{font-size:19px}.upcoming-entry{grid-template-columns:67px minmax(0,1fr) 30px;gap:9px}.upcoming-date{font-size:11px}}
+
+/* Journey-led landing rather than requiring visitors to understand database categories. */
+.journey-section{padding:16px 19px;margin-bottom:20px;background:#fff;border:1px solid #dce5d8;border-radius:16px}
+.journey-section h2{font-size:18px;margin:0 0 12px;letter-spacing:-.35px}
+.journey-choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.journey-choice{border:1px solid #d6e2d4;background:#f4f7f0;border-radius:11px;text-align:left;padding:13px 11px;min-height:101px;cursor:pointer;color:#244333}
+.journey-choice strong{display:block;font-size:13px;margin-bottom:7px;line-height:1.25}
+.journey-choice span{font-size:11px;line-height:1.4;display:block;color:#435f4b}
+.journey-choice:hover,.journey-choice.chosen{background:#e1efe1;border-color:#477a55}
+.journey-location{display:flex;gap:10px;align-items:center;margin-top:13px;font-size:12px;flex-wrap:wrap}
+.journey-location select{max-width:240px;min-height:38px;padding:7px;border:1px solid #b9c8b5;border-radius:8px;background:white;color:#294334}
+.card-event-name{font-size:12px;font-weight:800;color:#336950;margin:0 0 5px}
+.brand-path{display:inline-flex;align-items:center;justify-content:center}
+@media(max-width:700px){.journey-section{padding:14px}.journey-choices{grid-template-columns:1fr}.journey-choice{min-height:0;padding:12px}.journey-choice strong{font-size:14px;margin-bottom:3px}.journey-choice span{font-size:12px}}
+
+.detail-upcoming{background:#f3f6f0;border-radius:12px;margin:15px 0;padding:13px 16px}
+.detail-upcoming h3{margin:0 0 8px;font-size:16px}
+.detail-upcoming p{margin:8px 0;font-size:13px;line-height:1.4}
