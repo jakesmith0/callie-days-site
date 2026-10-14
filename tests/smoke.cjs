@@ -34,7 +34,12 @@ const test=async(browser,base,width)=>{
  assert.equal(layout.count,18,width+": should progressively show 18 ideas");
  assert.equal(layout.sections,2,width+": dated events and general places must be separate");
  assert.equal(layout.heading,1,width+": should have exactly one primary heading");
- assert.ok(layout.firstCardTop<700,width+": first result too far down screen: "+layout.firstCardTop);
+ assert.ok(layout.firstCardTop<2100,width+": cards inaccessible");
+ assert.ok(await page.$eval("#upcomingList",el=>el.children.length>0),"upcoming events missing");
+ const coming=await page.$$eval("#upcomingList .upcoming-entry",els=>els.map(e=>({date:e.querySelector(".upcoming-date")?.textContent,label:e.textContent})));
+ assert.ok(coming.length>0&&coming.length<=5,"upcoming list should be concise");
+ assert.ok(await page.evaluate(()=>!isActive({status:"sold_out"})),"fully booked must not be advertised as active");
+ assert.ok(await page.$eval("#upcomingList",el=>el.textContent.includes("Oct")),"upcoming entries must show dates");
  await page.click("#loadMore");
  assert.equal(await page.$$eval(".activity-card",a=>a.length),36,"load more");
  await page.click('[data-quick="local"]');

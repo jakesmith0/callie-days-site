@@ -90,6 +90,10 @@
           <section id="discoverView" class="view" aria-label="Discover activities">
             <div class="section-heading"><div><p class="eyebrow green">YOUR NEXT ADVENTURE</p><h2>Things to get excited about<span class="heading-star">✳</span></h2><p id="resultsSubtitle" class="subtle">Finding discoveries…</p></div><label class="sort-select">Sort by <select id="sortSelect"><option value="recommended">Recommended</option><option value="near">Nearest tier first</option><option value="name">A to Z</option><option value="fresh">Recently checked</option></select></label></div>
             <div class="summary-row"><span id="resultCount" class="pill-count">0 ideas</span><button id="clearDate" class="text-button">All dates instead</button></div>
+            <section id="upcomingSection" class="upcoming-section" aria-label="Upcoming scheduled events">
+              <div class="upcoming-heading"><div><p class="eyebrow green">ON THE HORIZON</p><h3>Coming up next</h3><p>Actual dated listings, in chronological order — not just places that might be open.</p></div><button id="upcomingViewAll" class="button button-light">Calendar ↗</button></div>
+              <div id="upcomingList" class="upcoming-list"></div>
+            </section>
             <div id="cards" class="card-sections" aria-live="polite"></div>
             <button class="button button-light load-more" id="loadMore" hidden>Show more discoveries ↓</button>
             <div id="noResults" class="empty" hidden><div class="empty-graphic">✳</div><h3>Nothing quite matches yet.</h3><p>Try relaxing a filter — or check the source directory for new discoveries.</p><button id="emptyReset" class="button button-dark">Show all ideas</button></div>

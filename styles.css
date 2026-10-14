@@ -173,3 +173,21 @@ footer a{color:#315d48}
 /* Scroll interactive card buttons clear of the persistent mobile navigation. */
 @media(max-width:900px){html{scroll-padding-bottom:110px}.activity-card .card-action{scroll-margin-bottom:100px}.card-sections{padding-bottom:16px}}
 .card-title-link{border:0;background:transparent;padding:0;margin:0;text-align:left;color:inherit;font:inherit;line-height:inherit;min-height:32px;display:block;width:100%}.card-title-link:hover{text-decoration:underline;text-underline-offset:3px}
+
+/* Chronological upcoming listings: the default experience is events, not generic venues. */
+.upcoming-section{background:#fff;border:1px solid var(--border);border-radius:17px;padding:20px 22px;margin-bottom:24px}
+.upcoming-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.upcoming-heading h3{font-size:22px;letter-spacing:-.7px;margin:2px 0 5px}
+.upcoming-heading p:not(.eyebrow){color:#4c6055;font-size:12px;margin:0;line-height:1.4}
+.upcoming-heading .eyebrow{margin:0 0 5px}
+.upcoming-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:14px}
+.upcoming-entry{display:grid;grid-template-columns:78px minmax(0,1fr) 24px;gap:12px;align-items:center;border-top:1px solid var(--border);padding:12px 0;min-width:0}
+.upcoming-date{font-size:12px;font-weight:850;color:#2f6552;background:#ebf3e8;border-radius:10px;padding:11px 6px;text-align:center}
+.upcoming-copy{min-width:0}.upcoming-copy h4{font-size:13px;line-height:1.25;margin:0 0 5px}
+.upcoming-copy h4 button{border:0;background:none;padding:0;color:var(--ink);text-align:left;font:inherit;cursor:pointer}
+.upcoming-copy h4 button:hover{text-decoration:underline}
+.upcoming-copy p{font-size:11px;color:#506358;margin:0 0 7px}
+.upcoming-arrow{border:0;background:#f0f5ed;color:#295e4b;border-radius:8px;min-height:35px;font-size:17px}
+.upcoming-entry.is-full{opacity:.75}
+.upcoming-entry.is-full .upcoming-date{background:#f6e6db;color:#805135}
+@media(max-width:700px){.upcoming-list{grid-template-columns:1fr}.upcoming-section{padding:16px;margin-bottom:20px}.upcoming-heading h3{font-size:19px}.upcoming-entry{grid-template-columns:67px minmax(0,1fr) 30px;gap:9px}.upcoming-date{font-size:11px}}

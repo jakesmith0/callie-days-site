@@ -31,7 +31,7 @@ const occurrenceFor=(e,d)=>{
  return match?{...e,...x,occurrenceDate:d,status:x.status||e.status||"scheduled"}:null;
 };
 const hasEventOn=(e,d)=>!d?true:!!occurrenceFor(e,d);
-const isActive=e=>!["cancelled","postponed"].includes(e.status);
+const isActive=e=>!["cancelled","postponed","sold_out"].includes(e.status);
 const matchesDate=ev=>hasEventOn(ev,state.date);
 const eventsFor=(id,date=state.date)=>state.events.flatMap(e=>{if(e.placeId!==id)return [];if(!date)return [e];const x=occurrenceFor(e,date);return x&&isActive(x)?[x]:[];});
 const momentLabel=e=>(e.time?(e.time+(e.end?"–"+e.end:"")):"Time varies")+(e.recurrence==="weekly"?" · usual weekly listing":"");
@@ -110,7 +110,43 @@ function card(p){
  (p.caution?'<span class="tag warning">Check details</span>':"")+'</div>'+
  '<div class="card-foot"><span>'+escapeHTML(CATEGORIES[cat].label)+'</span><button class="card-action" data-open="'+escapeHTML(p.id)+'">Details ↗</button></div></div></article>';
 }
+function upcomingOccurrences(){
+ const start=state.date||isoUK(),out=[];
+ for(let i=0;i<15;i++){
+  const d=dateObj(start);d.setUTCDate(d.getUTCDate()+i);
+  const iso=fromDate(d);
+  for(const event of state.events){
+   const occurrence=occurrenceFor(event,iso);
+   if(!occurrence||occurrence.status==="cancelled"||occurrence.status==="postponed")continue;
+   const place=getPlace(event.placeId);
+   if(!place||place.archived)continue;
+   if(state.categories.size&&!place.category.some(c=>state.categories.has(c)))continue;
+   if(state.distance==="local"&&place.tier!=="local")continue;
+   if(state.distance==="nearby"&&place.tier==="special")continue;
+   if(state.distance==="special"&&place.tier!=="special")continue;
+   if(state.search&&!([event.title,place.title,place.area].join(" ").toLowerCase().includes(state.search)))continue;
+   if(state.hideAge&&(place.minimumAgeMonths||0)>=24)continue;
+   if(state.free&&place.price!=="free")continue;
+   out.push({date:iso,event:occurrence,place});
+  }
+ }
+ return out.sort((a,b)=>a.date.localeCompare(b.date)||(a.event.time||"99:99").localeCompare(b.event.time||"99:99"));
+}
+function renderUpcoming(){
+ const section=$("upcomingSection"),list=$("upcomingList");
+ if(state.view!=="discover"){section.hidden=true;return;}
+ const items=upcomingOccurrences();
+ section.hidden=!items.length;
+ list.innerHTML=items.slice(0,5).map(({date,event,place})=>{
+  const full=event.status==="sold_out";
+  const day=displayDate(date,{weekday:"short",day:"numeric",month:"short"});
+  const time=event.time?event.time+(event.end?"–"+event.end:""):"Time to confirm";
+  const type=full?"Fully booked":event.confidence==="weekly"?"Usual weekly session":"Date listed";
+  return '<article class="upcoming-entry'+(full?" is-full":"")+'"><div class="upcoming-date">'+escapeHTML(day)+'</div><div class="upcoming-copy"><h4><button data-open="'+escapeHTML(place.id)+'">'+escapeHTML(event.title)+'</button></h4><p>'+escapeHTML(place.area)+' · '+escapeHTML(time)+'</p><span class="tag '+(full?"warning":event.confidence==="dated"?"dated":"weekly")+'">'+escapeHTML(type)+'</span></div><button class="upcoming-arrow" data-open="'+escapeHTML(place.id)+'" aria-label="View '+escapeHTML(event.title)+'">↗</button></article>';
+ }).join("");
+}
 function renderDiscover(){
+ renderUpcoming();
  const places=selectedPlaces();
  const visible=places.slice(0,state.visibleLimit);
  const scheduled=visible.filter(p=>state.date&&eventsFor(p.id).length);
@@ -253,7 +289,7 @@ function renderCalendar(){
  const filtered=state.events.map(e=>occurrenceFor(e,selected)).filter(Boolean).filter(e=>{const p=getPlace(e.placeId);return p&&(!state.categories.size||p.category.some(c=>state.categories.has(c)));});
  $("calendarAgenda").innerHTML=filtered.length?filtered.sort((a,b)=>(a.time||"99:99").localeCompare(b.time||"99:99")).map(e=>{
    const p=getPlace(e.placeId);if(!p)return "";
-   return '<div class="agenda-item"><div><h4>'+escapeHTML(e.title)+'</h4><p>'+escapeHTML(p.area)+' · '+escapeHTML(momentLabel(e))+' · '+(!isActive(e)?e.status.toUpperCase():e.confidence==="dated"?"Dated listing":"Regular listing: recheck")+'</p></div><button aria-label="Details" data-open="'+escapeHTML(p.id)+'">↗</button></div>';
+   return '<div class="agenda-item"><div><h4>'+escapeHTML(e.title)+'</h4><p>'+escapeHTML(p.area)+' · '+escapeHTML(momentLabel(e))+' · '+(e.status==="sold_out"?"FULLY BOOKED":!isActive(e)?e.status.toUpperCase():e.confidence==="dated"?"Dated listing":"Regular listing: recheck")+'</p></div><button aria-label="Details" data-open="'+escapeHTML(p.id)+'">↗</button></div>';
  }).join(""):'<p class="agenda-empty">No recorded sessions for this date yet. There may still be plenty of places to visit — switch to Discover.</p>';
 }
 function refreshMonth(delta){
@@ -338,6 +374,7 @@ $("sortSelect").addEventListener("change",e=>{state.sort=e.target.value;renderVi
 document.querySelectorAll('input[name="distance"]').forEach(el=>el.addEventListener("change",e=>{state.distance=e.target.value;resetResults();}));
 [["freeOnly","free"],["hideAge","hideAge"],["showArchived","archived"],["showDateOnly","dateOnly"]].forEach(([id,key])=>$(id).addEventListener("change",e=>{state[key]=e.target.checked;resetResults();}));
 $("goDiscover").addEventListener("click",()=>showView("discover"));
+$("upcomingViewAll").addEventListener("click",()=>showView("calendar"));
 $("prevMonth").addEventListener("click",()=>refreshMonth(-1));$("nextMonth").addEventListener("click",()=>refreshMonth(1));
 $("monthToday").addEventListener("click",()=>{state.calendarMonth=isoUK().slice(0,7);state.calendarDay=isoUK();renderCalendar();});
 $("browseDay").addEventListener("click",()=>{updateDate(state.calendarDay||isoUK());showView("discover");});
