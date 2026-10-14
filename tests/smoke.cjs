@@ -43,6 +43,15 @@ const test=async(browser,base,width)=>{
  assert.equal(await page.$eval(".brand",el=>el.textContent.includes("Things to do with under-fives")),true,"new brand strapline");
  assert.ok(await page.$eval(".journey-choices",el=>el.querySelectorAll("button").length===3),"three discovery journeys");
  assert.ok(await page.$eval("#areaInput",el=>el.options.length>=12),"area choices");
+ assert.equal(await page.$eval(".brand-symbol img",el=>el.getAttribute("src")),"./assets/sunshine.svg","sunshine icon, unchanged wordmark");
+ await page.evaluate(()=>document.querySelector("#upcomingList button[data-event]").click());
+ assert.ok(await page.$eval("#detailBody",el=>el.textContent.includes("Oct")),"event detail did not preserve its date");
+ await page.click("#detailClose");
+ await page.select("#areaInput","Beeston");
+ assert.ok(await page.evaluate(()=>state.location&&state.area==="Beeston"),"location must update from selected area");
+ assert.ok(await page.$eval(".card-kicker",el=>el.textContent.includes("km away")),"distance must be relative to selected area");
+ await page.select("#areaInput","");
+
  await page.click("#loadMore");
  assert.equal(await page.$$eval(".activity-card",a=>a.length),36,"load more");
  await page.click('[data-quick="local"]');
@@ -84,6 +93,10 @@ const test=async(browser,base,width)=>{
  });
 
  assert.ok((await page.$$eval(".calendar-cell",a=>a.length))>=28,"calendar days not rendered");
+ assert.ok((await page.$$eval("#calendarAlternatives .activity-card",a=>a.length))>0,"calendar must include anytime place options");
+ assert.equal(await page.$eval("#calendarAlternatives",el=>el.textContent.includes("West Bridgford")||el.querySelectorAll(".activity-card").length>0),true,"calendar alternatives must render");
+
+
  const calendarChange=await page.evaluate(()=>({cancelled:occurrenceFor(state.events.find(e=>e.id==="event-wb-rhyme-10"),"2026-10-09").status,available:eventsFor("place-1","2026-10-09").some(e=>e.id==="event-wb-rhyme-10"),moved:occurrenceFor(state.events.find(e=>e.id==="event-wb-rhyme-10"),"2026-10-16").time}));
  assert.equal(calendarChange.cancelled,"cancelled","per-date cancellation not captured");
  assert.equal(calendarChange.available,false,"cancelled event still recommended");
@@ -96,6 +109,13 @@ const test=async(browser,base,width)=>{
  assert.equal(await page.evaluate(()=>typeof window.L.markerClusterGroup),"function","clustered map library missing");
  assert.ok((await page.$$eval("#map .map-pin",a=>a.length))>0,"no map pins");
  assert.ok(await page.$eval("#mapTotal",el=>el.textContent.includes("areas")),"map list not available");
+ await page.click(nav+' [data-view="discover"]');
+ await page.click('[data-journey="social"]');
+ assert.ok(await page.evaluate(()=>state.journey==="social"),"social journey selection not applied");
+ assert.ok(await page.$$eval(".activity-card",els=>els.length>0),"social journey empty");
+ await page.click('[data-journey="plan"]');
+ assert.equal(await page.evaluate(()=>state.view),"calendar","plan ahead should show calendar");
+ await page.click(nav+' [data-view="map"]');
  await page.addScriptTag({path:require.resolve("axe-core/axe.min.js")});
  const violations=await page.evaluate(async()=>{
   const data=await axe.run({runOnly:{type:"tag",values:["wcag2a","wcag2aa","wcag21a","wcag21aa"]}});

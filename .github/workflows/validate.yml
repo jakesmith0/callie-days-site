@@ -22,5 +22,9 @@ jobs:
         run: node --check app.js
       - name: Check structured data and privacy
         run: python3 scripts/validate_catalogue.py
+      - name: Check generated neighbourhood pages are current
+        run: |
+          python3 scripts/generate_areas.py
+          git diff --exit-code -- areas/
       - name: Test responsive UI and accessibility
         run: npm run test:ui

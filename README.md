@@ -42,3 +42,11 @@ CI verifies JSON integrity, privacy indicators, JavaScript syntax, and browser U
 ### Open-source and map credits
 
 Leaflet 1.9.4 and Leaflet.markercluster 1.5.3 are bundled under MIT licences (in `assets/LICENSE-Leaflet.txt` and `assets/LICENSE-Leaflet.markercluster.txt`). Map tiles © OpenStreetMap contributors, requiring network access.
+
+## Neighbourhood pages, locations and content
+
+- `data/areas.json` is the canonical source for approximate neighbourhood centres. `scripts/generate_areas.py` builds `/areas/` landing pages and CI ensures they match the current catalogue.
+- The Find Nearby feature uses area centres or browser geolocation to rank approximate *straight-line* distances from catalogue **area markers**, not door-to-door route estimates. Do not label these estimates as driving times.
+- The optional UK postcode lookup contacts postcodes.io directly from the visitor's browser only after they enter and submit a postcode; the site has no server receiving this postcode. Browser geolocation is only requested on button click and is not persisted; an explicitly chosen town is remembered locally.
+- Preserve truthful `lastChecked`; editing a display summary or migrating a schema never constitutes re-verification. Prefer well-sourced descriptions over generic prose and provide an organiser link wherever possible.
+- The logo mark lives in `assets/sunshine.svg`; the original green/orange HTML wordmark remains independent. Do not replace it with an image containing lettering.

@@ -21,7 +21,7 @@
   <a class="skip" href="#main">Skip to activities</a>
   <div class="app-shell">
     <header class="topbar">
-      <a class="brand" href="./" aria-label="Callie Days home"><span class="brand-symbol brand-path" aria-hidden="true"><svg viewBox="0 0 48 48" width="32" height="32"><path d="M9 9h30v30H9z" fill="none"/><circle cx="34" cy="13" r="6" fill="#e5ab61"/><path d="M7 35c8-16 11-2 20-15 5-7 10-5 15-7" fill="none" stroke="#315b46" stroke-width="5" stroke-linecap="round"/><path d="M7 41c9-8 16-4 25-10 5-3 7-8 10-12" fill="none" stroke="#779b72" stroke-width="5" stroke-linecap="round"/></svg></span><span>callie<span class="brand-accent">days</span><small>Things to do with under-fives</small></span></a>
+      <a class="brand" href="./" aria-label="Callie Days home"><span class="brand-symbol" aria-hidden="true"><img src="./assets/sunshine.svg" width="38" height="38" alt=""></span><span>callie<span class="brand-accent">days</span><small>Things to do with under-fives</small></span></a>
       <nav class="top-tabs" aria-label="Main navigation">
         <button class="nav-tab active" data-view="discover" aria-current="page">Discover</button>
         <button class="nav-tab" data-view="map">Map</button>
@@ -94,7 +94,16 @@
               <button class="journey-choice" data-journey="social"><strong>Meet other families</strong><span>Stay-and-play, classes, groups and social activities.</span></button>
               <button class="journey-choice" data-journey="plan"><strong>Plan ahead</strong><span>Choose a day and find something worth looking forward to.</span></button>
             </div>
-            <div class="journey-location"><label for="areaInput">Looking around</label> <select id="areaInput"><option value="">All Nottingham areas</option><option>West Bridgford</option><option>Beeston</option><option>Wollaton</option><option>Mapperley</option><option>Arnold</option><option>Hucknall</option><option>Ruddington</option><option>Carlton</option><option>Sherwood</option><option>City Centre</option><option>Stapleford</option><option>Bingham</option><option>Gedling</option></select><button id="clearJourney" class="text-button" hidden>Clear choice</button></div>
+            <div class="journey-location"><label for="areaInput">Looking around</label> <select id="areaInput"><option value="">All Nottingham areas</option></select><button id="clearJourney" class="text-button" hidden>Clear choice</button></div>
+            <details class="location-more">
+              <summary>Use my location or postcode</summary>
+              <div class="location-tools"><button id="locateMe" class="button button-light">Use my location</button>
+              <label for="postcodeInput">Or postcode</label><input id="postcodeInput" inputmode="text" autocomplete="postal-code" maxlength="9" placeholder="e.g. NG9 2AE">
+              <button id="postcodeGo" class="button button-light">Find nearby</button></div>
+              <p class="location-privacy">Location stays in this browser session. A postcode lookup uses the public postcodes.io service.</p>
+              <p id="locationStatus" role="status" aria-live="polite"></p>
+            </details>
+            <a class="area-browse-link" href="./areas/">Browse activities by neighbourhood ↗</a>
           </section>
           <section id="discoverView" class="view" aria-label="Discover activities">
             <div class="section-heading"><div><p class="eyebrow green">FIND YOUR NEXT OUTING</p><h2>Good ideas, without the digging</h2><p id="resultsSubtitle" class="subtle">Finding discoveries…</p></div><label class="sort-select">Sort by <select id="sortSelect"><option value="recommended">Recommended</option><option value="near">Nearest tier first</option><option value="name">A to Z</option><option value="fresh">Recently checked</option></select></label></div>
@@ -121,6 +130,11 @@
             <div id="calendarGrid" class="calendar-grid"></div>
             <div class="calendar-day-heading"><h3 id="calendarDateHeading">Pick a date</h3><button id="browseDay" class="text-button">Browse this day →</button></div>
             <div id="calendarAgenda" class="agenda"></div>
+            <section class="calendar-alternatives" aria-label="Other ideas for your chosen day">
+              <h3>Or go somewhere whenever suits you</h3>
+              <p>These are general places to visit. Check their opening before setting off.</p>
+              <div id="calendarAlternatives" class="cards"></div>
+            </section>
           </section>
 
           <section id="savedView" class="view" hidden aria-label="Saved activities">

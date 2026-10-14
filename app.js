@@ -3,17 +3,30 @@
 const CATEGORIES={group:{label:"Groups & classes",icon:"♫"},play:{label:"Play & movement",icon:"🛝"},nature:{label:"Nature & outdoors",icon:"🌿"},animals:{label:"Animals & farms",icon:"🐑"},transport:{label:"Transport & vehicles",icon:"🚂"},culture:{label:"Museums & culture",icon:"🏛️"},seasonal:{label:"Seasonal & events",icon:"🎃"}};
 const SYMBOLS={group:"🎶",play:"🛝",nature:"🌿",animals:"🐑",transport:"🚂",culture:"🏛️",seasonal:"🎃"};
 const TIER_LABELS={local:"Easy & local",nearby:"Wider area",special:"Special trip"};
+const AREA_CENTRES={};
+const AREA_STORE="calliedays:preferred-area:v1";
+const kmFrom=(a,b)=>{const r=Math.PI/180,deltaLat=(b[0]-a[0])*r,deltaLng=(b[1]-a[1])*r;
+ const q=Math.sin(deltaLat/2)**2+Math.cos(a[0]*r)*Math.cos(b[0]*r)*Math.sin(deltaLng/2)**2;
+ return 12742*Math.asin(Math.sqrt(q));
+};
+const approxKm=p=>state.location&&p.mapPoint?kmFrom(state.location,[p.mapPoint.lat,p.mapPoint.lng]):null;
+const tierFor=p=>{const km=approxKm(p);return km===null?p.tier:km<=8?"local":km<=23?"nearby":"special";};
+const areaDistanceLabel=p=>{const km=approxKm(p);return km===null?TIER_LABELS[p.tier]:"About "+Math.round(km)+" km away";};
+const dailyVariety=p=>{const date=isoUK(),str=p.id+date;let hash=7;for(const c of str)hash=(hash*31+c.charCodeAt(0))>>>0;return hash%17;};
+
 const $=id=>document.getElementById(id);
 const escapeHTML=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const safeLink=url=>(typeof url==="string" && /^https:\/\//i.test(url))?url:null;
 const isoUK=()=>new Intl.DateTimeFormat("sv-SE",{timeZone:"Europe/London",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date());
+const ukClock=()=>new Intl.DateTimeFormat("en-GB",{timeZone:"Europe/London",hour:"2-digit",minute:"2-digit",hourCycle:"h23"}).format(new Date());
+const upcomingStillPossible=event=>event.occurrenceDate!==isoUK()||!event.end||event.end>=ukClock();
 const dateObj=s=>new Date(s+"T12:00:00Z");
 const weekday=s=>dateObj(s).getUTCDay();
 const displayDate=(iso,opts={weekday:"long",day:"numeric",month:"long",year:"numeric"})=>new Intl.DateTimeFormat("en-GB",{...opts,timeZone:"UTC"}).format(dateObj(iso));
 const fromDate=d=>[d.getUTCFullYear(),String(d.getUTCMonth()+1).padStart(2,"0"),String(d.getUTCDate()).padStart(2,"0")].join("-");
 const nextFriday=()=>{const d=dateObj(isoUK());const diff=(5-d.getUTCDay()+7)%7;d.setUTCDate(d.getUTCDate()+diff);return fromDate(d);};
 const STORAGE_KEY="calliedays:favourites:v1";
-const state={places:[],events:[],view:"discover",date:isoUK(),search:"",categories:new Set(),distance:"all",kind:"all",free:false,hideAge:false,archived:false,dateOnly:false,sort:"recommended",visibleLimit:18,journey:"",area:"",saved:new Set(),calendarMonth:null,calendarDay:null,map:null,markers:null,mapGroup:null};
+const state={places:[],events:[],view:"discover",date:isoUK(),search:"",categories:new Set(),distance:"all",kind:"all",free:false,hideAge:false,archived:false,dateOnly:false,sort:"recommended",visibleLimit:18,journey:"",area:"",location:null,saved:new Set(),calendarMonth:null,calendarDay:null,map:null,markers:null,mapGroup:null};
 const URLdate=new URLSearchParams(location.search).get("date");
 if(URLdate && /^\d{4}-\d{2}-\d{2}$/.test(URLdate)&&!Number.isNaN(dateObj(URLdate).getTime()))state.date=URLdate;
 try{const parsed=JSON.parse(localStorage.getItem(STORAGE_KEY)||"[]");if(Array.isArray(parsed))state.saved=new Set(parsed.filter(x=>typeof x==="string"));}catch{}
@@ -33,7 +46,7 @@ const occurrenceFor=(e,d)=>{
 const hasEventOn=(e,d)=>!d?true:!!occurrenceFor(e,d);
 const isActive=e=>!["cancelled","postponed","sold_out"].includes(e.status);
 const matchesDate=ev=>hasEventOn(ev,state.date);
-const eventsFor=(id,date=state.date)=>state.events.flatMap(e=>{if(e.placeId!==id)return [];if(!date)return [e];const x=occurrenceFor(e,date);return x&&isActive(x)?[x]:[];});
+const eventsFor=(id,date=state.date)=>state.events.flatMap(e=>{if(e.placeId!==id)return [];if(!date)return [e];const x=occurrenceFor(e,date);return x&&isActive(x)&&(!(state.journey==="now"&&date===isoUK())||upcomingStillPossible(x))?[x]:[];});
 const momentLabel=e=>(e.time?(e.time+(e.end?"–"+e.end:"")):"Time varies")+(e.recurrence==="weekly"?" · usual weekly listing":"");
 function toggleSaved(id){
  if(state.saved.has(id))state.saved.delete(id);else state.saved.add(id);
@@ -43,14 +56,13 @@ function toggleSaved(id){
 function renderSavedCount(){const n=state.saved.size;$("savedCount").textContent=n;$("savedCount").hidden=n===0;}
 const isSeasonalSpecific=p=>[60,61,75,76].includes(Number(p.id.split("-")[1]));
 const matchesPlace=p=>{
- if(state.area && !([p.area,p.locationGroup,p.title].join(" ").toLowerCase().includes(state.area.toLowerCase())))return false;
  if(state.journey==="social"&&!(p.kind==="session"||p.category.includes("group")))return false;
  if(p.archived&&!state.archived)return false;
  if(state.search&&!([p.title,p.description,p.area,p.category.map(k=>CATEGORIES[k]?.label).join(" ")].join(" ").toLowerCase().includes(state.search)))return false;
  if(state.categories.size && !p.category.some(c=>state.categories.has(c)))return false;
- if(state.distance==="local"&&p.tier!=="local")return false;
- if(state.distance==="nearby"&&p.tier==="special")return false;
- if(state.distance==="special"&&p.tier!=="special")return false;
+ if(state.distance==="local"&&tierFor(p)!=="local")return false;
+ if(state.distance==="nearby"&&tierFor(p)==="special")return false;
+ if(state.distance==="special"&&tierFor(p)!=="special")return false;
  if(state.free&&p.price!=="free")return false;
  if(state.hideAge && (p.minimumAgeMonths||0)>=24)return false;
  const nowEvents=eventsFor(p.id);
@@ -71,13 +83,13 @@ const matchesPlace=p=>{
 };
 function score(p){
  const ev=eventsFor(p.id),special=ev.some(e=>e.confidence==="dated"),weekly=ev.length>0;
- const tierWeight={local:25,nearby:12,special:0}[p.tier]||0;
- return tierWeight + (special?54:weekly?36:0) + (p.kind==="journey"?3:0) - (p.caution?3:0) - (p.archived?60:0);
+ const tierWeight=state.location?Math.max(0,70-(approxKm(p)||0)*2.8):({local:25,nearby:12,special:0}[p.tier]||0);
+ return tierWeight + (special?54:weekly?36:0) + (p.kind==="journey"?3:0) +dailyVariety(p) - (p.caution?3:0) - (p.archived?60:0);
 }
 function selectedPlaces(){
  const list=state.places.filter(matchesPlace);
  if(state.sort==="name")list.sort((a,b)=>a.title.localeCompare(b.title));
- else if(state.sort==="near")list.sort((a,b)=>({local:0,nearby:1,special:2}[a.tier]-{local:0,nearby:1,special:2}[b.tier])||score(b)-score(a));
+ else if(state.sort==="near")list.sort((a,b)=>(state.location?(approxKm(a)-approxKm(b)):({local:0,nearby:1,special:2}[a.tier]-{local:0,nearby:1,special:2}[b.tier]))||score(b)-score(a));
  else if(state.sort==="fresh")list.sort((a,b)=>b.lastChecked.localeCompare(a.lastChecked)||a.title.localeCompare(b.title));
  else list.sort((a,b)=>score(b)-score(a)||a.title.localeCompare(b.title));
  return list;
@@ -104,7 +116,7 @@ function card(p){
  return '<article class="activity-card">'+
  '<div class="card-visual cat-'+cat+'"><span class="visual-symbol" aria-hidden="true">'+SYMBOLS[cat]+'</span>'+
  '<button class="heart '+(hearts?"saved":"")+'" data-save="'+escapeHTML(p.id)+'" aria-label="'+(hearts?"Remove from saved":"Save")+' '+safeTitle+'" aria-pressed="'+hearts+'">'+(hearts?"♥":"♡")+'</button></div>'+
- '<div class="card-body"><div class="card-kicker">'+escapeHTML(p.area)+' · '+escapeHTML(TIER_LABELS[p.tier])+'</div>'+
+ '<div class="card-body"><div class="card-kicker">'+escapeHTML(p.area)+' · '+escapeHTML(areaDistanceLabel(p))+'</div>'+
  (main&&main.title!==p.title?'<p class="card-event-name">'+escapeHTML(main.title)+'</p>':"")+
  '<h3><button class="card-title-link" data-open="'+escapeHTML(p.id)+'" aria-label="View details: '+safeTitle+'">'+safeTitle+'</button></h3><p class="card-desc">'+escapeHTML(desc)+'</p>'+
  '<div class="card-tags"><span class="tag '+(dated?"dated":main?"weekly":"")+'">'+escapeHTML(status)+'</span>'+
@@ -115,18 +127,20 @@ function card(p){
 }
 function upcomingOccurrences(){
  const start=state.date||isoUK(),out=[];
- for(let i=0;i<15;i++){
+ for(let i=0;i<(state.journey==="now"?1:15);i++){
   const d=dateObj(start);d.setUTCDate(d.getUTCDate()+i);
   const iso=fromDate(d);
   for(const event of state.events){
    const occurrence=occurrenceFor(event,iso);
    if(!occurrence||occurrence.status==="cancelled"||occurrence.status==="postponed")continue;
+   if(state.journey==="now"&&(occurrence.status==="sold_out"||!upcomingStillPossible(occurrence)))continue;
    const place=getPlace(event.placeId);
    if(!place||place.archived)continue;
+   if(state.journey==="social"&&!(place.kind==="session"||place.category.includes("group")))continue;
    if(state.categories.size&&!place.category.some(c=>state.categories.has(c)))continue;
-   if(state.distance==="local"&&place.tier!=="local")continue;
-   if(state.distance==="nearby"&&place.tier==="special")continue;
-   if(state.distance==="special"&&place.tier!=="special")continue;
+   if(state.distance==="local"&&tierFor(place)!=="local")continue;
+   if(state.distance==="nearby"&&tierFor(place)==="special")continue;
+   if(state.distance==="special"&&tierFor(place)!=="special")continue;
    if(state.search&&!([event.title,place.title,place.area].join(" ").toLowerCase().includes(state.search)))continue;
    if(state.hideAge&&(place.minimumAgeMonths||0)>=24)continue;
    if(state.free&&place.price!=="free")continue;
@@ -145,7 +159,7 @@ function renderUpcoming(){
   const day=displayDate(date,{weekday:"short",day:"numeric",month:"short"});
   const time=event.time?event.time+(event.end?"–"+event.end:""):"Time to confirm";
   const type=full?"Fully booked":event.confidence==="weekly"?"Usual weekly session":"Date listed";
-  return '<article class="upcoming-entry'+(full?" is-full":"")+'"><div class="upcoming-date">'+escapeHTML(day)+'</div><div class="upcoming-copy"><h4><button data-open="'+escapeHTML(place.id)+'">'+escapeHTML(event.title)+'</button></h4><p>'+escapeHTML(place.area)+' · '+escapeHTML(time)+'</p><span class="tag '+(full?"warning":event.confidence==="dated"?"dated":"weekly")+'">'+escapeHTML(type)+'</span></div><button class="upcoming-arrow" data-open="'+escapeHTML(place.id)+'" aria-label="View '+escapeHTML(event.title)+'">↗</button></article>';
+  return '<article class="upcoming-entry'+(full?" is-full":"")+'"><div class="upcoming-date">'+escapeHTML(day)+'</div><div class="upcoming-copy"><h4><button data-open="'+escapeHTML(place.id)+'" data-event="'+escapeHTML(event.id)+'" data-event-date="'+escapeHTML(date)+'">'+escapeHTML(event.title)+'</button></h4><p>'+escapeHTML(place.area)+' · '+escapeHTML(time)+'</p><span class="tag '+(full?"warning":event.confidence==="dated"?"dated":"weekly")+'">'+escapeHTML(type)+'</span></div><button class="upcoming-arrow" data-open="'+escapeHTML(place.id)+'" data-event="'+escapeHTML(event.id)+'" data-event-date="'+escapeHTML(date)+'" aria-label="View '+escapeHTML(event.title)+'">↗</button></article>';
  }).join("");
 }
 function renderDiscover(){
@@ -230,13 +244,16 @@ function forthcomingForPlace(id){
  }
  return matches.slice(0,12);
 }
-function detail(p){
- const cat=categoryFor(p),es=eventsFor(p.id),upcoming=forthcomingForPlace(p.id),link=safeLink(p.source);
+function detail(p,selectedEvent=null){
+ const cat=categoryFor(p),es=eventsFor(p.id),upcoming=forthcomingForPlace(p.id),link=safeLink(selectedEvent?.source)||safeLink(p.source);
+ const selectedWhen=selectedEvent?.occurrenceDate?displayDate(selectedEvent.occurrenceDate,{weekday:"long",day:"numeric",month:"long"}):"";
+ const booking=selectedEvent?.status==="sold_out"?"Fully booked — check organiser for cancellations":selectedEvent?.confidence==="weekly"?"Regular session — check term dates and any changes":"Date listed; booking availability not confirmed";
+ const eventHeadline=selectedEvent?'<div class="selected-event"><h2>'+escapeHTML(selectedEvent.title)+'</h2><p><strong>'+escapeHTML(selectedWhen)+'</strong> · '+escapeHTML(selectedEvent.time?momentLabel(selectedEvent):"Time to confirm")+'</p><p>'+escapeHTML(booking)+'</p>'+(selectedEvent.note?'<p>'+escapeHTML(selectedEvent.note)+'</p>':"")+'</div>':"";
  const dir="https://www.google.com/maps/dir/?api=1&destination="+encodeURIComponent(p.title+", "+p.area+", UK");
  const feedback="https://github.com/jakesmith0/callie-days/issues/new?template=outing-feedback.yml&title="+encodeURIComponent("Visited: "+p.title);
  const ageWarning=p.minimumAgeMonths?"Official minimum age "+Math.floor(p.minimumAgeMonths/12)+"; check before booking.":null;
  $("detailBody").innerHTML='<div class="detail-art cat-'+cat+'">'+SYMBOLS[cat]+'</div><div class="detail-content">'+
- '<p class="eyebrow green">'+escapeHTML(CATEGORIES[cat].label)+' · '+escapeHTML(TIER_LABELS[p.tier])+'</p><h2>'+escapeHTML(p.title)+'</h2>'+
+ '<p class="eyebrow green">'+escapeHTML(CATEGORIES[cat].label)+' · '+escapeHTML(areaDistanceLabel(p))+'</p>'+eventHeadline+'<h2>'+escapeHTML(p.title)+'</h2>'+
  '<p>'+escapeHTML(publicDescription(p))+'</p>'+
  '<div class="detail-meta"><div>📍 <b>Area:</b> '+escapeHTML(p.area)+'</div><div>🔎 <b>Source last catalogued:</b> '+escapeHTML(p.lastChecked)+'</div><div>🗓️ <b>For the selected date:</b> '+(es.length?es.map(e=>escapeHTML(e.title+" — "+momentLabel(e)+" ("+(e.confidence==="dated"?"dated listing":"usual weekly")+")")).join("<br>"):"Opening for the selected date has not been confirmed")+'</div><div>💷 <b>Admission:</b> '+(p.price==="free"?"Listed as free":p.price==="priced"?"Price mentioned — see organiser":"Check with organiser")+'</div></div>'+
  (p.caution||ageWarning?'<div class="detail-caution"><strong>Before you go:</strong> '+escapeHTML([p.caution,ageWarning].filter(Boolean).join(" · "))+'</div>':"")+
@@ -306,8 +323,12 @@ function renderCalendar(){
  const filtered=state.events.map(e=>occurrenceFor(e,selected)).filter(Boolean).filter(e=>{const p=getPlace(e.placeId);return p&&(!state.categories.size||p.category.some(c=>state.categories.has(c)));});
  $("calendarAgenda").innerHTML=filtered.length?filtered.sort((a,b)=>(a.time||"99:99").localeCompare(b.time||"99:99")).map(e=>{
    const p=getPlace(e.placeId);if(!p)return "";
-   return '<div class="agenda-item"><div><h4>'+escapeHTML(e.title)+'</h4><p>'+escapeHTML(p.area)+' · '+escapeHTML(momentLabel(e))+' · '+(e.status==="sold_out"?"FULLY BOOKED":!isActive(e)?e.status.toUpperCase():e.confidence==="dated"?"Dated listing":"Regular listing: recheck")+'</p></div><button aria-label="Details" data-open="'+escapeHTML(p.id)+'">↗</button></div>';
+   return '<div class="agenda-item"><div><h4>'+escapeHTML(e.title)+'</h4><p>'+escapeHTML(p.area)+' · '+escapeHTML(momentLabel(e))+' · '+(e.status==="sold_out"?"FULLY BOOKED":!isActive(e)?e.status.toUpperCase():e.confidence==="dated"?"Dated listing":"Regular listing: recheck")+'</p></div><button aria-label="Details" data-open="'+escapeHTML(p.id)+'" data-event="'+escapeHTML(e.id)+'" data-event-date="'+escapeHTML(selected)+'">↗</button></div>';
  }).join(""):'<p class="agenda-empty">No recorded sessions for this date yet. There may still be plenty of places to visit — switch to Discover.</p>';
+ const activityIds=new Set(filtered.map(e=>e.placeId));
+ const alternatives=selectedPlaces().filter(p=>p.kind==="place"&&!activityIds.has(p.id)).slice(0,4);
+ $("calendarAlternatives").innerHTML=alternatives.map(card).join("");
+
 }
 function refreshMonth(delta){
  const [year,month]=state.calendarMonth.split("-").map(Number);
@@ -338,17 +359,26 @@ function renderFreshness(){
 }
 async function initialize(){
  try{
-   const [pRes,eRes]=await Promise.all([fetch("./data/activities.json",{cache:"no-cache"}),fetch("./data/events.json",{cache:"no-cache"})]);
-   if(!pRes.ok||!eRes.ok)throw Error("Couldn't load the activity catalogue.");
+   const [pRes,eRes,aRes]=await Promise.all([fetch("./data/activities.json",{cache:"no-cache"}),fetch("./data/events.json",{cache:"no-cache"}),fetch("./data/areas.json",{cache:"no-cache"})]);
+   if(!pRes.ok||!eRes.ok||!aRes.ok)throw Error("Couldn't load the activity catalogue.");
    const p=await pRes.json(),e=await eRes.json();if(!Array.isArray(p.entries)||!Array.isArray(e.events))throw Error("Invalid activity data.");
    state.places=p.entries;state.events=e.events;
+   const areaData=await aRes.json();
+   for(const item of areaData.areas||[])AREA_CENTRES[item.name]=[item.lat,item.lng];
+   $("areaInput").innerHTML='<option value="">All Nottingham areas</option>'+((areaData.areas||[]).map(a=>'<option value="'+escapeHTML(a.name)+'">'+escapeHTML(a.name)+'</option>').join(""));
  }catch(err){$("cards").innerHTML='<div class="empty"><h3>Could not load activities</h3><p>'+escapeHTML(err.message)+'</p><p>Check your connection and try refreshing.</p></div>';return;}
+ try{const linkedArea=new URLSearchParams(location.search).get("area");
+  const savedArea=linkedArea||localStorage.getItem(AREA_STORE);
+  if(savedArea&&AREA_CENTRES[savedArea]){state.area=savedArea;state.location=AREA_CENTRES[savedArea];$("areaInput").value=savedArea;}}catch{}
  state.calendarDay=state.date;state.calendarMonth=state.date.slice(0,7);
  document.body.dataset.view="discover";document.body.classList.toggle("date-selected",Boolean(state.date));renderSavedCount();renderFilterUI();renderDiscover();renderFreshness();
 }
 document.addEventListener("click",evt=>{
  const save=evt.target.closest("[data-save]");if(save){evt.preventDefault();toggleSaved(save.dataset.save);return;}
- const open=evt.target.closest("[data-open]");if(open){const p=getPlace(open.dataset.open);if(p)detail(p);return;}
+ const open=evt.target.closest("[data-open]");if(open){const p=getPlace(open.dataset.open);
+  const definition=open.dataset.event?state.events.find(e=>e.id===open.dataset.event):null;
+  const occurrence=definition&&open.dataset.eventDate?occurrenceFor(definition,open.dataset.eventDate):definition;
+  if(p)detail(p,occurrence);return;}
  const cat=evt.target.closest("[data-cat]");if(cat){const key=cat.dataset.cat;if(state.categories.has(key))state.categories.delete(key);else state.categories.add(key);resetResults();return;}
  const quick=evt.target.closest("[data-quick]");if(quick){
   const key=quick.dataset.quick;
@@ -369,14 +399,49 @@ document.addEventListener("click",e=>{
  const j=b.dataset.journey;state.journey=state.journey===j?"":j;
  state.dateOnly=false;state.visibleLimit=18;
  if(j==="now")updateDate(isoUK());
- if(j==="social"){state.date="";state.kind="all";}
- if(j==="plan"){state.date="";state.calendarDay=isoUK();state.calendarMonth=isoUK().slice(0,7);}
+ if(j==="social"){updateDate("");state.kind="all";}
+ if(j==="plan"){updateDate("");state.calendarDay=isoUK();state.calendarMonth=isoUK().slice(0,7);}
  document.querySelectorAll("[data-journey]").forEach(x=>{const active=x.dataset.journey===state.journey;x.classList.toggle("chosen",active);x.setAttribute("aria-pressed",String(active));});
  $("clearJourney").hidden=!state.journey;
  renderFilterUI();
  if(j==="plan")showView("calendar");else showView("discover");
+ const destination=j==="plan"?$("calendarView"):(!$("upcomingSection").hidden?$("upcomingSection"):$("cards"));
+ destination?.scrollIntoView({behavior:"instant",block:"start"});
 });
-$("areaInput").addEventListener("change",e=>{state.area=e.target.value;state.visibleLimit=18;renderView();});
+function selectArea(name,persist=true){
+ state.area=name;state.location=AREA_CENTRES[name]||null;
+ $("areaInput").value=AREA_CENTRES[name]?name:"";
+ if(persist)try{localStorage.setItem(AREA_STORE,name)}catch{}
+ state.visibleLimit=18;renderFilterUI();renderView();
+}
+$("areaInput").addEventListener("change",e=>selectArea(e.target.value));
+$("locateMe").addEventListener("click",()=>{
+ const status=$("locationStatus");
+ if(!navigator.geolocation){status.textContent="This browser doesn't support location.";return;}
+ status.textContent="Asking for your location…";
+ navigator.geolocation.getCurrentPosition(pos=>{
+  state.location=[pos.coords.latitude,pos.coords.longitude];state.area="";
+  $("areaInput").value="";status.textContent="Showing places relative to your current position (approximate distances).";
+  state.visibleLimit=18;renderView();
+ },()=>{status.textContent="Location wasn't available. Choose an area or enter a postcode instead.";},{enableHighAccuracy:false,timeout:8000,maximumAge:300000});
+});
+$("postcodeGo").addEventListener("click",async()=>{
+ const postcode=$("postcodeInput").value.trim().toUpperCase();
+ const status=$("locationStatus");
+ if(!/^[A-Z]{1,2}[0-9][A-Z0-9]?\s?[0-9][A-Z]{2}$/.test(postcode)){status.textContent="Enter a valid UK postcode.";return;}
+ status.textContent="Looking up postcode…";
+ try{
+  const response=await fetch("https://api.postcodes.io/postcodes/"+encodeURIComponent(postcode));
+  if(!response.ok)throw Error("Postcode wasn't found");
+  const data=await response.json();
+  if(!data.result||!Number.isFinite(data.result.latitude))throw Error("Postcode wasn't found");
+  state.location=[data.result.latitude,data.result.longitude];state.area="";
+  $("areaInput").value="";state.visibleLimit=18;status.textContent="Showing approximate distances from "+postcode+".";
+  renderView();
+ }catch(e){status.textContent=e.message||"Couldn't look up postcode. Try choosing a nearby area.";}
+});
+$("postcodeInput").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();$("postcodeGo").click();}});
+
 $("clearJourney").addEventListener("click",()=>{state.journey="";document.querySelectorAll("[data-journey]").forEach(x=>{x.classList.remove("chosen");x.setAttribute("aria-pressed","false")});$("clearJourney").hidden=true;showView("discover");});
 $("searchInput").addEventListener("input",e=>{state.search=e.target.value.trim().toLowerCase();state.visibleLimit=18;renderView();});
 $("dateInput").addEventListener("change",e=>{state.calendarDay=e.target.value||isoUK();state.calendarMonth=state.calendarDay.slice(0,7);updateDate(e.target.value);});

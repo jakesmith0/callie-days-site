@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updated": "2026-10-12",
+  "updated": "2026-10-14",
   "publicSite": true,
   "sourceRepo": "Private curated source; no personal preferences exposed",
   "entries": [
@@ -196,7 +196,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "A neighbourhood play area on Loughborough Road, handy for a short outdoor stop rather than a whole-day trip."
     },
     {
       "id": "place-9",
@@ -219,7 +220,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "A play area near the riverside, with paths and open space around the Hook for a longer wander."
     },
     {
       "id": "place-10",
@@ -242,7 +244,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "A small playground near Bridgford Road that works well as a quick stop on a local outing."
     },
     {
       "id": "place-11",
@@ -265,7 +268,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "Neighbourhood playground with music and tactile play features alongside more familiar equipment."
     },
     {
       "id": "place-12",
@@ -288,7 +292,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "Compact play area in Lady Bay, best for a quick outdoor break close to home."
     },
     {
       "id": "place-13",
@@ -311,7 +316,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "Riverside paths, open lawns, memorial gardens and playground space beside the Trent. Watch for boats and bridges."
     },
     {
       "id": "place-14",
@@ -334,7 +340,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "A gentle stroll through Wilford and towards the river, with plenty to look at on a relaxed walk."
     },
     {
       "id": "place-15",
@@ -382,7 +389,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "Walk beside the regatta lake and look out for watersports at the National Water Sports Centre. Activity access varies."
     },
     {
       "id": "place-17",
@@ -405,7 +413,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "The nature side of the Hook, with paths and waterside habitat to explore rather than playground equipment."
     },
     {
       "id": "place-18",
@@ -429,7 +438,8 @@
       "archived": false,
       "avoidFriday20261009": true,
       "lastChecked": "2026-10-08",
-      "weekday": 2
+      "weekday": 2,
+      "summary": "A term-time Tuesday toddler group at West Bridgford Methodist Church. A relaxed option for play and company."
     },
     {
       "id": "place-19",
@@ -452,7 +462,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "Swimming and leisure facilities in West Bridgford. Check the published pool timetable for suitable family sessions."
     },
     {
       "id": "place-20",
@@ -475,7 +486,8 @@
       "caution": "Lead only: no dated event or public session established yet. Verify with organiser before recommending.",
       "archived": true,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "A community lead for family-friendly gatherings around Lady Bay. No specific toddler session is confirmed."
     },
     {
       "id": "place-21",
@@ -522,7 +534,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "Explore the history of frame knitting in Ruddington, with machinery, heritage displays and occasional demonstrations."
     },
     {
       "id": "place-23",
@@ -550,7 +563,8 @@
       "publishedWeekdays": [
         0,
         6
-      ]
+      ],
+      "summary": "Historic trains, rolling stock and transport exhibits at Ruddington. Check operating days before travelling."
     },
     {
       "id": "place-24",
@@ -574,7 +588,8 @@
       "archived": false,
       "avoidFriday20261009": false,
       "lastChecked": "2026-10-08",
-      "weekday": 5
+      "weekday": 5,
+      "summary": "Free library rhymes for little ones in Bingham, usually on Friday mornings during term time."
     },
     {
       "id": "place-25",
@@ -598,7 +613,8 @@
       "archived": false,
       "avoidFriday20261009": false,
       "lastChecked": "2026-10-08",
-      "weekday": 5
+      "weekday": 5,
+      "summary": "A sociable library drop-in in Cotgrave, rather than a dedicated toddler class. Check the current programme."
     },
     {
       "id": "place-26",
@@ -674,7 +690,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "A lakeside park with paths, a playground and seasonal boating in the university area."
     },
     {
       "id": "place-29",
@@ -697,7 +714,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "Art exhibitions and family programmes at Lakeside Arts. Check which activities are suitable for younger children."
     },
     {
       "id": "place-30",
@@ -720,7 +738,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "A small-world role-play centre in Beeston, with timed play sessions. Booking and age guidance should be checked."
     },
     {
       "id": "place-31",
@@ -743,7 +762,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "Indoor soft play in Beeston, handy when the weather is poor. Check toddler areas, entry and session availability."
     },
     {
       "id": "place-32",
@@ -766,7 +786,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "A leisure-centre swimming option; look up the family or parent-and-toddler sessions before setting off."
     },
     {
       "id": "place-33",
@@ -789,7 +810,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "Lakes, birds and easy outdoor wandering on the eastern side of Nottingham. Suitable for a simple fresh-air outing."
     },
     {
       "id": "place-34",
@@ -909,7 +931,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "Castle grounds and exhibitions in the centre of Nottingham. Some areas appeal more to older children; check access."
     },
     {
       "id": "place-39",
@@ -932,7 +955,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "Try public ice skating at the National Ice Centre. Dedicated toddler sessions have their own schedule."
     },
     {
       "id": "place-40",
@@ -955,7 +979,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "An indoor play centre in Netherfield, with a useful wet-weather alternative for active little ones."
     },
     {
       "id": "place-41",
@@ -978,7 +1003,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "Soft play in the north of Nottingham. The laser-tag activities are aimed at older children, not toddlers."
     },
     {
       "id": "place-42",
@@ -1001,7 +1027,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "An independent indoor play centre in The Meadows, useful for a short play session when it is wet."
     },
     {
       "id": "place-43",
@@ -1072,7 +1099,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "Space-themed galleries, science exhibits and family displays in Leicester. A bigger trip for curious little ones."
     },
     {
       "id": "place-46",
@@ -1095,7 +1123,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "Two Nottingham history attractions with caves and historic settings. Check steps and age suitability carefully."
     },
     {
       "id": "place-47",
@@ -1193,7 +1222,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "An easy country-park day with woodland, a lake, abbey ruins and playgrounds. Parking charges may apply."
     },
     {
       "id": "place-51",
@@ -1216,7 +1246,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "Historic abbey grounds, gardens and walks. The house has more limited opening than the outdoor estate."
     },
     {
       "id": "place-52",
@@ -1239,7 +1270,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "Big open spaces, woodland paths and places to play on a National Trust estate near Worksop."
     },
     {
       "id": "place-53",
@@ -1262,7 +1294,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "An atmospheric historic workhouse and infirmary in Southwell; more of an older-child or adult-interest option."
     },
     {
       "id": "place-54",
@@ -1334,7 +1367,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "Indoor discovery areas, play experiences and outdoor trails at the former coalfield attraction in Moira."
     },
     {
       "id": "place-57",
@@ -1357,7 +1391,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "Animal encounters and wildlife enclosures in Staffordshire. A longer trip that needs time and advance planning."
     },
     {
       "id": "place-58",
@@ -1409,7 +1444,8 @@
       "publishedWeekdays": [
         0,
         6
-      ]
+      ],
+      "summary": "Vintage aircraft and runway views by East Midlands Airport. Opening is limited; check the published days."
     },
     {
       "id": "place-60",
@@ -1432,7 +1468,8 @@
       "caution": "Not operating on Friday 9 October; check actual dates",
       "archived": false,
       "avoidFriday20261009": true,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "Seasonal pumpkin picking near Oxton, with advertised October opening dates rather than a year-round attraction."
     },
     {
       "id": "place-61",
@@ -1455,7 +1492,8 @@
       "caution": "Not operating on Friday 9 October; check actual dates",
       "archived": false,
       "avoidFriday20261009": true,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "Autumn pumpkin picking at a farm shop near Kirklington. Check the specific seasonal opening dates."
     },
     {
       "id": "place-62",
@@ -1478,7 +1516,8 @@
       "caution": "Not operating on Friday 9 October; check actual dates",
       "archived": false,
       "avoidFriday20261009": true,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "Historic pumping machinery and transport displays in Leicester; open on selected dates and special events."
     },
     {
       "id": "place-63",
@@ -1501,7 +1540,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "Ranger-led toddler nature sessions at Warwickshire country parks. A special trip rather than a nearby playgroup."
     },
     {
       "id": "place-64",
@@ -1596,7 +1636,8 @@
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "Watch passing trains from safe public spots around Nottingham station without needing a paid attraction."
     },
     {
       "id": "place-68",
@@ -1669,7 +1710,8 @@
       "archived": false,
       "avoidFriday20261009": false,
       "lastChecked": "2026-10-08",
-      "weekday": 5
+      "weekday": 5,
+      "summary": "Free Friday-morning songs and rhymes at Radford-Lenton Library, generally a walk-in session."
     },
     {
       "id": "place-71",
@@ -1693,7 +1735,8 @@
       "archived": false,
       "avoidFriday20261009": false,
       "lastChecked": "2026-10-08",
-      "weekday": 5
+      "weekday": 5,
+      "summary": "Songs, rhymes and time with other children at Sherwood Library on a regular Friday-morning session."
     },
     {
       "id": "place-72",
@@ -1766,7 +1809,8 @@
       "caution": "Not operating on Friday 9 October; check actual dates",
       "archived": false,
       "avoidFriday20261009": true,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "Heritage tram rides and historical street scenes at Crich. Check seasonal running days before travelling."
     },
     {
       "id": "place-75",
@@ -1864,7 +1908,8 @@
       "caution": "Permanently closed in more recent listings",
       "archived": true,
       "avoidFriday20261009": false,
-      "lastChecked": "2026-10-08"
+      "lastChecked": "2026-10-08",
+      "summary": "Former soft-play venue in The Meadows. Reported permanently closed; do not plan a visit unless reopening is confirmed."
     },
     {
       "id": "place-79",

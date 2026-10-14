@@ -1,1 +1,23 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="#e8eee0"/><circle cx="45" cy="17" r="8" fill="#e5ab61"/><path d="M10 51c9-23 15-4 26-21 6-9 11-8 18-11" fill="none" stroke="#315b46" stroke-width="7" stroke-linecap="round"/><path d="M10 57c13-11 22-5 35-16 5-4 8-9 10-14" fill="none" stroke="#779b72" stroke-width="6" stroke-linecap="round"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="Smiling sun">
+  <defs>
+    <radialGradient id="sun" cx=".3" cy=".26" r=".94">
+      <stop offset="0" stop-color="#ffdc89"/>
+      <stop offset="1" stop-color="#f3ac50"/>
+    </radialGradient>
+  </defs>
+  <g fill="#eca03e" stroke="#efa641" stroke-width=".5">
+    <rect x="46" y="1" width="9" height="17" rx="4.5" transform="rotate(-3 50.5 9.5)"/>
+    <rect x="46" y="82" width="9" height="17" rx="4.5" transform="rotate(3 50.5 90.5)"/>
+    <rect x="82" y="46" width="17" height="9" rx="4.5" transform="rotate(-4 90.5 50.5)"/>
+    <rect x="1" y="46" width="17" height="9" rx="4.5" transform="rotate(3 9.5 50.5)"/>
+    <rect x="72" y="10" width="10" height="19" rx="5" transform="rotate(43 77 19.5)"/>
+    <rect x="17" y="70" width="10" height="19" rx="5" transform="rotate(43 22 79.5)"/>
+    <rect x="73" y="71" width="10" height="19" rx="5" transform="rotate(-43 78 80.5)"/>
+    <rect x="17" y="9" width="10" height="19" rx="5" transform="rotate(-43 22 18.5)"/>
+  </g>
+  <circle cx="50" cy="50" r="30" fill="url(#sun)"/>
+  <circle cx="33" cy="57" r="4.2" fill="#ef9b66" opacity=".85"/>
+  <circle cx="67" cy="57" r="4.2" fill="#ef9b66" opacity=".85"/>
+  <path d="M36 47.5c0-11 11-12 13 0 M56 47.5c0-11 11-12 13 0" fill="none" stroke="#63734c" stroke-width="4.2" stroke-linecap="round"/>
+  <path d="M42 61c4.2 6.2 11.8 6.2 16 0" fill="none" stroke="#63734c" stroke-width="4" stroke-linecap="round"/>
+</svg>

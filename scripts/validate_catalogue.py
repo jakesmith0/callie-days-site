@@ -74,7 +74,16 @@ for index, e in enumerate(events):
         for field in ("time", "end"):
             if override.get(field) is not None and not re.fullmatch(r"[0-2][0-9]:[0-5][0-9]", override[field]): err(f"{key}: invalid override time")
     if e.get("source") and not e["source"].startswith("https://"): err(f"{key}: source must be HTTPS")
-for filename in (ROOT / "data/activities.json", ROOT / "data/events.json", ROOT / "index.html", ROOT / "app.js"):
+area_data=json.loads((ROOT / "data/areas.json").read_text(encoding="utf-8"))
+area_slugs=set()
+for a in area_data.get("areas", []):
+    if not a.get("name") or not re.fullmatch(r"[a-z0-9-]+",a.get("slug","")): err("Invalid area name or slug")
+    if a.get("slug") in area_slugs: err("Duplicate area slug")
+    area_slugs.add(a.get("slug"))
+    if not -90<=a.get("lat",999)<=90 or not -180<=a.get("lng",999)<=180: err("Invalid area centre")
+    if not (ROOT/"areas"/a.get("slug","")/"index.html").exists(): err(f"Missing area landing page: {a.get('slug')}")
+if not (ROOT/"areas"/"index.html").exists(): err("Missing areas index")
+for filename in (ROOT / "data/activities.json", ROOT / "data/events.json", ROOT / "data/areas.json", ROOT / "index.html", ROOT / "app.js", *(ROOT/"areas").glob("**/*.html")):
     text=filename.read_text(encoding="utf-8")
     for term in SENSITIVE:
         if re.search(term,text,re.IGNORECASE): err(f"{filename.name}: private-detail indicator matching {term}")

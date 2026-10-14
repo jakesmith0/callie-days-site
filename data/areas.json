@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "description": "Approximate neighbourhood centres, not venue entrance locations",
+  "areas": [
+    {
+      "name": "West Bridgford",
+      "slug": "west-bridgford",
+      "lat": 52.93,
+      "lng": -1.126
+    },
+    {
+      "name": "Beeston",
+      "slug": "beeston",
+      "lat": 52.926,
+      "lng": -1.215
+    },
+    {
+      "name": "Wollaton",
+      "slug": "wollaton",
+      "lat": 52.956,
+      "lng": -1.214
+    },
+    {
+      "name": "Mapperley",
+      "slug": "mapperley",
+      "lat": 52.981,
+      "lng": -1.129
+    },
+    {
+      "name": "Arnold",
+      "slug": "arnold",
+      "lat": 53.005,
+      "lng": -1.127
+    },
+    {
+      "name": "Hucknall",
+      "slug": "hucknall",
+      "lat": 53.038,
+      "lng": -1.202
+    },
+    {
+      "name": "Ruddington",
+      "slug": "ruddington",
+      "lat": 52.892,
+      "lng": -1.149
+    },
+    {
+      "name": "Carlton",
+      "slug": "carlton",
+      "lat": 52.968,
+      "lng": -1.088
+    },
+    {
+      "name": "Sherwood",
+      "slug": "sherwood",
+      "lat": 52.981,
+      "lng": -1.155
+    },
+    {
+      "name": "City Centre",
+      "slug": "city-centre",
+      "lat": 52.954,
+      "lng": -1.148
+    },
+    {
+      "name": "Stapleford",
+      "slug": "stapleford",
+      "lat": 52.933,
+      "lng": -1.267
+    },
+    {
+      "name": "Bingham",
+      "slug": "bingham",
+      "lat": 52.951,
+      "lng": -0.954
+    },
+    {
+      "name": "Gedling",
+      "slug": "gedling",
+      "lat": 52.974,
+      "lng": -1.077
+    }
+  ]
+}
