@@ -1,138 +1,107 @@
-/* Responsive functional & WCAG smoke tests. Run: npm run test:ui. */
 "use strict";
-const assert=require("node:assert/strict");
-const fs=require("node:fs");
-const path=require("node:path");
-const http=require("node:http");
-const puppeteer=require("puppeteer");
+const assert=require("node:assert/strict"),fs=require("fs"),path=require("path"),http=require("http"),puppeteer=require("puppeteer");
 const ROOT=path.resolve(__dirname,"..");
-const MIME={".html":"text/html",".js":"text/javascript",".json":"application/json",".css":"text/css",".svg":"image/svg+xml",".png":"image/png",".webmanifest":"application/manifest+json"};
+const MIME={".html":"text/html",".js":"application/javascript",".json":"application/json",".css":"text/css",".svg":"image/svg+xml",".png":"image/png"};
 const server=http.createServer((req,res)=>{
- const u=new URL(req.url,"http://localhost");
- const relative=(u.pathname==="/"?"index.html":decodeURIComponent(u.pathname.slice(1)));
- const full=path.resolve(ROOT,relative);
- if(!full.startsWith(ROOT+path.sep)){res.writeHead(403).end();return;}
- fs.readFile(full,(err,body)=>{if(err){res.writeHead(404).end();return;}res.writeHead(200,{"Content-Type":MIME[path.extname(full)]||"application/octet-stream"});res.end(body);});
+ const pathname=decodeURIComponent(new URL(req.url,"http://localhost").pathname);
+ let full=path.resolve(ROOT,pathname.slice(1)||"index.html");
+ if(!full.startsWith(ROOT+path.sep)){res.writeHead(403).end();return}
+ if(fs.existsSync(full)&&fs.statSync(full).isDirectory())full=path.join(full,"index.html");
+ fs.readFile(full,(error,body)=>{if(error){res.writeHead(404).end();return}res.writeHead(200,{"Content-Type":MIME[path.extname(full)]||"application/octet-stream"});res.end(body)});
 });
-const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
-const test=async(browser,base,width)=>{
+const sleep=n=>new Promise(r=>setTimeout(r,n));
+async function test(browser,base,width){
  const context=await browser.createBrowserContext();
- const page=await context.newPage();
- const errors=[];
+ const page=await context.newPage();const errors=[];
  page.on("pageerror",e=>errors.push(e.message));
- await page.setViewport({width,height:900,deviceScaleFactor:1});
- await page.goto(base+"?date=2026-10-09",{waitUntil:"domcontentloaded",timeout:20000});
- await page.waitForSelector(".activity-card");
- const layout=await page.evaluate(()=>({
-   overflow:document.documentElement.scrollWidth-innerWidth,
-   firstCardTop:Math.round(document.querySelector(".activity-card").getBoundingClientRect().top),
-   count:document.querySelectorAll(".activity-card").length,
-   sections:document.querySelectorAll(".discovery-section").length,
-   heading:document.querySelectorAll("h1").length
- }));
- assert.equal(layout.overflow,0,width+": horizontal overflow");
- assert.equal(layout.count,18,width+": should progressively show 18 ideas");
- assert.equal(layout.sections,2,width+": dated events and general places must be separate");
- assert.equal(layout.heading,1,width+": should have exactly one primary heading");
- assert.ok(layout.firstCardTop<2100,width+": cards inaccessible");
- assert.ok(await page.$eval("#upcomingList",el=>el.children.length>0),"upcoming events missing");
- const coming=await page.$$eval("#upcomingList .upcoming-entry",els=>els.map(e=>({date:e.querySelector(".upcoming-date")?.textContent,label:e.textContent})));
- assert.ok(coming.length>0&&coming.length<=5,"upcoming list should be concise");
- assert.ok(await page.evaluate(()=>!isActive({status:"sold_out"})),"fully booked must not be advertised as active");
- assert.ok(await page.$eval("#upcomingList",el=>el.textContent.includes("Oct")),"upcoming entries must show dates");
- assert.equal(await page.$eval(".brand",el=>el.textContent.includes("Things to do with under-fives")),true,"new brand strapline");
- assert.ok(await page.$eval(".journey-choices",el=>el.querySelectorAll("button").length===3),"three discovery journeys");
- assert.ok(await page.$eval("#areaInput",el=>el.options.length>=12),"area choices");
- assert.equal(await page.$eval(".brand-symbol img",el=>el.getAttribute("src")),"./assets/sunshine.svg","sunshine icon, unchanged wordmark");
- await page.evaluate(()=>document.querySelector("#upcomingList button[data-event]").click());
- assert.ok(await page.$eval("#detailBody",el=>el.textContent.includes("Oct")),"event detail did not preserve its date");
- await page.click("#detailClose");
+ await page.setViewport({width,height:width<=390?844:900,deviceScaleFactor:1});
+ await page.goto(base+"/",{waitUntil:"networkidle2"});
+ await page.waitForSelector(".result-card",{timeout:15000});
+ const ux=await page.evaluate(()=>{
+  const pos=s=>Math.round(document.querySelector(s).getBoundingClientRect().top);
+  return {overflow:document.documentElement.scrollWidth-window.innerWidth,firstResult:pos(".result-card"),locationButton:pos("#detectLocation"),locationPicker:!document.querySelector("#locationPicker").hidden,cardCount:document.querySelectorAll(".result-card").length,hero:document.querySelector("h1").textContent};
+ });
+ assert.equal(ux.overflow,0,width+" horizontal overflow");
+ assert.ok(ux.locationPicker,width+" first visit should offer location choice");
+ assert.ok(ux.locationButton<700,width+" location action hidden");
+ assert.ok(ux.firstResult<1000,width+" first result too far below fold: "+ux.firstResult);
+ assert.equal(ux.cardCount,6,"initial results should stay concise");
+ assert.ok((await page.$eval(".brand-name",el=>el.innerText)).includes("calliedays"),"must preserve original wordmark");
+ await page.screenshot({path:path.join("/tmp","calliedays-v3-"+width+".png")});
+ // User selecting an area should change recommendation center, persist it, and update homepage.
  await page.select("#areaInput","Beeston");
- assert.ok(await page.evaluate(()=>state.location&&state.area==="Beeston"),"location must update from selected area");
- assert.ok(await page.$eval(".card-kicker",el=>el.textContent.includes("km away")),"distance must be relative to selected area");
- await page.select("#areaInput","");
-
- await page.click("#loadMore");
- assert.equal(await page.$$eval(".activity-card",a=>a.length),36,"load more");
- await page.click('[data-quick="local"]');
- assert.ok(await page.$$eval(".card-kicker",els=>els.length>0&&els.every(el=>el.textContent.includes("Easy & local"))),"local filter");
- await page.click('[data-quick="local"]');
- const isMobile=width<=900;
- if(isMobile){
-   await page.click("#filterToggle");
-   assert.equal(await page.$eval("#filterPanel",el=>el.getAttribute("role")),"dialog","mobile filter dialog");
-   await page.click('input[name="distance"][value="nearby"]');
-   await page.click("#applyFilters");
-   const bands=await page.$$eval(".card-kicker",els=>els.map(e=>e.textContent));
-   assert.ok(bands.some(x=>x.includes("Easy & local")),"45-minute filter excludes local outings");
-   assert.ok(bands.every(x=>!x.includes("Special trip")),"45-minute filter includes special trips");
-   await page.click("#filterToggle");
-   await page.keyboard.press("Escape");
-   assert.equal(await page.$eval("#filterToggle",el=>el.getAttribute("aria-expanded")),"false","Escape closes filter panel");
-   // Desktop filter reset is permanently visible; mobile one is hidden after Escape.
-   await page.click('[data-quick="local"]');
-   await page.click('[data-quick="local"]');
- }
- await page.click(".activity-card h3 [data-open]");
- assert.equal(await page.$eval("#detailDialog",el=>el.open),true,"activity details modal");
- assert.ok(await page.$eval("#detailBody",el=>el.textContent.includes("Directions")),"activity directions missing");
- await page.click("#detailSave");
+ assert.deepEqual(await page.evaluate(()=>app.origin),[52.926,-1.215],"Beeston location not applied");
+ assert.equal(await page.$eval("#locationLabel",e=>e.textContent),"Beeston");
+ assert.ok(await page.$eval(".card-topline",el=>el.textContent.includes("km away")),"show approximate locality label");
+ await page.reload({waitUntil:"networkidle2"});
+ assert.equal(await page.$eval("#locationLabel",e=>e.textContent),"Beeston","saved area not restored");
+ // People journey, plan date, source-quality and action.
+ await page.evaluate(()=>document.querySelector('[data-journey="social"]').click());
+ assert.equal(await page.evaluate(()=>app.mode),"social");
+ assert.ok(await page.$eval(".result-grid",e=>e.querySelectorAll(".result-card").length>0),"social results empty");
+ assert.ok(await page.evaluate(()=>app.items.every(c=>c.p.kind==="session"||c.p.category.includes("group"))),"social results contain unrelated activities");
+ await page.evaluate(()=>document.querySelector('[data-journey="plan"]').click());
+ assert.equal(await page.evaluate(()=>app.mode),"plan");
+ assert.equal(await page.$eval("#dateField",e=>!e.hidden),true);
+ await page.$eval("#dateInput",el=>{el.value="2026-10-23";el.dispatchEvent(new Event("change",{bubbles:true}))});
+ assert.equal(await page.evaluate(()=>app.date),"2026-10-23","planning date not reflected");
+ await page.evaluate(()=>document.querySelector(".result-card h3 button").click());
+ assert.equal(await page.$eval("#detailDialog",el=>el.open),true);
+ assert.ok((await page.$eval("#detailBody",el=>el.innerText)).includes("WHEN"),"details missing date/when");
  await page.click("#detailClose");
- const nav=isMobile?".mobile-tabs":".top-tabs";
- await page.click(nav+' [data-view="saved"]');
- assert.ok(await page.$$eval("#savedCards .activity-card",a=>a.length)>0,"save favourites");
- await page.reload({waitUntil:"domcontentloaded"});
- await page.waitForSelector(".activity-card");
- await page.click(nav+' [data-view="saved"]');
- await page.waitForSelector("#savedCards .activity-card");
- await page.click(nav+' [data-view="calendar"]');
- // Inject one cancelled weekly occurrence and one rescheduled time without mutating stored data.
- await page.evaluate(()=>{
-   const e=state.events?.find?.(x=>x.id==="event-wb-rhyme-10");
-   if(e)e.exceptions={"2026-10-09":{status:"cancelled"},"2026-10-16":{time:"11:45",end:"12:15"}};
+ // Recurrence needs human summary, not a 12-date list.
+ const schedule=await page.evaluate(()=>{
+  const p=app.places.find(p=>p.id==="place-1");detail({p,kind:"place"});
+  const text=document.querySelector("#detailBody").innerText;
+  return {text,dateRows:document.querySelectorAll("#detailBody .detail-schedule p").length};
  });
-
- assert.ok((await page.$$eval(".calendar-cell",a=>a.length))>=28,"calendar days not rendered");
- assert.ok((await page.$$eval("#calendarAlternatives .activity-card",a=>a.length))>0,"calendar must include anytime place options");
- assert.equal(await page.$eval("#calendarAlternatives",el=>el.textContent.includes("West Bridgford")||el.querySelectorAll(".activity-card").length>0),true,"calendar alternatives must render");
-
-
- const calendarChange=await page.evaluate(()=>({cancelled:occurrenceFor(state.events.find(e=>e.id==="event-wb-rhyme-10"),"2026-10-09").status,available:eventsFor("place-1","2026-10-09").some(e=>e.id==="event-wb-rhyme-10"),moved:occurrenceFor(state.events.find(e=>e.id==="event-wb-rhyme-10"),"2026-10-16").time}));
- assert.equal(calendarChange.cancelled,"cancelled","per-date cancellation not captured");
- assert.equal(calendarChange.available,false,"cancelled event still recommended");
- assert.equal(calendarChange.moved,"11:45","per-date time override not applied");
-
- await page.click('[data-calendar-date="2026-10-10"]');
- assert.equal(await page.$eval("#dateInput",el=>el.value),"2026-10-10","calendar date and date field out of sync");
- await page.click(nav+' [data-view="map"]');
- await sleep(500);
- assert.equal(await page.evaluate(()=>typeof window.L.markerClusterGroup),"function","clustered map library missing");
- assert.ok((await page.$$eval("#map .map-pin",a=>a.length))>0,"no map pins");
- assert.ok(await page.$eval("#mapTotal",el=>el.textContent.includes("areas")),"map list not available");
- await page.click(nav+' [data-view="discover"]');
- await page.click('[data-journey="social"]');
- assert.ok(await page.evaluate(()=>state.journey==="social"),"social journey selection not applied");
- assert.ok(await page.$$eval(".activity-card",els=>els.length>0),"social journey empty");
- await page.click('[data-journey="plan"]');
- assert.equal(await page.evaluate(()=>state.view),"calendar","plan ahead should show calendar");
- await page.click(nav+' [data-view="map"]');
+ assert.ok(schedule.text.includes("Every Friday"),"regular weekly schedule not summarized");
+ assert.ok(schedule.dateRows<=7,"recurrence detail overloaded with dates");
+ await page.click("#detailClose");
+ // Favourite persists with unchanged site shell.
+ await page.evaluate(()=>document.querySelector(".save-button").click());
+ await page.click("#savedNav");
+ assert.equal(await page.$eval("#savedDialog",el=>el.open),true,"saved shortlist missing");
+ await page.click("#savedClose");
+ // Shared area page must be same functional app, NOT disconnected static list.
+ await page.goto(base+"/areas/hucknall/",{waitUntil:"networkidle2"});
+ await page.waitForSelector(".result-card",{timeout:12000});
+ assert.equal(await page.$eval("#locationLabel",el=>el.textContent),"Hucknall");
+ assert.equal(await page.$eval("#heroTitle",el=>el.textContent),"Things to do near Hucknall");
+ assert.ok(await page.$(".choices .choice"),"area page lost primary journeys");
+ assert.ok(await page.$("#searchInput"),"area page lost search");
+ assert.equal(await page.evaluate(()=>app.origin?.[0]),53.038);
+ // WCAG automated scan, in addition to task testing.
  await page.addScriptTag({path:require.resolve("axe-core/axe.min.js")});
- const violations=await page.evaluate(async()=>{
-  const data=await axe.run({runOnly:{type:"tag",values:["wcag2a","wcag2aa","wcag21a","wcag21aa"]}});
-  return data.violations.map(v=>v.id+":"+v.nodes.length);
- });
- assert.deepEqual(violations,[],"WCAG violations: "+violations.join(", "));
- assert.deepEqual(errors,[],"Browser errors: "+errors.join(", "));
- console.log("PASS",width+"px",JSON.stringify({firstResultAt:layout.firstCardTop,eventsAndPlacesGrouped:true,map:true,calendar:true,saved:true,accessibility:"pass"}));
+ const violations=await page.evaluate(async()=>{const x=await axe.run({runOnly:{type:"tag",values:["wcag2a","wcag2aa","wcag21a","wcag21aa"]}});return x.violations.map(v=>({id:v.id,impact:v.impact,nodes:v.nodes.length,targets:v.nodes.map(n=>({target:n.target,summary:n.failureSummary?.slice(0,180)}))}))});
+ assert.deepEqual(violations,[],width+" accessibility violations: "+JSON.stringify(violations));
+ assert.deepEqual(errors,[],width+" browser exceptions: "+errors);
+ console.log("PASS "+width+"px",JSON.stringify({ux,journies:"pass",area:"pass",schedule:"pass",accessibility:"pass"}));
  await context.close();
-};
+}
+async function testPermissions(browser,base){
+ const granted=await browser.createBrowserContext();
+ await granted.overridePermissions(base,["geolocation"]);
+ const p=await granted.newPage();
+ await p.setGeolocation({latitude:53.038,longitude:-1.202});
+ await p.goto(base+"/",{waitUntil:"networkidle2"});await p.waitForSelector(".result-card");
+ await p.waitForFunction(()=>app.origin!==null);
+ assert.deepEqual(await p.evaluate(()=>app.origin),[53.038,-1.202],"existing geolocation permission should auto-apply");
+ assert.equal(await p.$eval("#locationPicker",el=>el.hidden),true,"granted permission should skip onboarding");
+ await granted.close();
+ const denied=await browser.createBrowserContext();
+ await denied.overridePermissions(base,[]);
+ const p2=await denied.newPage();await p2.goto(base+"/",{waitUntil:"networkidle2"});await p2.waitForSelector(".result-card");
+ await p2.click("#detectLocation");
+ await p2.waitForFunction(()=>document.querySelector("#locationStatus").textContent.includes("blocked"),{timeout:12000});
+ assert.ok((await p2.$eval("#locationStatus",el=>el.innerText)).includes("blocked"),"permission error needs actionable explanation");
+ assert.equal(await p2.$eval("#locationPicker",el=>el.hidden),false,"denied permissions must keep location controls visible");
+ await denied.close();
+ console.log("PASS location permissions: grant/deny and manual fallback");
+}
 (async()=>{
  await new Promise(resolve=>server.listen(0,"127.0.0.1",resolve));
- const port=server.address().port;
- let browser;
- try{
-   browser=await puppeteer.launch({headless:true,executablePath:process.env.CHROME_PATH||undefined,args:["--no-sandbox","--disable-setuid-sandbox"]});
-   for(const w of [320,390,768,1440])await test(browser,"http://127.0.0.1:"+port+"/",w);
- }catch(e){console.error(e);process.exitCode=1;}
- finally{if(browser)await browser.close();server.close();}
-})();
+ const base="http://127.0.0.1:"+server.address().port;
+ const browser=await puppeteer.launch({headless:true,executablePath:process.env.CHROME_PATH||undefined,args:["--no-sandbox"]});
+ try{for(const size of [320,390,768,1440])await test(browser,base,size);await testPermissions(browser,base)}finally{await browser.close();server.close()}
+})().catch(error=>{console.error(error.stack||error);server.close();process.exitCode=1});

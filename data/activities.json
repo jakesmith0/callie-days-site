@@ -16,9 +16,9 @@
       "tier": "local",
       "locationGroup": "West Bridgford",
       "mapPoint": {
-        "lat": 52.93,
-        "lng": -1.129,
-        "precision": "area"
+        "lat": 52.933414,
+        "lng": -1.127791,
+        "precision": "venue"
       },
       "source": "https://www.inspireculture.org.uk/reading-information/find-a-library/west-bridgford-library/events/",
       "price": "free",
@@ -27,7 +27,10 @@
       "avoidFriday20261009": false,
       "lastChecked": "2026-10-12",
       "weekday": 5,
-      "summary": "Books, Tuesday and Friday toddler rhymes, a free interactive exhibition and school-holiday crafts."
+      "summary": "Books, Tuesday and Friday toddler rhymes, a free interactive exhibition and school-holiday crafts.",
+      "geocodeSource": "OpenStreetMap / Nominatim",
+      "geocodeChecked": "2026-10-14",
+      "geocodeLabel": "West Bridgford Library, Bridgford Road, Abbey Park, West Bridgford, City of Nottingham, Nottinghamshire, East Midlands, England, NG2 6AT, United Kingdom"
     },
     {
       "id": "place-2",
@@ -355,9 +358,9 @@
       "tier": "local",
       "locationGroup": "Holme Pierrepont",
       "mapPoint": {
-        "lat": 52.947,
-        "lng": -1.07,
-        "precision": "area"
+        "lat": 52.946289,
+        "lng": -1.078321,
+        "precision": "venue"
       },
       "source": null,
       "price": "unknown",
@@ -365,7 +368,10 @@
       "archived": false,
       "avoidFriday20261009": false,
       "lastChecked": "2026-10-08",
-      "summary": "Nature trails, birds and wetland wildlife. Bring wellies after rain."
+      "summary": "Nature trails, birds and wetland wildlife. Bring wellies after rain.",
+      "geocodeSource": "OpenStreetMap / Nominatim",
+      "geocodeChecked": "2026-10-14",
+      "geocodeLabel": "Skylarks Nature Reserve, Holme Pierrepont, West Bridgford, Rushcliffe, Nottinghamshire, East Midlands, England, United Kingdom"
     },
     {
       "id": "place-16",
@@ -501,9 +507,9 @@
       "tier": "local",
       "locationGroup": "Ruddington",
       "mapPoint": {
-        "lat": 52.892,
-        "lng": -1.15,
-        "precision": "area"
+        "lat": 52.884702,
+        "lng": -1.151917,
+        "precision": "venue"
       },
       "source": "https://www.rushcliffe.gov.uk/leisure-and-culture/rushcliffe-country-park/visiting-the-park/",
       "price": "free",
@@ -511,7 +517,11 @@
       "archived": false,
       "avoidFriday20261009": false,
       "lastChecked": "2026-10-08",
-      "summary": "Big adventure playground, country park paths and a lake. A strong nearby option for active little legs."
+      "summary": "Big adventure playground, country park paths and a lake. A strong nearby option for active little legs.",
+      "geocodeSource": "OpenStreetMap / Nominatim",
+      "geocodeChecked": "2026-10-14",
+      "geocodeLabel": "Rushcliffe Country Park (OpenStreetMap park geometry)",
+      "editorialPriority": 5
     },
     {
       "id": "place-22",
@@ -525,9 +535,9 @@
       "tier": "local",
       "locationGroup": "Ruddington",
       "mapPoint": {
-        "lat": 52.892,
-        "lng": -1.15,
-        "precision": "area"
+        "lat": 52.891121,
+        "lng": -1.151772,
+        "precision": "venue"
       },
       "source": "https://frameworkknittersmuseum.org.uk/",
       "price": "unknown",
@@ -535,7 +545,10 @@
       "archived": false,
       "avoidFriday20261009": false,
       "lastChecked": "2026-10-08",
-      "summary": "Explore the history of frame knitting in Ruddington, with machinery, heritage displays and occasional demonstrations."
+      "summary": "Explore the history of frame knitting in Ruddington, with machinery, heritage displays and occasional demonstrations.",
+      "geocodeSource": "OpenStreetMap / Nominatim",
+      "geocodeChecked": "2026-10-14",
+      "geocodeLabel": "Ruddington Framework Knitters Museum, Chapel Street, Ruddington, City of Nottingham, Nottinghamshire, East Midlands, England, NG11 6HE, United Kingdom"
     },
     {
       "id": "place-23",
@@ -549,9 +562,9 @@
       "tier": "local",
       "locationGroup": "Ruddington",
       "mapPoint": {
-        "lat": 52.892,
-        "lng": -1.15,
-        "precision": "area"
+        "lat": 52.885137,
+        "lng": -1.147778,
+        "precision": "venue"
       },
       "source": "https://gcrn.co.uk/",
       "price": "unknown",
@@ -564,7 +577,10 @@
         0,
         6
       ],
-      "summary": "Historic trains, rolling stock and transport exhibits at Ruddington. Check operating days before travelling."
+      "summary": "Historic trains, rolling stock and transport exhibits at Ruddington. Check operating days before travelling.",
+      "geocodeSource": "OpenStreetMap / Nominatim",
+      "geocodeChecked": "2026-10-14",
+      "geocodeLabel": "Nottingham Transport Heritage Centre, Mere Way, Ruddington Fields Business Park, Ruddington, City of Nottingham, Nottinghamshire, East Midlands, England, NG11 6NX, United Kingdom"
     },
     {
       "id": "place-24",
@@ -641,7 +657,14 @@
       "lastChecked": "2026-10-08",
       "summary": "Wetland trails, ducks and birds with a nature centre. Look out for special under-fives sessions.",
       "accessNoticeSource": "https://www.nottinghamshirewildlife.org/attenborough",
-      "accessNoticeChecked": "2026-10-11"
+      "accessNoticeChecked": "2026-10-11",
+      "editorialPriority": 5,
+      "photo": "/assets/photos/place-26.jpg",
+      "photoCredit": {
+        "author": "Arran Bee from Nottingham, UK",
+        "license": "CC BY 2.0",
+        "source": "https://commons.wikimedia.org/wiki/File:Attenborough_Nature_Reserve,_Nottingham1.jpg"
+      }
     },
     {
       "id": "place-27",
@@ -681,9 +704,9 @@
       "tier": "nearby",
       "locationGroup": "Highfields",
       "mapPoint": {
-        "lat": 52.939,
-        "lng": -1.185,
-        "precision": "area"
+        "lat": 52.936076,
+        "lng": -1.193538,
+        "precision": "venue"
       },
       "source": null,
       "price": "unknown",
@@ -691,7 +714,10 @@
       "archived": false,
       "avoidFriday20261009": false,
       "lastChecked": "2026-10-08",
-      "summary": "A lakeside park with paths, a playground and seasonal boating in the university area."
+      "summary": "A lakeside park with paths, a playground and seasonal boating in the university area.",
+      "geocodeSource": "OpenStreetMap / Nominatim",
+      "geocodeChecked": "2026-10-14",
+      "geocodeLabel": "Highfields Park, Wollaton Park, Wollaton, City of Nottingham, East Midlands, England, NG7 2TW, United Kingdom"
     },
     {
       "id": "place-29",
@@ -729,9 +755,9 @@
       "tier": "nearby",
       "locationGroup": "Beeston",
       "mapPoint": {
-        "lat": 52.922,
-        "lng": -1.215,
-        "precision": "area"
+        "lat": 52.923174,
+        "lng": -1.219898,
+        "precision": "venue"
       },
       "source": "https://www.littlefoxesplaytown.co.uk/book-now/",
       "price": "unknown",
@@ -739,7 +765,11 @@
       "archived": false,
       "avoidFriday20261009": false,
       "lastChecked": "2026-10-08",
-      "summary": "A small-world role-play centre in Beeston, with timed play sessions. Booking and age guidance should be checked."
+      "summary": "A small-world role-play centre in Beeston, with timed play sessions. Booking and age guidance should be checked.",
+      "geocodeSource": "OpenStreetMap / Nominatim",
+      "geocodeChecked": "2026-10-14",
+      "geocodeLabel": "Little Foxes Play Town, 100, Chilwell Road, Beeston, City of Nottingham, Nottinghamshire, East Midlands, England, NG9 1ES, United Kingdom",
+      "editorialPriority": 5
     },
     {
       "id": "place-31",
@@ -753,9 +783,9 @@
       "tier": "nearby",
       "locationGroup": "Beeston",
       "mapPoint": {
-        "lat": 52.922,
-        "lng": -1.215,
-        "precision": "area"
+        "lat": 52.926889,
+        "lng": -1.203428,
+        "precision": "venue"
       },
       "source": null,
       "price": "unknown",
@@ -763,7 +793,11 @@
       "archived": false,
       "avoidFriday20261009": false,
       "lastChecked": "2026-10-08",
-      "summary": "Indoor soft play in Beeston, handy when the weather is poor. Check toddler areas, entry and session availability."
+      "summary": "Indoor soft play in Beeston, handy when the weather is poor. Check toddler areas, entry and session availability.",
+      "geocodeSource": "OpenStreetMap / Nominatim",
+      "geocodeChecked": "2026-10-14",
+      "geocodeLabel": "Hocus Pocus Soft Play, 131, Queens Road East, Beeston, City of Nottingham, Nottinghamshire, East Midlands, England, NG9 2FE, United Kingdom",
+      "editorialPriority": 4
     },
     {
       "id": "place-32",
@@ -825,9 +859,9 @@
       "tier": "nearby",
       "locationGroup": "Nottingham city",
       "mapPoint": {
-        "lat": 52.953,
-        "lng": -1.148,
-        "precision": "area"
+        "lat": 52.957896,
+        "lng": -1.133927,
+        "precision": "venue"
       },
       "source": "https://stonebridgecityfarm.com/",
       "price": "free",
@@ -835,7 +869,17 @@
       "archived": false,
       "avoidFriday20261009": false,
       "lastChecked": "2026-10-08",
-      "summary": "Free-to-visit city farm with animals, a playground and opportunities to get up close to farm life."
+      "summary": "Free-to-visit city farm with animals, a playground and opportunities to get up close to farm life.",
+      "geocodeSource": "OpenStreetMap / Nominatim",
+      "geocodeChecked": "2026-10-14",
+      "geocodeLabel": "Stonebridge City Farm (OpenStreetMap attraction area)",
+      "editorialPriority": 5,
+      "photo": "/assets/photos/place-34.jpg",
+      "photoCredit": {
+        "author": "Stephen McKay",
+        "license": "CC BY-SA 2.0",
+        "source": "https://commons.wikimedia.org/wiki/File:Stonebridge_City_Farm_-_geograph.org.uk_-_7315584.jpg"
+      }
     },
     {
       "id": "place-35",
@@ -849,9 +893,9 @@
       "tier": "nearby",
       "locationGroup": "Nottingham city",
       "mapPoint": {
-        "lat": 52.953,
-        "lng": -1.148,
-        "precision": "area"
+        "lat": 52.952098,
+        "lng": -1.129386,
+        "precision": "venue"
       },
       "source": "https://www.greensmill.org.uk/visit-the-mill/",
       "price": "free",
@@ -859,7 +903,10 @@
       "archived": false,
       "avoidFriday20261009": false,
       "lastChecked": "2026-10-08",
-      "summary": "Hands-on science centre and gardens. The windmill tower itself is closed for repairs."
+      "summary": "Hands-on science centre and gardens. The windmill tower itself is closed for repairs.",
+      "geocodeSource": "OpenStreetMap / Nominatim",
+      "geocodeChecked": "2026-10-14",
+      "geocodeLabel": "Green's Windmill (OpenStreetMap building)"
     },
     {
       "id": "place-36",
@@ -898,9 +945,9 @@
       "tier": "nearby",
       "locationGroup": "Wollaton",
       "mapPoint": {
-        "lat": 52.949,
-        "lng": -1.213,
-        "precision": "area"
+        "lat": 52.94796,
+        "lng": -1.209771,
+        "precision": "venue"
       },
       "source": "https://wollatonhall.org.uk/",
       "price": "unknown",
@@ -908,7 +955,17 @@
       "archived": false,
       "avoidFriday20261009": false,
       "lastChecked": "2026-10-08",
-      "summary": "Deer-spotting, parkland and a natural history museum — with different opening arrangements for grounds and hall."
+      "summary": "Deer-spotting, parkland and a natural history museum — with different opening arrangements for grounds and hall.",
+      "geocodeSource": "OpenStreetMap / Nominatim",
+      "geocodeChecked": "2026-10-14",
+      "geocodeLabel": "Wollaton Hall, Elizabethan Avenue, Lenton Abbey, Wollaton, City of Nottingham, East Midlands, England, NG8 2AE, United Kingdom",
+      "editorialPriority": 5,
+      "photo": "/assets/photos/place-37.jpg",
+      "photoCredit": {
+        "author": "Photograph by Mike Peel ( www.mikepeel.net ).",
+        "license": "CC BY-SA 4.0",
+        "source": "https://commons.wikimedia.org/wiki/File:At_Wollaton_Hall_2023_014.jpg"
+      }
     },
     {
       "id": "place-38",
@@ -1042,9 +1099,9 @@
       "tier": "nearby",
       "locationGroup": "Lambley",
       "mapPoint": {
-        "lat": 53,
-        "lng": -1.062,
-        "precision": "area"
+        "lat": 53.005023,
+        "lng": -1.080738,
+        "precision": "venue"
       },
       "source": null,
       "price": "unknown",
@@ -1052,7 +1109,11 @@
       "archived": false,
       "avoidFriday20261009": false,
       "lastChecked": "2026-10-08",
-      "summary": "A smaller farm-park experience close to Nottingham, with animals and outdoor space."
+      "summary": "A smaller farm-park experience close to Nottingham, with animals and outdoor space.",
+      "geocodeSource": "OpenStreetMap / Nominatim",
+      "geocodeChecked": "2026-10-14",
+      "geocodeLabel": "Floralands Farm Park, Catfoot Lane, Lambley, Arnold, City of Nottingham, Nottinghamshire, East Midlands, England, NG4 4QL, United Kingdom",
+      "editorialPriority": 4
     },
     {
       "id": "place-44",
@@ -1076,7 +1137,8 @@
       "archived": false,
       "avoidFriday20261009": false,
       "lastChecked": "2026-10-08",
-      "summary": "Animals, woodland and active play, with indoor options too."
+      "summary": "Animals, woodland and active play, with indoor options too.",
+      "editorialPriority": 5
     },
     {
       "id": "place-45",
@@ -1138,9 +1200,9 @@
       "tier": "nearby",
       "locationGroup": "Farnsfield",
       "mapPoint": {
-        "lat": 53.105,
-        "lng": -1.033,
-        "precision": "area"
+        "lat": 53.109072,
+        "lng": -1.061078,
+        "precision": "venue"
       },
       "source": "https://whitepostfarmandzoo.co.uk/",
       "price": "free",
@@ -1148,7 +1210,11 @@
       "archived": false,
       "avoidFriday20261009": false,
       "lastChecked": "2026-10-08",
-      "summary": "Farm animals, indoor play and animal encounters. Under-twos normally get free general admission."
+      "summary": "Farm animals, indoor play and animal encounters. Under-twos normally get free general admission.",
+      "geocodeSource": "OpenStreetMap / Nominatim",
+      "geocodeChecked": "2026-10-14",
+      "geocodeLabel": "White Post Farm, White Post Roundabout, Farnsfield, Newark and Sherwood, Nottinghamshire, East Midlands, England, NG22 8HL, United Kingdom",
+      "editorialPriority": 5
     },
     {
       "id": "place-48",
@@ -1189,9 +1255,9 @@
       "tier": "nearby",
       "locationGroup": "Farnsfield",
       "mapPoint": {
-        "lat": 53.105,
-        "lng": -1.033,
-        "precision": "area"
+        "lat": 53.109566,
+        "lng": -1.066288,
+        "precision": "venue"
       },
       "source": "https://www.wheelgatepark.com/",
       "price": "unknown",
@@ -1199,7 +1265,11 @@
       "archived": false,
       "avoidFriday20261009": false,
       "lastChecked": "2026-10-08",
-      "summary": "A family adventure park with rides and play; check ride height and age restrictions."
+      "summary": "A family adventure park with rides and play; check ride height and age restrictions.",
+      "geocodeSource": "OpenStreetMap / Nominatim",
+      "geocodeChecked": "2026-10-14",
+      "geocodeLabel": "Wheelgate Park (OpenStreetMap theme park)",
+      "editorialPriority": 5
     },
     {
       "id": "place-50",
@@ -1223,7 +1293,14 @@
       "archived": false,
       "avoidFriday20261009": false,
       "lastChecked": "2026-10-08",
-      "summary": "An easy country-park day with woodland, a lake, abbey ruins and playgrounds. Parking charges may apply."
+      "summary": "An easy country-park day with woodland, a lake, abbey ruins and playgrounds. Parking charges may apply.",
+      "editorialPriority": 5,
+      "photo": "/assets/photos/place-50.jpg",
+      "photoCredit": {
+        "author": "Lesbardd",
+        "license": "CC BY-SA 4.0",
+        "source": "https://commons.wikimedia.org/wiki/File:RuffordAbbey01LB.jpg"
+      }
     },
     {
       "id": "place-51",
@@ -1237,9 +1314,9 @@
       "tier": "nearby",
       "locationGroup": "Newstead",
       "mapPoint": {
-        "lat": 53.075,
-        "lng": -1.182,
-        "precision": "area"
+        "lat": 53.078407,
+        "lng": -1.192436,
+        "precision": "venue"
       },
       "source": "https://newsteadabbey.org.uk/visit",
       "price": "priced",
@@ -1247,7 +1324,17 @@
       "archived": false,
       "avoidFriday20261009": false,
       "lastChecked": "2026-10-08",
-      "summary": "Historic abbey grounds, gardens and walks. The house has more limited opening than the outdoor estate."
+      "summary": "Historic abbey grounds, gardens and walks. The house has more limited opening than the outdoor estate.",
+      "geocodeSource": "OpenStreetMap / Nominatim",
+      "geocodeChecked": "2026-10-14",
+      "geocodeLabel": "Newstead Abbey, The Circle, Ravenshead CP, City of Nottingham, Nottinghamshire, East Midlands, England, NG15 8NA, United Kingdom",
+      "editorialPriority": 4,
+      "photo": "/assets/photos/place-51.jpg",
+      "photoCredit": {
+        "author": "brianfagan from Nottingham, United Kingdom",
+        "license": "CC BY 2.0",
+        "source": "https://commons.wikimedia.org/wiki/File:Newstead_Abbey_(4974019812).jpg"
+      }
     },
     {
       "id": "place-52",
@@ -1261,9 +1348,9 @@
       "tier": "special",
       "locationGroup": "Worksop",
       "mapPoint": {
-        "lat": 53.286,
-        "lng": -1.12,
-        "precision": "area"
+        "lat": 53.267873,
+        "lng": -1.059039,
+        "precision": "venue"
       },
       "source": "https://www.nationaltrust.org.uk/visit/nottinghamshire-lincolnshire/clumber-park",
       "price": "unknown",
@@ -1271,7 +1358,11 @@
       "archived": false,
       "avoidFriday20261009": false,
       "lastChecked": "2026-10-08",
-      "summary": "Big open spaces, woodland paths and places to play on a National Trust estate near Worksop."
+      "summary": "Big open spaces, woodland paths and places to play on a National Trust estate near Worksop.",
+      "geocodeSource": "OpenStreetMap / Nominatim",
+      "geocodeChecked": "2026-10-14",
+      "geocodeLabel": "Clumber Park, Worksop, Bassetlaw, Nottinghamshire, East Midlands, England, United Kingdom",
+      "editorialPriority": 4
     },
     {
       "id": "place-53",
@@ -1309,9 +1400,9 @@
       "tier": "special",
       "locationGroup": "Retford",
       "mapPoint": {
-        "lat": 53.32,
-        "lng": -0.81,
-        "precision": "area"
+        "lat": 53.304049,
+        "lng": -0.810474,
+        "precision": "venue"
       },
       "source": "https://sundownadventureland.co.uk/",
       "price": "unknown",
@@ -1319,7 +1410,11 @@
       "archived": false,
       "avoidFriday20261009": false,
       "lastChecked": "2026-10-08",
-      "summary": "A theme park designed with younger children in mind, with rides, play and colourful attractions."
+      "summary": "A theme park designed with younger children in mind, with rides, play and colourful attractions.",
+      "geocodeSource": "OpenStreetMap / Nominatim",
+      "geocodeChecked": "2026-10-14",
+      "geocodeLabel": "Sundown Adventureland, Treswell Road, Rampton, Rampton and Woodbeck, Rampton, Bassetlaw, Nottinghamshire, East Midlands, England, DN22 0HX, United Kingdom",
+      "editorialPriority": 5
     },
     {
       "id": "place-55",
@@ -1333,9 +1428,9 @@
       "tier": "special",
       "locationGroup": "Atherstone",
       "mapPoint": {
-        "lat": 52.69,
-        "lng": -1.55,
-        "precision": "area"
+        "lat": 52.652459,
+        "lng": -1.528336,
+        "precision": "venue"
       },
       "source": "https://twycrosszoo.org/",
       "price": "unknown",
@@ -1343,7 +1438,11 @@
       "archived": false,
       "avoidFriday20261009": false,
       "lastChecked": "2026-10-08",
-      "summary": "Zoo animals, Gruffalo Discovery Land and seasonal themed extras."
+      "summary": "Zoo animals, Gruffalo Discovery Land and seasonal themed extras.",
+      "geocodeSource": "OpenStreetMap / Nominatim",
+      "geocodeChecked": "2026-10-14",
+      "geocodeLabel": "Twycross Zoo, Burton Road, Twycross, Norton Juxta Twycross, Hinckley and Bosworth, Warwickshire, England, CV9 3PX, United Kingdom",
+      "editorialPriority": 5
     },
     {
       "id": "place-56",
@@ -1368,7 +1467,8 @@
       "archived": false,
       "avoidFriday20261009": false,
       "lastChecked": "2026-10-08",
-      "summary": "Indoor discovery areas, play experiences and outdoor trails at the former coalfield attraction in Moira."
+      "summary": "Indoor discovery areas, play experiences and outdoor trails at the former coalfield attraction in Moira.",
+      "editorialPriority": 4
     },
     {
       "id": "place-57",
@@ -1406,9 +1506,9 @@
       "tier": "nearby",
       "locationGroup": "Loughborough",
       "mapPoint": {
-        "lat": 52.774,
-        "lng": -1.204,
-        "precision": "area"
+        "lat": 52.768631,
+        "lng": -1.195858,
+        "precision": "venue"
       },
       "source": "https://www.gcrailway.co.uk/visit/timetables-fares/",
       "price": "unknown",
@@ -1416,7 +1516,11 @@
       "archived": false,
       "avoidFriday20261009": true,
       "lastChecked": "2026-10-08",
-      "summary": "Heritage steam trains from Loughborough when services are running — check the railway's operating calendar."
+      "summary": "Heritage steam trains from Loughborough when services are running — check the railway's operating calendar.",
+      "geocodeSource": "OpenStreetMap / Nominatim",
+      "geocodeChecked": "2026-10-14",
+      "geocodeLabel": "Great Central Railway (OpenStreetMap attraction)",
+      "editorialPriority": 5
     },
     {
       "id": "place-59",
@@ -1445,7 +1549,8 @@
         0,
         6
       ],
-      "summary": "Vintage aircraft and runway views by East Midlands Airport. Opening is limited; check the published days."
+      "summary": "Vintage aircraft and runway views by East Midlands Airport. Opening is limited; check the published days.",
+      "editorialPriority": 3
     },
     {
       "id": "place-60",
@@ -1565,7 +1670,8 @@
       "archived": false,
       "avoidFriday20261009": false,
       "lastChecked": "2026-10-08",
-      "summary": "A bus ride into Nottingham can be the adventure itself, with lots to watch through the windows."
+      "summary": "A bus ride into Nottingham can be the adventure itself, with lots to watch through the windows.",
+      "editorialPriority": 4
     },
     {
       "id": "place-65",
@@ -1589,7 +1695,8 @@
       "archived": false,
       "avoidFriday20261009": false,
       "lastChecked": "2026-10-08",
-      "summary": "Ride the Nottingham tram just for the fun of the journey, with an easy stop somewhere new."
+      "summary": "Ride the Nottingham tram just for the fun of the journey, with an easy stop somewhere new.",
+      "editorialPriority": 4
     },
     {
       "id": "place-66",
@@ -1613,7 +1720,8 @@
       "archived": false,
       "avoidFriday20261009": false,
       "lastChecked": "2026-10-08",
-      "summary": "Take a local train to somewhere like Beeston, Newark, Leicester or Derby — the train can be the highlight."
+      "summary": "Take a local train to somewhere like Beeston, Newark, Leicester or Derby — the train can be the highlight.",
+      "editorialPriority": 4
     },
     {
       "id": "place-67",
@@ -1637,7 +1745,8 @@
       "archived": false,
       "avoidFriday20261009": false,
       "lastChecked": "2026-10-08",
-      "summary": "Watch passing trains from safe public spots around Nottingham station without needing a paid attraction."
+      "summary": "Watch passing trains from safe public spots around Nottingham station without needing a paid attraction.",
+      "editorialPriority": 4
     },
     {
       "id": "place-68",
@@ -1686,7 +1795,8 @@
       "avoidFriday20261009": false,
       "lastChecked": "2026-10-08",
       "weekday": 5,
-      "summary": "Free Friday songs, rhymes and puppets at Meadows Library, with a drop-in session."
+      "summary": "Free Friday songs, rhymes and puppets at Meadows Library, with a drop-in session.",
+      "editorialPriority": 4
     },
     {
       "id": "place-70",
@@ -1762,7 +1872,8 @@
       "lastChecked": "2026-10-08",
       "minimumAgeMonths": 24,
       "weekday": 5,
-      "summary": "A booked arts and messy-play workshop. Advertised for ages two to five; check the age policy."
+      "summary": "A booked arts and messy-play workshop. Advertised for ages two to five; check the age policy.",
+      "editorialPriority": 4
     },
     {
       "id": "place-73",
@@ -1800,9 +1911,9 @@
       "tier": "special",
       "locationGroup": "Crich",
       "mapPoint": {
-        "lat": 53.086,
-        "lng": -1.483,
-        "precision": "area"
+        "lat": 53.094609,
+        "lng": -1.491583,
+        "precision": "venue"
       },
       "source": "https://tramway.co.uk/",
       "price": "unknown",
@@ -1810,7 +1921,10 @@
       "archived": false,
       "avoidFriday20261009": true,
       "lastChecked": "2026-10-08",
-      "summary": "Heritage tram rides and historical street scenes at Crich. Check seasonal running days before travelling."
+      "summary": "Heritage tram rides and historical street scenes at Crich. Check seasonal running days before travelling.",
+      "geocodeSource": "OpenStreetMap / Nominatim",
+      "geocodeChecked": "2026-10-14",
+      "geocodeLabel": "National Tramway Museum (OpenStreetMap museum)"
     },
     {
       "id": "place-75",
@@ -1933,7 +2047,8 @@
       "caution": "Special events only; not a daily public attraction.",
       "archived": false,
       "lastChecked": "2026-10-12",
-      "summary": "Venue for Broxtowe's free family fun day, with under-fives activities and shows."
+      "summary": "Venue for Broxtowe's free family fun day, with under-fives activities and shows.",
+      "editorialPriority": 3
     },
     {
       "id": "place-80",
@@ -1948,16 +2063,305 @@
       "tier": "nearby",
       "locationGroup": "Beeston",
       "mapPoint": {
-        "lat": 52.928,
-        "lng": -1.216,
-        "precision": "area"
+        "lat": 52.927544,
+        "lng": -1.217899,
+        "precision": "venue"
       },
       "source": "https://www.inspireculture.org.uk/reading-information/find-a-library/beeston-library/events/",
       "price": "free",
       "caution": "Check individual age limits and booking conditions.",
       "archived": false,
       "lastChecked": "2026-10-12",
-      "summary": "Free stories, crafts and seasonal family library activities."
+      "summary": "Free stories, crafts and seasonal family library activities.",
+      "geocodeSource": "OpenStreetMap / Nominatim",
+      "geocodeChecked": "2026-10-14",
+      "geocodeLabel": "Beeston Library, 8, Foster Avenue, Beeston, City of Nottingham, Nottinghamshire, East Midlands, England, NG9 1AE, United Kingdom",
+      "editorialPriority": 4
+    },
+    {
+      "id": "place-81",
+      "title": "Gedling Country Park",
+      "description": "A large former colliery country park with views, wildlife, picnic spaces and an adventure playground including a mining-tower slide.",
+      "summary": "Former colliery turned country park, with a mining-tower playground, wildlife trail and café.",
+      "category": [
+        "nature",
+        "play"
+      ],
+      "kind": "place",
+      "area": "Gedling",
+      "tier": "nearby",
+      "locationGroup": "nature",
+      "mapPoint": {
+        "lat": 52.974,
+        "lng": -1.077,
+        "precision": "area"
+      },
+      "source": "https://gedlingcountrypark.com/",
+      "price": "free",
+      "caution": "The Spring Lane car park charges £2; Lambley Lane access is not suitable for pushchairs. Check seasonal closing hours.",
+      "archived": false,
+      "lastChecked": "2026-10-14",
+      "editorialPriority": 5,
+      "address": "Spring Lane, Mapperley, Nottingham, NG4 4PE"
+    },
+    {
+      "id": "place-82",
+      "title": "Arnot Hill Park",
+      "description": "A Green Flag park in Arnold with a play area, lake, café, rose gardens and sculptures.",
+      "summary": "Play, a lake, gardens and a café in central Arnold — handy for a shorter outing.",
+      "category": [
+        "nature",
+        "play"
+      ],
+      "kind": "place",
+      "area": "Arnold",
+      "tier": "nearby",
+      "locationGroup": "nature",
+      "mapPoint": {
+        "lat": 53.005,
+        "lng": -1.127,
+        "precision": "area"
+      },
+      "source": "https://www.gedling.gov.uk/leisure-culture-and-parks/parks-and-green-spaces/arnot-hill-park",
+      "price": "free",
+      "caution": "The main public car park is pay-and-display; up to two hours free requires a displayed ticket.",
+      "archived": false,
+      "lastChecked": "2026-10-14",
+      "editorialPriority": 4
+    },
+    {
+      "id": "place-83",
+      "title": "Breck Hill Park",
+      "description": "Green Flag park near Woodthorpe with a refurbished play area, open fields and a community orchard.",
+      "summary": "A refurbished playground and a community orchard make this a useful north Nottingham outdoor option.",
+      "category": [
+        "play",
+        "nature"
+      ],
+      "kind": "place",
+      "area": "Mapperley",
+      "tier": "nearby",
+      "locationGroup": "nature",
+      "mapPoint": {
+        "lat": 52.981,
+        "lng": -1.129,
+        "precision": "area"
+      },
+      "source": "https://www.gedling.gov.uk/invest-gedling/parks-and-open-spaces",
+      "price": "free",
+      "caution": null,
+      "archived": false,
+      "lastChecked": "2026-10-14",
+      "editorialPriority": 3
+    },
+    {
+      "id": "place-84",
+      "title": "Burton Road Jubilee Park",
+      "description": "A Carlton recreation ground with a play area, nature trail, open space and sports facilities.",
+      "summary": "Playground, nature trail and room to explore in Carlton.",
+      "category": [
+        "play",
+        "nature"
+      ],
+      "kind": "place",
+      "area": "Carlton",
+      "tier": "nearby",
+      "locationGroup": "nature",
+      "mapPoint": {
+        "lat": 52.968,
+        "lng": -1.088,
+        "precision": "area"
+      },
+      "source": "https://www.gedling.gov.uk/invest-gedling/parks-and-open-spaces",
+      "price": "free",
+      "caution": null,
+      "archived": false,
+      "lastChecked": "2026-10-14",
+      "editorialPriority": 3
+    },
+    {
+      "id": "place-85",
+      "title": "Bestwood Country Park",
+      "description": "A large country park on Nottingham’s northern edge with green space, walks and a council-listed play area.",
+      "summary": "Country park walks and green space close to Bestwood; a good alternative to another ordinary playground.",
+      "category": [
+        "nature",
+        "play"
+      ],
+      "kind": "place",
+      "area": "Bestwood",
+      "tier": "nearby",
+      "locationGroup": "nature",
+      "mapPoint": {
+        "lat": 53.025,
+        "lng": -1.167,
+        "precision": "area"
+      },
+      "source": "https://www.gedling.gov.uk/leisure-culture-and-parks/parks-and-green-spaces/find-park",
+      "price": "free",
+      "caution": "The park is extensive; choose an appropriate entrance before setting off.",
+      "archived": false,
+      "lastChecked": "2026-10-14",
+      "editorialPriority": 4
+    },
+    {
+      "id": "place-86",
+      "title": "Bulwell Forest Garden",
+      "description": "A community garden in Bulwell with food growing, wildlife and environmental play for families, plus special family activity sessions.",
+      "summary": "Friendly community garden with growing, nature play and occasional family sessions.",
+      "category": [
+        "nature"
+      ],
+      "kind": "place",
+      "area": "Bulwell",
+      "tier": "nearby",
+      "locationGroup": "nature",
+      "mapPoint": {
+        "lat": 53.001,
+        "lng": -1.198,
+        "precision": "area"
+      },
+      "source": "https://www.bulwellforestgarden.co.uk/",
+      "price": "unknown",
+      "caution": "General visiting hours are published, but family activities have separate dates and may need booking.",
+      "archived": false,
+      "lastChecked": "2026-10-14",
+      "editorialPriority": 5
+    },
+    {
+      "id": "place-87",
+      "title": "Titchfield Park, Hucknall",
+      "description": "A public park in Hucknall with a children’s play area, other recreation facilities and open green space.",
+      "summary": "Play equipment and green space in central Hucknall for an easy nearby outing.",
+      "category": [
+        "play"
+      ],
+      "kind": "place",
+      "area": "Hucknall",
+      "tier": "nearby",
+      "locationGroup": "nature",
+      "mapPoint": {
+        "lat": 53.038,
+        "lng": -1.202,
+        "precision": "area"
+      },
+      "source": "https://www.ashfield.gov.uk/leisure/outdoor-recreation-and-sports-facilities/",
+      "price": "free",
+      "caution": null,
+      "archived": false,
+      "lastChecked": "2026-10-14",
+      "editorialPriority": 3
+    },
+    {
+      "id": "place-88",
+      "title": "Bramcote Hills Park",
+      "description": "A wooded Broxtowe park with a play area, walled garden, a maze and local nature reserve.",
+      "summary": "Woodland, a maze and a playground make this more varied than a simple play park.",
+      "category": [
+        "play",
+        "nature"
+      ],
+      "kind": "place",
+      "area": "Bramcote",
+      "tier": "nearby",
+      "locationGroup": "nature",
+      "mapPoint": {
+        "lat": 52.934,
+        "lng": -1.237,
+        "precision": "area"
+      },
+      "source": "https://www.broxtowe.gov.uk/for-you/parks-and-nature-conservation/parks-and-open-spaces/parks-and-open-spaces-near-me/",
+      "price": "free",
+      "caution": null,
+      "archived": false,
+      "lastChecked": "2026-10-14",
+      "editorialPriority": 4
+    },
+    {
+      "id": "place-89",
+      "title": "Broadgate Park, Beeston",
+      "description": "A Beeston neighbourhood park with play space, accessible low equipment and a sand/rubber play surface.",
+      "summary": "Accessible low play equipment and sand play for a quick Beeston outing.",
+      "category": [
+        "play"
+      ],
+      "kind": "place",
+      "area": "Beeston",
+      "tier": "nearby",
+      "locationGroup": "nature",
+      "mapPoint": {
+        "lat": 52.926,
+        "lng": -1.215,
+        "precision": "area"
+      },
+      "source": "https://www.broxtowe.gov.uk/for-you/parks-and-nature-conservation/parks-and-open-spaces/parks-and-open-spaces-near-me/",
+      "price": "free",
+      "caution": null,
+      "archived": false,
+      "lastChecked": "2026-10-14",
+      "editorialPriority": 2
+    },
+    {
+      "id": "place-90",
+      "title": "Dovecote Lane Recreation Ground",
+      "description": "A Beeston park with toddler play equipment, ornamental gardens and a bandstand.",
+      "summary": "Toddler play equipment and gardens near the centre of Beeston.",
+      "category": [
+        "play"
+      ],
+      "kind": "place",
+      "area": "Beeston",
+      "tier": "nearby",
+      "locationGroup": "nature",
+      "mapPoint": {
+        "lat": 52.926,
+        "lng": -1.215,
+        "precision": "area"
+      },
+      "source": "https://www.broxtowe.gov.uk/for-you/parks-and-nature-conservation/parks-and-open-spaces/parks-and-open-spaces-near-me/",
+      "price": "free",
+      "caution": null,
+      "archived": false,
+      "lastChecked": "2026-10-14",
+      "editorialPriority": 2
+    },
+    {
+      "id": "place-91",
+      "title": "Papplewick Pumping Station",
+      "description": "Victorian pumping station and grounds, open Wednesdays and Sundays 11am–3pm during April–October, plus advertised steam weekends.",
+      "summary": "Explore impressive Victorian engineering and watch for family-friendly steam events.",
+      "category": [
+        "culture",
+        "transport"
+      ],
+      "kind": "place",
+      "area": "Hucknall",
+      "tier": "nearby",
+      "locationGroup": "transport",
+      "mapPoint": {
+        "lat": 53.038,
+        "lng": -1.202,
+        "precision": "area"
+      },
+      "source": "https://papplewickpumpingstation.org.uk/visitor-information/",
+      "price": "priced",
+      "caution": "Grounds free on normal open days; engine/boiler house admission charge. Seasonal access only; special events have different arrangements.",
+      "archived": false,
+      "lastChecked": "2026-10-14",
+      "editorialPriority": 4,
+      "publishedWeekdays": [
+        0,
+        3
+      ],
+      "seasonMonths": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
     }
   ]
 }
