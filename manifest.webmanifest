@@ -1,11 +1,11 @@
 {
   "name": "Callie Days",
   "short_name": "Callie Days",
-  "start_url": "./",
+  "start_url": "/",
   "display": "standalone",
-  "background_color": "#f8f8f4",
-  "theme_color": "#f8f8f4",
-  "description": "Discover family outings and adventures around Nottingham",
+  "background_color": "#faf8f2",
+  "theme_color": "#faf8f2",
+  "description": "Find things to do with babies, toddlers and preschoolers around Nottingham",
   "icons": [
     {
       "src": "./favicon.svg",

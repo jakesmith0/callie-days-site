@@ -1,13 +1,109 @@
-<!doctype html><html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f8f8f4"><title>Explore Nottingham neighbourhoods | Callie Days</title><meta name="description" content="Find things to do with babies, toddlers and preschoolers around Explore Nottingham neighbourhoods. Local activities, places and groups."><link rel="canonical" href="https://calliedays.digitalhm.uk/areas/"><link rel="icon" href="/favicon.svg"><style>
-body{font:16px/1.5 system-ui,-apple-system,sans-serif;background:#f7f7f1;color:#223b30;margin:0}
-header,main,footer{max-width:1000px;margin:auto;padding:22px}
-header{display:flex;align-items:center;gap:12px}
-header img{width:46px;height:46px}header a{font-weight:800;font-size:21px;color:#315b46;text-decoration:none}
-h1{font-size:clamp(26px,5vw,43px);line-height:1.16;letter-spacing:-.8px;margin:4px 0 16px}
-h2{font-size:20px}p{color:#456153}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
-article{background:#fff;border:1px solid #dbe5d9;border-radius:14px;padding:15px}
-article h3{font-size:16px;margin:0 0 7px}article p{font-size:13px;margin:0 0 9px}
-a{color:#265b46}.button{display:inline-block;background:#315b46;color:#fff;padding:12px 18px;border-radius:10px;text-decoration:none;font-weight:700}
-footer{font-size:12px;color:#52685c;border-top:1px solid #dce5d8}
-</style></head><body><header><img alt="" src="/assets/sunshine.svg"><a href="/">callie<span style="color:#d99560">days</span></a></header><main><h1>Explore Nottingham neighbourhoods</h1><p>Find groups, playgrounds, indoor activities and outings around a place you know. Each area page draws from the same activity catalogue.</p><div class="grid"><article><h3><a href="/areas/west-bridgford/">West Bridgford</a></h3><p>Browse nearby places and find upcoming activities.</p></article><article><h3><a href="/areas/beeston/">Beeston</a></h3><p>Browse nearby places and find upcoming activities.</p></article><article><h3><a href="/areas/wollaton/">Wollaton</a></h3><p>Browse nearby places and find upcoming activities.</p></article><article><h3><a href="/areas/mapperley/">Mapperley</a></h3><p>Browse nearby places and find upcoming activities.</p></article><article><h3><a href="/areas/arnold/">Arnold</a></h3><p>Browse nearby places and find upcoming activities.</p></article><article><h3><a href="/areas/hucknall/">Hucknall</a></h3><p>Browse nearby places and find upcoming activities.</p></article><article><h3><a href="/areas/ruddington/">Ruddington</a></h3><p>Browse nearby places and find upcoming activities.</p></article><article><h3><a href="/areas/carlton/">Carlton</a></h3><p>Browse nearby places and find upcoming activities.</p></article><article><h3><a href="/areas/sherwood/">Sherwood</a></h3><p>Browse nearby places and find upcoming activities.</p></article><article><h3><a href="/areas/city-centre/">City Centre</a></h3><p>Browse nearby places and find upcoming activities.</p></article><article><h3><a href="/areas/stapleford/">Stapleford</a></h3><p>Browse nearby places and find upcoming activities.</p></article><article><h3><a href="/areas/bingham/">Bingham</a></h3><p>Browse nearby places and find upcoming activities.</p></article><article><h3><a href="/areas/gedling/">Gedling</a></h3><p>Browse nearby places and find upcoming activities.</p></article></div></main><footer>Callie Days · Things to do with under-fives around Nottingham. Listings can change; check the organiser before travelling.</footer></body></html>
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <base href="/">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#faf8f2">
+  <meta name="description" content="Discover things to do with babies, toddlers and preschoolers around Nottingham. Local groups, events, play and family days out.">
+  <title>Explore Nottingham neighbourhoods | Callie Days</title>
+  <link rel="canonical" href="https://calliedays.digitalhm.uk/areas/">
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="stylesheet" href="./assets/leaflet.css">
+  <link rel="stylesheet" href="./assets/MarkerCluster.css">
+  <link rel="stylesheet" href="./assets/MarkerCluster.Default.css">
+  <link rel="stylesheet" href="./styles.css">
+  <script defer src="./assets/leaflet.js"></script>
+  <script defer src="./assets/leaflet.markercluster.js"></script>
+  <script defer src="./app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#results">Skip to activities</a>
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="Callie Days home">
+      <img class="brand-sun" src="./assets/sunshine.svg" width="41" height="41" alt="">
+      <span class="brand-name">callie<span>days</span><small>THINGS TO DO WITH UNDER-FIVES</small></span>
+    </a>
+    <nav class="header-nav" aria-label="Site navigation">
+      <a href="/areas/">Browse areas</a>
+      <button id="savedNav" class="saved-nav" type="button" aria-label="View saved places"><span aria-hidden="true">♡</span> Saved <span id="savedNumber"></span></button>
+    </nav>
+  </header>
+  <main id="main" class="shell">
+    <section class="intro">
+      <div>
+        <p class="eyebrow">LITTLE ONES, GOOD DAYS</p>
+        <h1 id="heroTitle">Find something good to do.</h1>
+        <p id="introText" class="intro-subtitle">Activities, places and people to meet around Nottingham. For babies, toddlers and preschoolers.</p>
+      </div>
+      <div class="intro-decoration" aria-hidden="true"><span></span><span></span><span></span></div>
+    </section>
+
+    <section class="location-block" id="locationBlock" aria-label="Choose your local area">
+      <div class="location-current">
+        <div class="location-main">
+          <span class="loc-pin" aria-hidden="true">⌖</span>
+          <div><span class="overline">FINDING YOUR NEXT OUTING AROUND</span><strong id="locationLabel">Nottingham and nearby</strong><span id="locationApprox" class="location-approx">Choose a place to see the most relevant ideas</span></div>
+        </div>
+        <button type="button" id="changeLocation" class="change-location">Set location <span aria-hidden="true">→</span></button>
+      </div>
+      <div id="locationPicker" class="location-picker">
+        <div class="location-prompt" id="locationPrompt">Where are you looking?</div>
+        <div class="location-actions">
+          <button type="button" class="primary small" id="detectLocation">⌖ &nbsp; Use my location</button>
+          <label class="location-town">Or choose an area <select id="areaInput" aria-label="Choose your area"><option value="">All Nottingham</option></select></label>
+          <form id="postcodeForm" class="postcode-form" hidden><label for="postcodeInput" class="visually-hidden">UK postcode</label><input id="postcodeInput" placeholder="UK postcode" autocomplete="postal-code" inputmode="text" maxlength="9"><button type="submit" aria-label="Find postcode">Go →</button></form>
+        </div>
+        <button type="button" id="postcodeToggle" class="postcode-toggle">Use a postcode instead ↗</button>
+        <p class="loc-help">Sharing location is optional. Your location stays in this browser; postcode lookup uses postcodes.io.</p>
+        <p class="loc-feedback" id="locationStatus" role="status" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section class="choose" aria-label="What do you want to do?">
+      <div class="choose-top"><h2>What are you in the mood for?</h2><span>One tap to get started</span></div>
+      <div class="choices" role="group" aria-label="Find activities by intention">
+        <button type="button" data-journey="now" class="choice selected" aria-pressed="true"><span class="choice-symbol">↗</span><span><strong>Something now</strong><small>Easy options nearby</small></span></button>
+        <button type="button" data-journey="social" class="choice" aria-pressed="false"><span class="choice-symbol">♡</span><span><strong>Meet other families</strong><small>Groups and classes</small></span></button>
+        <button type="button" data-journey="plan" class="choice" aria-pressed="false"><span class="choice-symbol">▦</span><span><strong>Plan ahead</strong><small>Another day or weekend</small></span></button>
+      </div>
+    </section>
+
+    <section class="finder-tools" aria-label="Narrow your options">
+      <div class="search-field"><span aria-hidden="true">⌕</span><label for="searchInput" class="visually-hidden">Search activities</label><input id="searchInput" type="search" placeholder="Search places, trains, animals, playgroups…" autocomplete="off"></div>
+      <label id="dateField" class="date-field"><span>For</span><input type="date" id="dateInput" aria-label="Choose date"></label>
+      <button type="button" id="filtersToggle" class="filter-toggle" aria-expanded="false" aria-controls="filtersPanel">Filters <span aria-hidden="true">☷</span></button>
+    </section>
+    <div class="quick-dates" id="quickDates" hidden><span>Quick dates:</span><button data-quick-date="tomorrow">Tomorrow</button><button data-quick-date="weekend">Weekend</button><button data-quick-date="friday">Next Friday</button><button data-quick-date="week">Next week</button></div>
+    <section id="filtersPanel" class="filters-panel" aria-label="More filters" hidden>
+      <div class="filter-row"><label>Activity type <select id="categoryInput"><option value="">Any activity</option><option value="group">Groups & classes</option><option value="play">Play & movement</option><option value="animals">Animals & farms</option><option value="nature">Nature & outdoors</option><option value="transport">Transport & vehicles</option><option value="culture">Museums & culture</option><option value="seasonal">Seasonal events</option></select></label>
+      <label>Distance <select id="rangeInput"><option value="all">Anywhere</option><option value="near">Nearby (approx. 15 km)</option><option value="wider">Up to approx. 30 km</option></select></label>
+      <label class="free-filter"><input type="checkbox" id="freeInput"> Free activities only</label></div>
+      <p>Distances are estimates from area markers, not driving times. If a price or opening time is unknown, check the organiser.</p>
+    </section>
+
+    <section id="results" class="results" tabindex="-1" aria-live="polite">
+      <div class="results-header">
+        <div><p id="resultsKicker" class="eyebrow">IDEAS FOR YOU</p><h2 id="resultsTitle">Good ideas near you</h2><p id="resultsSubtitle"></p></div>
+        <div class="results-actions"><button type="button" id="differentBtn" class="button-lite">Something different ↻</button><button type="button" id="mapToggle" class="button-lite">Map ↗</button></div>
+      </div>
+      <div id="mapPanel" class="map-panel" hidden><div id="map" aria-label="Map of approximate activity areas"></div><p>Markers are area-level approximations until exact venue positions are researched.</p></div>
+      <div id="resultsCards" class="result-grid"></div>
+      <p id="resultEmpty" class="empty" hidden>No confident matches for these choices. Try another day, a wider area or remove a filter.</p>
+      <button type="button" id="moreBtn" class="show-more" hidden>Show more ideas ↓</button>
+    </section>
+
+    <section class="explore-strip">
+      <div><p class="eyebrow">GET TO KNOW YOUR AREA</p><h2>Explore around Nottingham</h2><p>See local groups, places to play and days out around each neighbourhood.</p></div>
+      <div id="areaLinks" class="area-links"></div>
+      <a class="all-areas-link" href="/areas/">See all areas ↗</a>
+    </section>
+    <section class="about-note"><h2>Good information makes good days.</h2><p>We research local activities and link to organisers so you can check what's running. Events, term dates, prices and opening hours can change. A listed session is not a live booking confirmation.</p></section>
+  </main>
+  <footer class="site-footer"><span>© Callie Days · Nottingham and surrounding areas</span><span><a href="/areas/">Explore areas</a> · <a href="https://www.openstreetmap.org/copyright" rel="noopener noreferrer">Map credits</a></span></footer>
+  <dialog id="detailDialog" class="detail-dialog" aria-label="Activity details"><button class="dialog-close" id="detailClose" type="button" aria-label="Close details">×</button><div id="detailBody"></div></dialog>
+  <dialog id="savedDialog" class="saved-dialog" aria-label="Saved activities"><button class="dialog-close" id="savedClose" type="button" aria-label="Close saved activities">×</button><h2>Saved ideas</h2><p>Your shortlist stays on this device.</p><div id="savedCards" class="saved-list"></div></dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

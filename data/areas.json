@@ -79,6 +79,36 @@
       "slug": "gedling",
       "lat": 52.974,
       "lng": -1.077
+    },
+    {
+      "name": "Bestwood",
+      "slug": "bestwood",
+      "lat": 53.025,
+      "lng": -1.167
+    },
+    {
+      "name": "Bulwell",
+      "slug": "bulwell",
+      "lat": 53.001,
+      "lng": -1.198
+    },
+    {
+      "name": "Bramcote",
+      "slug": "bramcote",
+      "lat": 52.934,
+      "lng": -1.237
+    },
+    {
+      "name": "Chilwell",
+      "slug": "chilwell",
+      "lat": 52.921,
+      "lng": -1.24
+    },
+    {
+      "name": "Long Eaton",
+      "slug": "long-eaton",
+      "lat": 52.897,
+      "lng": -1.269
     }
   ]
 }

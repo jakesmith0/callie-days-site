@@ -1,0 +1,26 @@
+ACCEPT place-1: West Bridgford Library Nottingham → West Bridgford Library (52.9334137,-1.1277913) [library]
+UNRESOLVED place-13: Victoria Embankment Nottingham Memorial Gardens, no strong match
+ACCEPT place-15: Skylarks Nature Reserve Holme Pierrepont → Skylarks Nature Reserve (52.9462892,-1.0783206) [nature_reserve]
+UNRESOLVED place-21: Rushcliffe Country Park Ruddington Nottingham, no strong match
+ACCEPT place-22: Framework Knitters Museum Ruddington → Ruddington Framework Knitters Museum (52.8911210,-1.1517718) [museum]
+ACCEPT place-23: Nottingham Transport Heritage Centre Ruddington → Nottingham Transport Heritage Centre (52.8851372,-1.1477784) [museum]
+UNRESOLVED place-26: Attenborough Nature Reserve Nottingham, no strong match
+ACCEPT place-28: Highfields Park Nottingham → Highfields Park (52.9360756,-1.1935379) [park]
+ACCEPT place-30: Little Foxes Play Town Beeston → Little Foxes Play Town (52.9231736,-1.2198976) [childcare]
+ACCEPT place-31: Hocus Pocus Soft Play Beeston Nottingham → Hocus Pocus Soft Play (52.9268891,-1.2034279) [yes]
+ACCEPT place-34: Stonebridge City Farm Nottingham → Stonebridge City Farm (52.9577183,-1.1341946) [cafe]
+ACCEPT place-35: Green's Windmill Nottingham → Green's Windmill (52.9520503,-1.1309440) [parking]
+ACCEPT place-37: Wollaton Hall Nottingham → Wollaton Hall (52.9479602,-1.2097710) [museum]
+UNRESOLVED place-40: Fun Valley Netherfield Nottingham, no strong match
+ACCEPT place-43: Floralands Farm Park Lambley → Floralands Farm Park (53.0050234,-1.0807384) [farm_park]
+ACCEPT place-47: White Post Farm Farnsfield Nottinghamshire → White Post Farm (53.1090719,-1.0610777) [theme_park]
+ACCEPT place-49: Wheelgate Park Farnsfield Nottinghamshire → Wheelgate Park (53.1071575,-1.0663898) [bus_stop]
+UNRESOLVED place-50: Rufford Abbey Country Park Nottinghamshire, no strong match
+ACCEPT place-51: Newstead Abbey Nottinghamshire → Newstead Abbey (53.0784068,-1.1924365) [house]
+ACCEPT place-52: Clumber Park Worksop → Clumber Park (53.2678728,-1.0590389) [park]
+ACCEPT place-54: Sundown Adventureland Retford → Sundown Adventureland (53.3040488,-0.8104736) [theme_park]
+ACCEPT place-55: Twycross Zoo Atherstone → Twycross Zoo (52.6524591,-1.5283363) [zoo]
+UNRESOLVED place-56: Conkers Moira Discovery Centre, no strong match
+ACCEPT place-58: Great Central Railway Loughborough → Great Central Railway (52.7742578,-1.1956401) [construction]
+ACCEPT place-74: Crich Tramway Village Derbyshire → Crich Tramway Village (53.0900827,-1.4862817) [locality]
+ACCEPT place-80: Beeston Library Nottinghamshire → Beeston Library (52.9275437,-1.2178988) [library]
