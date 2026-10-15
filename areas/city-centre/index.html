@@ -72,15 +72,17 @@
 
     <section class="finder-tools" aria-label="Narrow your options">
       <div class="search-field"><span aria-hidden="true">⌕</span><label for="searchInput" class="visually-hidden">Search activities</label><input id="searchInput" type="search" placeholder="Search places, trains, animals, playgroups…" autocomplete="off"></div>
-      <label id="dateField" class="date-field"><span>For</span><input type="date" id="dateInput" aria-label="Choose date"></label>
+      <label id="dateField" class="date-field"><span>For</span><input type="date" id="dateInput" aria-label="Choose a future date"></label>
       <button type="button" id="filtersToggle" class="filter-toggle" aria-expanded="false" aria-controls="filtersPanel">Filters <span aria-hidden="true">☷</span></button>
     </section>
+    <p id="dateStatus" class="date-feedback" role="status" aria-live="polite" hidden></p>
     <div class="quick-dates" id="quickDates" hidden><span>Quick dates:</span><button data-quick-date="tomorrow">Tomorrow</button><button data-quick-date="weekend">Weekend</button><button data-quick-date="friday">Next Friday</button><button data-quick-date="week">Next week</button></div>
     <section id="filtersPanel" class="filters-panel" aria-label="More filters" hidden>
       <div class="filter-row"><label>Activity type <select id="categoryInput"><option value="">Any activity</option><option value="group">Groups & classes</option><option value="play">Play & movement</option><option value="animals">Animals & farms</option><option value="nature">Nature & outdoors</option><option value="transport">Transport & vehicles</option><option value="culture">Museums & culture</option><option value="seasonal">Seasonal events</option></select></label>
       <label>Distance <select id="rangeInput"><option value="all">Anywhere</option><option value="near">Nearby (approx. 15 km)</option><option value="wider">Up to approx. 30 km</option></select></label>
       <label class="free-filter"><input type="checkbox" id="freeInput"> Free activities only</label></div>
-      <p>Distances are estimates from area markers, not driving times. If a price or opening time is unknown, check the organiser.</p>
+      <p id="distanceStatus" role="status" aria-live="polite"></p>
+      <p>Distances are approximate direct distances, not driving times. If a price or opening time is unknown, check the organiser.</p>
     </section>
 
     <section id="results" class="results" tabindex="-1" aria-live="polite">

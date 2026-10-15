@@ -42,3 +42,29 @@
 .detail-cover.photo{height:170px}
 .detail-photo{height:100%;width:100%;object-fit:cover}
 @media(max-width:750px){.card-art .venue-photo{min-height:156px}}
+
+/* V3.1 interaction fixes */
+.card-art{border:0;padding:0;cursor:pointer;width:100%;font:inherit;color:inherit}
+.card-art:focus-visible{outline:3px solid #bf752f;outline-offset:-3px;z-index:2}
+.card-main h3 button{cursor:pointer}
+.date-feedback{font-size:12px;color:#7b3926;font-weight:700;margin:4px 0 10px}
+.filters-panel #distanceStatus:not(:empty){font-weight:750;color:#315b46;font-size:12px}
+.toast{visibility:hidden;transition:none}
+.toast.show{visibility:visible}
+.area-directory .explore-strip{margin:5px 0 18px;background:#f0f2e9}
+.area-directory .area-links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.area-directory .area-links a{border-radius:10px;padding:13px 14px;text-align:left;min-width:0}
+.area-directory .area-links a:hover{background:#f6ead7}
+@media(max-width:750px){.area-directory .area-links{grid-template-columns:repeat(2,minmax(0,1fr))}.area-directory .explore-strip{padding:16px;margin:8px 0}}
+
+.result-card{cursor:pointer}
+@media(max-width:750px){
+ .brand-name small{font-size:8px}
+ .loc-help{font-size:11px}
+ .overline{font-size:9px}
+ .card-topline{font-size:11px}
+ .choice strong{font-size:12px}
+ .card-meta span{font-size:11px}
+ .eyebrow{font-size:11px}
+}
+@media(max-width:375px){.choice strong{font-size:11px}.card-meta span{font-size:10px}}
