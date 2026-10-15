@@ -96,6 +96,66 @@ async function test(browser,base,width){
  console.log("PASS "+width+"px",JSON.stringify({ux,journies:"pass",area:"pass",schedule:"pass",accessibility:"pass"}));
  await context.close();
 }
+async function testV31(browser,base){
+ const context=await browser.createBrowserContext();
+ const page=await context.newPage();
+ await page.setViewport({width:390,height:844});
+ await page.goto(base+"/areas/",{waitUntil:"networkidle2"});
+ await page.waitForSelector(".area-links a",{timeout:15000});
+ const directory=await page.evaluate(()=>{
+  const top=selector=>Math.round(document.querySelector(selector).getBoundingClientRect().top+scrollY);
+  return {links:document.querySelectorAll(".area-links a").length,firstLink:top(".area-links a"),firstCard:top(".result-card"),allLinkHidden:document.querySelector(".all-areas-link").hidden};
+ });
+ assert.ok(directory.links>=18,"Area directory must offer all neighbourhoods");
+ assert.ok(directory.firstLink<directory.firstCard,"Areas must appear before recommendations");
+ assert.ok(directory.allLinkHidden,"Area directory should not link to itself");
+ await page.goto(base+"/",{waitUntil:"networkidle2"});
+ await page.waitForSelector(".result-card");
+ const firstTitle=await page.$eval(".result-card h3 button",el=>el.textContent);
+ await page.click(".result-card .card-art");
+ assert.equal(await page.$eval("#detailDialog",el=>el.open),true,"Image tap must open details");
+ assert.equal(await page.$eval("#detailDialog h2",el=>el.textContent),firstTitle);
+ await page.click("#detailClose");
+ await page.click("#filtersToggle");
+ await page.select("#rangeInput","near");
+ assert.ok((await page.$eval("#distanceStatus",el=>el.textContent)).includes("Choose"),"Distance filter needs a location prompt");
+ assert.equal(await page.$eval("#locationPicker",el=>el.hidden),false);
+ await page.select("#areaInput","Beeston");
+ assert.equal(await page.$eval("#distanceStatus",el=>el.textContent),"","Location selection should dismiss filter prompt");
+ assert.ok(await page.evaluate(()=>app.origin!==null&&app.range==="near"),"Chosen location should activate selected distance filter");
+ await page.click('[data-journey="plan"]');
+ assert.equal(await page.$eval("#quickDates",el=>el.hidden),false,"Planning shortcuts must appear");
+ await page.$eval("#dateInput",el=>{el.value="2025-10-15";el.dispatchEvent(new Event("change",{bubbles:true}))});
+ assert.equal(await page.evaluate(()=>app.date>="2026-10-15"),true,"Past date should be rejected");
+ assert.equal(await page.$eval("#dateStatus",el=>!el.hidden),true,"Past date needs visible feedback");
+ await page.click('[data-quick-date="friday"]');
+ assert.equal(await page.evaluate(()=>weekdays(app.date)),5,"Friday shortcut must select Friday");
+ const weekly=await page.evaluate(()=>{
+  const e=app.events.find(e=>e.id==="event-wb-rhyme-10");
+  return {distant:occurrence(e,"2028-10-20"),near:occurrence(e,"2026-10-16"),end:weeklyProjectionEnd(e)};
+ });
+ assert.equal(weekly.distant,null,"Weekly sessions must not be extrapolated indefinitely");
+ assert.ok(weekly.near,"Near-term weekly recurrence should remain available");
+ await page.goto(base+"/?date=2025-10-15&area=Beeston",{waitUntil:"networkidle2"});
+ await page.waitForSelector(".result-card");
+ assert.ok(await page.evaluate(()=>app.date>=isoUK()),"Past date deep link must be replaced");
+ assert.equal(await page.$eval("#dateStatus",el=>!el.hidden),true);
+ await page.evaluate(()=>{
+  const e=app.events.find(e=>e.id==="event-wb-rhyme-10");
+  const p=getPlace(e.placeId),day="2026-10-16";
+  detail({kind:"event",p,e:occurrence(e,day),day});
+ });
+ const when=await page.$eval("#detailBody .fact:nth-child(2)",el=>el.innerText);
+ assert.ok(when.includes("16 October"),"Selected weekly event must show its actual date");
+ assert.ok((await page.$eval("#detailBody",el=>el.innerText)).includes("Every Friday"),"Regular pattern should remain separately available");
+ await page.click("#detailClose");
+ await page.click(".save-button");
+ await page.addScriptTag({path:require.resolve("axe-core/axe.min.js")});
+ const violations=await page.evaluate(async()=>{const result=await axe.run({runOnly:{type:"tag",values:["wcag2a","wcag2aa","wcag21a","wcag21aa"]}});return result.violations.map(x=>({id:x.id,targets:x.nodes.map(n=>n.target)}))});
+ assert.deepEqual(violations,[],"Save notification must not cause accessibility failure: "+JSON.stringify(violations));
+ await context.close();
+ console.log("PASS V3.1 directory, card tap, distance gating, dates, recurrence and toast accessibility");
+}
 async function testPermissions(browser,base){
  const granted=await browser.createBrowserContext();
  await granted.overridePermissions(base,["geolocation"]);
@@ -125,5 +185,5 @@ async function testPermissions(browser,base){
  await new Promise(resolve=>server.listen(0,"127.0.0.1",resolve));
  const base="http://127.0.0.1:"+server.address().port;
  const browser=await puppeteer.launch({headless:true,executablePath:process.env.CHROME_PATH||undefined,args:["--no-sandbox"]});
- try{for(const size of [320,390,768,1440])await test(browser,base,size);await testPermissions(browser,base)}finally{await browser.close();server.close()}
+ try{for(const size of [320,390,768,1440])await test(browser,base,size);await testPermissions(browser,base);await testV31(browser,base)}finally{await browser.close();server.close()}
 })().catch(error=>{console.error(error.stack||error);server.close();process.exitCode=1});

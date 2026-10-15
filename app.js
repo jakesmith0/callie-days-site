@@ -25,6 +25,11 @@ const dateLabel=s=>new Intl.DateTimeFormat("en-GB",{weekday:"long",day:"numeric"
 const roundTime=t=>t?String(t).replace(/^0/,""):"Time to check";
 const timeLabel=e=>e.time?roundTime(e.time)+(e.end?"–"+roundTime(e.end):""):"Time to confirm";
 const weekdays=d=>asDate(d).getUTCDay();
+const nextWeekday=(target,includeToday=false)=>{
+ const delta=(target-weekdays(isoUK())+7)%7;
+ return addDays(isoUK(),delta===0&&!includeToday?7:delta);
+};
+const nextPlanningDay=()=>nextWeekday(6,weekdays(isoUK())===6&&!afterHours());
 // Conservative public school holiday exclusions for explicitly term-time sessions.
 // Individual organisers can differ; known dated overrides win when supported by evidence.
 const SCHOOL_HOLIDAYS=[
@@ -35,14 +40,23 @@ const SCHOOL_HOLIDAYS=[
  ["2027-05-29","2027-06-06"]
 ];
 const isSchoolHoliday=day=>SCHOOL_HOLIDAYS.some(([a,b])=>day>=a&&day<=b);
+// Never turn an observed weekly *pattern* into a guaranteed event years later.
+// The fixed window is based on the source's real lastChecked date, not today's date.
+// A research update may extend it by actually checking the organiser again.
+const weeklyProjectionEnd=e=>{
+ const p=getPlace(e.placeId);
+ const last=e.lastChecked||p?.lastChecked;
+ return last&&/^\d{4}-\d{2}-\d{2}$/.test(last)?addDays(last,42):null;
+};
 
 const afterHours=()=>Number(clockUK().slice(0,2))>=18;
 const app={areas:[],places:[],events:[],origin:null,area:"",mode:"now",date:afterHours()?addDays(isoUK(),1):isoUK(),saved:new Set(),query:"",category:"",range:"all",free:false,offset:6,seed:0,opened:{},dismissed:new Set(),items:[],map:null,markerLayer:null};
 try{const x=JSON.parse(localStorage.getItem("calliedays:recently-opened:v1")||"{}");if(x&&typeof x==="object"&&!Array.isArray(x))app.opened=x}catch{}
 const fromURL=new URLSearchParams(location.search);
 const startingDate=fromURL.get("date");
+const dateWasPast=Boolean(startingDate&&/^\d{4}-\d{2}-\d{2}$/.test(startingDate)&&startingDate<isoUK());
 if(startingDate&&/^\d{4}-\d{2}-\d{2}$/.test(startingDate)&&!isNaN(asDate(startingDate))){
- app.date=startingDate;app.mode="plan";
+ app.date=dateWasPast?nextPlanningDay():startingDate;app.mode="plan";
 }
 const areaFromPath=()=>{const m=location.pathname.match(/^\/areas\/([a-z0-9-]+)\/?/);return m?.[1]||""};
 const storedArea=()=>{try{return localStorage.getItem(STORAGE_AREA)||""}catch{return ""}};
@@ -66,7 +80,10 @@ function occurrence(e,day){
  let yes=false;
  if(["once","custom"].includes(e.recurrence))yes=(e.dates||[]).includes(day);
  else if(e.recurrence==="range")yes=day>=e.from&&day<=e.to&&(!e.allowedWeekdays||e.allowedWeekdays.includes(weekdays(day)));
- else if(e.recurrence==="weekly")yes=weekdays(day)===e.weekday&&(!e.startsOn||day>=e.startsOn)&&(!e.endsOn||day<=e.endsOn);
+ else if(e.recurrence==="weekly"){
+  const limit=weeklyProjectionEnd(e);
+  yes=Boolean(limit&&day<=limit)&&weekdays(day)===e.weekday&&(!e.startsOn||day>=e.startsOn)&&(!e.endsOn||day<=e.endsOn);
+ }
  if(over.added===true)yes=true;
  if(e.termTime===true&&isSchoolHoliday(day)&&!over.added&&!e.confirmedHolidayDates?.includes(day))yes=false;
  if(!yes)return null;
@@ -81,6 +98,7 @@ const scheduleLine=e=>{
  else if((e.dates||[]).length>1)line="Selected dates"+(e.time?" · "+timeLabel(e):"");
  else line="Dates to check";
  if(e.termTime)line+=" · Term time (check holidays)";
+ if(e.recurrence==="weekly"&&weeklyProjectionEnd(e))line+=" · Upcoming dates need checking";
  if(e.recurrence==="weekly"&&(e.startsOn||e.endsOn))line+=" · "+(e.startsOn?longDate(e.startsOn):"")+(e.endsOn?" to "+longDate(e.endsOn):"");
  return line;
 };
@@ -162,7 +180,7 @@ function weight(c){
  if(!c.p.summary)score-=5;
  score+=(c.p.editorialPriority||0)*6.5;
  if(genericPark(c.p))score-=36;
- if(c.p.kind==="journey")score-=app.mode==="now"?8:2;
+ if(c.p.kind==="journey")score-=app.mode==="now"?45:23;
  if(!c.p.source&&!c.e?.source)score-=10;
  if(app.opened[c.p.id]&&app.opened[c.p.id]>=addDays(isoUK(),-7))score-=8;
  if(app.dismissed.has(c.p.id))score-=110;
@@ -212,15 +230,15 @@ const metaFor=c=>{
  else if(p.price==="priced")meta.push("Check admission");
  return meta;
 };
-const pictogram=p=>'<div class="card-art'+(p.photo?" has-photo":"")+'" style="--art:'+colors[category({p})]+'">'+(p.photo?'<img loading="lazy" class="venue-photo" src="'+esc(p.photo)+'" alt="Photo of '+esc(p.title)+'">':icon(category({p})))+'</div>';
+const pictogram=(p,key,title)=>'<button type="button" class="card-art'+(p.photo?" has-photo":"")+'" style="--art:'+colors[category({p})]+'" data-details="'+esc(key)+'" aria-label="View '+esc(title)+' details">'+(p.photo?'<img loading="lazy" class="venue-photo" src="'+esc(p.photo)+'" alt="">':icon(category({p})))+'</button>';
 function card(c){
  const p=c.p,ev=c.e;
  const title=ev?ev.title:p.title;
  const eyebrow=ev&&ev.title!==p.title?p.title+" · "+p.area:p.area;
  const text=(ev?.note&&ev.note.length>35?ev.note:plainSummary(p));
  const label=c.kind==="event"?(ev.recurrence==="weekly"?"Regular session · Check dates":"Scheduled event"):(p.kind==="journey"?"Travel experience":"Place to explore");
- return '<article class="result-card" data-result="'+esc(identity(c))+'">'+pictogram(p)+
- '<div class="card-main"><div class="card-topline">'+esc(eyebrow)+' · '+esc(distanceText(p))+'</div>'+
+ return '<article class="result-card" data-result="'+esc(identity(c))+'">'+pictogram(p,identity(c),title)+
+ '<div class="card-main"><div class="card-topline">'+esc(eyebrow)+(app.origin?' · '+esc(distanceText(p)):'')+'</div>'+
  '<h3><button type="button" data-details="'+esc(identity(c))+'">'+esc(title)+'</button></h3>'+
  '<p class="card-summary">'+esc(text)+'</p>'+
  '<div class="card-meta">'+metaFor(c).map((x,i)=>'<span'+(i===0?' class="important"':'')+'>'+esc(x)+'</span>').join("")+'</div>'+
@@ -229,18 +247,22 @@ function card(c){
 function render(){
  results();
  const nearbyAreas=[...app.areas].sort((a,b)=>app.origin?(distance(app.origin,[a.lat,a.lng])-distance(app.origin,[b.lat,b.lng])):0);
- $("areaLinks").innerHTML=nearbyAreas.slice(0,10).map(a=>'<a href="/areas/'+esc(a.slug)+'/">'+esc(a.name)+'</a>').join("");
- const text=app.mode==="social"?"Meet other families":app.mode==="plan"?"Ideas for "+longDate(app.date):afterHours()?"Ideas for tomorrow":"Things you could do today";
+ $("areaLinks").innerHTML=nearbyAreas.slice(0,document.body.classList.contains("area-directory")?app.areas.length:10).map(a=>'<a href="/areas/'+esc(a.slug)+'/">'+esc(a.name)+'</a>').join("");
+ const text=app.mode==="social"?"Meet other families":app.mode==="plan"?"Ideas for "+longDate(app.date):afterHours()?"Ideas to check for tomorrow":"Ideas to check for today";
  $("resultsTitle").textContent=text;
  $("resultsKicker").textContent=app.mode==="social"?"GROUPS & OTHER LITTLE PEOPLE":app.mode==="plan"?"PLAN AN OUTING":"RECOMMENDED FOR YOUR AREA";
- $("resultsSubtitle").textContent=app.mode==="now"&&afterHours()?"It's evening, so here are ideas to check for tomorrow. Opening is not confirmed.":(app.area?"Around "+app.area+" · "+app.items.length+" ideas to explore":app.origin?"Around your location · "+app.items.length+" ideas to explore":"Around Nottingham · "+app.items.length+" ideas to explore");
+ $("resultsSubtitle").textContent=app.mode==="now"
+ ?(afterHours()?"It's evening, so these are tomorrow's possibilities. Check opening before going.":"Nearby possibilities, not live opening or booking availability. Please check before going.")
+ :(app.area?"Around "+app.area+" · "+app.items.length+" ideas to explore":app.origin?"Around your location · "+app.items.length+" ideas to explore":"Around Nottingham · "+app.items.length+" ideas to explore");
  const visible=app.items.slice(0,app.offset);
  $("resultsCards").innerHTML=visible.map(card).join("");
  $("resultEmpty").hidden=app.items.length>0;
  $("moreBtn").hidden=app.items.length<=app.offset;
  $("moreBtn").textContent="More ideas ("+(app.items.length-visible.length)+" remaining) ↓";
  $("dateInput").value=app.date;
+ $("dateInput").min=isoUK();
  $("dateField").hidden=app.mode==="now";
+ $("quickDates").hidden=app.mode!=="plan";
  document.querySelectorAll("[data-journey]").forEach(b=>{const on=b.dataset.journey===app.mode;b.classList.toggle("selected",on);b.setAttribute("aria-pressed",String(on))});
  $("savedNumber").textContent=app.saved.size?String(app.saved.size):"";
  if(app.map&&!$("mapPanel").hidden)renderMap();
@@ -259,7 +281,9 @@ function chooseArea(name,persist=true){
  app.area=a?.name||"";app.origin=a?[a.lat,a.lng]:null;app.dismissed.clear();
  if(persist)try{localStorage.setItem(STORAGE_AREA,app.area||"__nottingham__")}catch{}
  $("locationStatus").textContent="";
- app.offset=6;locationUpdate();render();
+ app.offset=6;locationUpdate();
+ if(app.origin)$("distanceStatus").textContent="";
+ render();
 }
 function setCoordinates(lat,lng,label){
  app.origin=[lat,lng];
@@ -267,7 +291,7 @@ function setCoordinates(lat,lng,label){
  app.area=label||(near&&near.km<=10?near.a.name:"");
  app.offset=6;app.dismissed.clear();
  try{localStorage.removeItem(STORAGE_AREA)}catch{}
- locationUpdate();render();
+ locationUpdate();if(app.origin)$("distanceStatus").textContent="";render();
 }
 function locationFailure(error){
  const code=error?.code||0;
@@ -291,9 +315,10 @@ async function detectPermission(){
  try{const permission=await navigator.permissions.query({name:"geolocation"});if(permission.state==="granted")geolocate(true)}catch{}
 }
 function changeMode(mode){
+ const previous=app.mode;
  app.mode=mode;app.offset=6;
  if(mode==="now")app.date=afterHours()?addDays(isoUK(),1):isoUK();
- if(mode==="plan"&&app.date<=isoUK())app.date=addDays(isoUK(),3);
+ if(mode==="plan"&&(previous!=="plan"||app.date<isoUK()))app.date=nextPlanningDay();
  if(mode==="social")app.date=isoUK();
  render();
 }
@@ -316,20 +341,21 @@ function fact(title,value){return '<div class="fact"><strong>'+esc(title)+'</str
 function detail(c){
  const p=c.p,e=c.e,source=validLink(e?.source)||validLink(p.source);
  app.opened[p.id]=isoUK();try{localStorage.setItem("calliedays:recently-opened:v1",JSON.stringify(app.opened))}catch{}
- const when=e?(e.recurrence==="weekly"?scheduleLine(e):dateLabel(c.day)+" · "+timeLabel(e)):(scheduleFacts(p).length?"See regular sessions below":"Opening varies — check before travelling");
+ const when=e?(c.day?dateLabel(c.day)+" · "+timeLabel(e):scheduleLine(e)):
+ (p.kind==="journey"?"Flexible idea — check services":scheduleFacts(p).length?"See regular sessions below":"Opening varies — check before travelling");
  const age=p.minimumAgeMonths?Math.floor(p.minimumAgeMonths/12)+"+ years":"Suitability details not confirmed";
  const price=p.price==="free"?"Free (check conditions)":p.price==="priced"?"Admission or session charge":"See organiser";
- const dir="https://www.google.com/maps/dir/?api=1&destination="+encodeURIComponent((p.address||p.title)+", "+p.area+", UK");
+ const dir=p.kind==="journey"?"":"https://www.google.com/maps/dir/?api=1&destination="+encodeURIComponent((p.address||p.title)+", "+p.area+", UK");
  const hasSchedule=!e&&scheduleFacts(p).length;
- const caution=e?.termTime?"Term-time pattern; confirm holiday dates and any changes with the organiser.":e?.status==="sold_out"?"This session is currently listed as fully booked.":p.caution||"";
- const sourceText=e?.source?"Event / booking information":p.source?"Venue / organiser information":"";
+ const caution=e?.termTime?"Usually term time. Confirm school holidays, this date and any changes with the organiser.":e?.status==="sold_out"?"This session is currently listed as fully booked.":p.caution||"";
+ const sourceText=e?.source?"Check event details":p.source?"Check venue details":"";
  $("detailBody").innerHTML= '<div class="detail-cover'+(p.photo?" photo":"")+'" style="--art:'+colors[category(c)]+'">'+(p.photo?'<img class="detail-photo" src="'+esc(p.photo)+'" alt="Photo of '+esc(p.title)+'">':icon(category(c)))+'</div>'+
  '<div class="detail-content"><p class="eyebrow">'+esc(e?"ACTIVITY · "+p.area:"PLACE · "+p.area)+'</p>'+
  '<h2>'+esc(e?e.title:p.title)+'</h2><p class="lead">'+esc(e?.note||plainSummary(p))+'</p>'+
- '<div class="detail-facts">'+fact("WHERE",p.title+", "+p.area)+fact("WHEN",when)+fact("PRICE",price)+fact("AGE",age)+'</div>'+
+  '<div class="detail-facts">'+fact("WHERE",p.kind==="journey"?"Choose a route around "+p.area:p.title+", "+p.area)+fact("WHEN",when)+fact("PRICE",price)+fact("AGE",age)+'</div>'+
  (caution?'<p class="detail-notice"><strong>Worth checking:</strong> '+esc(caution)+'</p>':"")+
  '<div class="detail-actions">'+(source?'<a class="primary" href="'+esc(source)+'" rel="noopener noreferrer" target="_blank">'+esc(sourceText)+' ↗</a>':"")+
- '<a href="'+esc(dir)+'" target="_blank" rel="noopener noreferrer">Directions ↗</a>'+
+  (dir?'<a href="'+esc(dir)+'" target="_blank" rel="noopener noreferrer">Directions ↗</a>':"")+
  '<button type="button" id="detailSave" data-save="'+esc(p.id)+'">'+(app.saved.has(p.id)?"♥ Saved":"♡ Save idea")+'</button></div>'+
  (e&&e.recurrence==="weekly"?'<section class="detail-schedule"><h3>Regular schedule</h3><p>'+esc(scheduleLine(e))+'</p></section>':"")+
  (hasSchedule?'<section class="detail-schedule"><h3>Regular activities here</h3>'+scheduleFacts(p).map(x=>'<p><strong>'+esc(x.title)+'</strong> — '+esc(scheduleLine(x))+'</p>').join("")+'</section>':"")+
@@ -367,6 +393,11 @@ function wire(){
  document.addEventListener("click",ev=>{
   const mode=ev.target.closest("[data-journey]");if(mode){changeMode(mode.dataset.journey);return}
   const d=ev.target.closest("[data-details]");if(d){const c=app.items.find(i=>identity(i)===d.dataset.details);if(c)detail(c);return}
+  // The card surface is a generous touch target; explicit buttons remain keyboard reachable.
+  if(!ev.target.closest("button,a,input,select")){
+   const surface=ev.target.closest(".result-card");
+   if(surface){const c=app.items.find(i=>identity(i)===surface.dataset.result);if(c)detail(c);return}
+  }
   const save=ev.target.closest("[data-save]");if(save){toggleSaved(save.dataset.save);return}
   const place=ev.target.closest("[data-place]");if(place){$("savedDialog").close();const p=getPlace(place.dataset.place);if(p)detail({kind:"place",p});return}
  });
@@ -384,9 +415,32 @@ function wire(){
   }catch(error){$("locationStatus").textContent="We couldn't find that postcode. Try a nearby town instead."}
  });
  $("searchInput").addEventListener("input",ev=>{app.query=ev.target.value.trim().toLowerCase();app.offset=6;render()});
- $("dateInput").addEventListener("change",ev=>{if(ev.target.value){app.date=ev.target.value;app.mode="plan";app.offset=6;render();shareURL()}});
+ $("dateInput").addEventListener("change",ev=>{
+  if(!ev.target.value)return;
+  if(ev.target.value<isoUK()){
+   $("dateStatus").hidden=false;
+   $("dateStatus").textContent="That date has already passed. Choose today or a future date.";
+   ev.target.value=app.date;return;
+  }
+  $("dateStatus").hidden=true;
+  app.date=ev.target.value;app.mode="plan";app.offset=6;render();shareURL();
+ });
+ document.querySelectorAll("[data-quick-date]").forEach(b=>b.addEventListener("click",()=>{
+  const key=b.dataset.quickDate;
+  const day=key==="tomorrow"?addDays(isoUK(),1):key==="friday"?nextWeekday(5):key==="week"?addDays(isoUK(),7):nextPlanningDay();
+  app.mode="plan";app.date=day;app.offset=6;$("dateStatus").hidden=true;render();shareURL();
+ }));
  $("categoryInput").addEventListener("change",ev=>{app.category=ev.target.value;app.offset=6;render()});
- $("rangeInput").addEventListener("change",ev=>{app.range=ev.target.value;app.offset=6;render()});
+ $("rangeInput").addEventListener("change",ev=>{
+  app.range=ev.target.value;app.offset=6;
+  if(app.range!=="all"&&!app.origin){
+   $("distanceStatus").textContent="Choose a town, postcode or share your location to filter by distance.";
+   $("locationPicker").hidden=false;
+   $("locationStatus").textContent="Choose your area above to activate the distance filter.";
+   $("locationBlock").scrollIntoView({behavior:"smooth",block:"center"});
+  }else $("distanceStatus").textContent="";
+  render();
+ });
  $("freeInput").addEventListener("change",ev=>{app.free=ev.target.checked;app.offset=6;render()});
  $("filtersToggle").addEventListener("click",()=>{const e=$("filtersPanel");e.hidden=!e.hidden;$("filtersToggle").setAttribute("aria-expanded",String(!e.hidden))});
  $("differentBtn").addEventListener("click",()=>{app.items.slice(0,5).forEach(c=>app.dismissed.add(c.p.id));app.seed++;app.offset=6;render()});
@@ -405,10 +459,18 @@ async function initialize(){
   $("areaInput").innerHTML='<option value="">All Nottingham</option>'+app.areas.map(a=>'<option value="'+esc(a.name)+'">'+esc(a.name)+'</option>').join("");
   $("areaLinks").innerHTML=app.areas.slice(0,9).map(a=>'<a href="/areas/'+esc(a.slug)+'/">'+esc(a.name)+'</a>').join("");
   const pathArea=app.areas.find(a=>a.slug===areaFromPath()),queryArea=fromURL.get("area");
+  const isAreaDirectory=location.pathname.replace(/\/$/,"")==="/areas";
+  if(isAreaDirectory){
+   document.body.classList.add("area-directory");
+   $("main").insertBefore(document.querySelector(".explore-strip"),$("locationBlock"));
+   document.querySelector(".explore-strip h2").textContent="Choose a neighbourhood";
+   document.querySelector(".explore-strip .all-areas-link").hidden=true;
+  }
   const chosen=pathArea?.name||queryArea||storedArea();
   if(chosen==="__nottingham__")chooseArea("",false);
   else if(chosen&&app.areas.some(a=>a.name===chosen))chooseArea(chosen,false);
   else{locationUpdate();render()}
+  if(dateWasPast){$("dateStatus").hidden=false;$("dateStatus").textContent="That date has passed. Showing upcoming ideas instead.";}
   if(pathArea){
    $("heroTitle").textContent="Things to do near "+pathArea.name;
    document.title="Things to do near "+pathArea.name+" with under-fives | Callie Days";

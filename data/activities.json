@@ -1650,8 +1650,8 @@
     },
     {
       "id": "place-64",
-      "title": "NCT bus from West Bridgford into Nottingham",
-      "description": "an activity in itself, maybe stay on for interesting vehicles/city centre; under-5s free on NCT.",
+      "title": "Ride a Nottingham bus",
+      "description": "Take a local bus trip just for the journey and things to spot along the way. Check the route, fares, service and suitable stopping points before you set off.",
       "category": [
         "transport"
       ],
@@ -1665,12 +1665,12 @@
         "precision": "area"
       },
       "source": "https://apps.nctx.co.uk/cash-fares",
-      "price": "free",
+      "price": "unknown",
       "caution": null,
       "archived": false,
       "avoidFriday20261009": false,
       "lastChecked": "2026-10-08",
-      "summary": "A bus ride into Nottingham can be the adventure itself, with lots to watch through the windows.",
+      "summary": "A bus ride can be an adventure itself, with passing vehicles and busy streets to watch through the window.",
       "editorialPriority": 4
     },
     {
@@ -1700,8 +1700,8 @@
     },
     {
       "id": "place-66",
-      "title": "Regular train short trip to Beeston, Attenborough, Derby, Newark, Leicester",
-      "description": "train ride itself plus brief exploration at destination, check train service and return route.",
+      "title": "Take a short train ride",
+      "description": "Try a short journey on a scheduled train service from a station convenient to you, with time to explore before coming home. Timetables and prices vary.",
       "category": [
         "transport"
       ],
@@ -1720,12 +1720,12 @@
       "archived": false,
       "avoidFriday20261009": false,
       "lastChecked": "2026-10-08",
-      "summary": "Take a local train to somewhere like Beeston, Newark, Leicester or Derby — the train can be the highlight.",
+      "summary": "Make the train part of the outing — choose a suitable local journey and check tickets and return times.",
       "editorialPriority": 4
     },
     {
       "id": "place-67",
-      "title": "Station viewing at Nottingham / railway bridge in public areas",
+      "title": "Watch trains at Nottingham station",
       "description": "see different trains without making a paid long visit; choose safe public viewing locations.",
       "category": [
         "transport"

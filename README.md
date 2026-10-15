@@ -63,3 +63,15 @@ The live source is on main; the public custom domain is held in the CNAME file. 
 * Properly licensed photos in assets/photos include photoCredit metadata and attribution in the details view; unrelated venue stock images should not be misrepresented as actual venue photos.
 * A recurring class belongs in the event records, not as a generic anytime place. The site displays human recurring schedule summaries and uses per-date exceptions for changes.
 * The continuous research updater must identify and reconcile existing records with stable IDs, verify facts, regenerate areas, run validation and push only public-safe updates. Do not treat a JSON edit as an independent source check.
+
+## V3.1 usability rules (October 2026)
+
+- The **area directory** at `/areas/` is the same interactive site but puts **all** neighbourhood links before activity results; re-run `scripts/generate_areas.py` whenever the shared app shell changes.
+- The 'Something now' journey presents possibilities **to check**, not unverified claims of opening or bookability. Never infer open-now solely from a venue being in the catalogue.
+- Users may tap the card image, title or unoccupied card surface to read details; the save control remains a separate action. All keyboard interactions must remain accessible.
+- A non-default distance filter requires a chosen location. Before one is selected, visibly request a town, postcode or geolocation instead of pretending results have been restricted.
+- Weekly sessions are **tentatively projected for no more than 42 days after a genuine `event.lastChecked` or linked `place.lastChecked` date**; this is a safety limit, **not** a claim of verified dates. Beyond that, leave the regular pattern as background information and ask the research pipeline to recheck the organiser. Never advance checked dates just to keep a series appearing.
+- A selected recurring-event occurrence must display the **specific selected calendar date/time** as well as the regular schedule. Term dates and exceptional sessions may differ.
+- Planning accepts only today and later; date shortcuts offer tomorrow, Friday, weekend and next week, and historical deep links explain the change.
+- Transport-journey ideas are not fixed-address venues: don't generate Google Maps directions to a fictional named destination or label an entire family trip as free because a child might ride free.
+- Automated browser QA includes first-run location, permission grant/deny, four screen widths, neighbourhood directory hierarchy, image taps, distance-filter prompting, recurrence horizon, past-date handling, quick planning, save-toast accessibility and cross-area routing.
