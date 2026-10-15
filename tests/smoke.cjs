@@ -32,10 +32,12 @@ async function test(browser,base,width){
  await page.select("#areaInput","Beeston");
  assert.deepEqual(await page.evaluate(()=>app.origin),[52.926,-1.215],"Beeston location not applied");
  assert.equal(await page.$eval("#locationLabel",e=>e.textContent),"Beeston");
- assert.ok(await page.$eval(".card-topline",el=>el.textContent.includes("km away")),"show approximate locality label");
+ assert.ok(await page.$eval(".card-topline",el=>/direct|approx\.|location recorded/i.test(el.textContent)),"show honest location-precision label");
  await page.reload({waitUntil:"networkidle2"});
  assert.equal(await page.$eval("#locationLabel",e=>e.textContent),"Beeston","saved area not restored");
  // People journey, plan date, source-quality and action.
+ // A selected venue is a manual preference and should not be erased when browser permission is granted on repeat visit.
+ assert.ok(await page.evaluate(()=>app.area==="Beeston"),"manually selected area not retained");
  await page.evaluate(()=>document.querySelector('[data-journey="social"]').click());
  assert.equal(await page.evaluate(()=>app.mode),"social");
  assert.ok(await page.$eval(".result-grid",e=>e.querySelectorAll(".result-card").length>0),"social results empty");
@@ -45,6 +47,7 @@ async function test(browser,base,width){
  assert.equal(await page.$eval("#dateField",e=>!e.hidden),true);
  await page.$eval("#dateInput",el=>{el.value="2026-10-23";el.dispatchEvent(new Event("change",{bubbles:true}))});
  assert.equal(await page.evaluate(()=>app.date),"2026-10-23","planning date not reflected");
+ assert.ok(new URL(page.url()).searchParams.get("date")==="2026-10-23","planning date not shareable");
  await page.evaluate(()=>document.querySelector(".result-card h3 button").click());
  assert.equal(await page.$eval("#detailDialog",el=>el.open),true);
  assert.ok((await page.$eval("#detailBody",el=>el.innerText)).includes("WHEN"),"details missing date/when");
@@ -58,11 +61,18 @@ async function test(browser,base,width){
  assert.ok(schedule.text.includes("Every Friday"),"regular weekly schedule not summarized");
  assert.ok(schedule.dateRows<=7,"recurrence detail overloaded with dates");
  await page.click("#detailClose");
+ // The geo-ranked home suggestions shouldn't be an unbroken row of generic playgrounds.
+ assert.ok(await page.evaluate(()=>app.items.slice(0,5).filter(c=>/playground|play area|junior play/i.test(c.p.title)).length<=2),"too many generic playgrounds in top five");
  // Favourite persists with unchanged site shell.
  await page.evaluate(()=>document.querySelector(".save-button").click());
  await page.click("#savedNav");
  assert.equal(await page.$eval("#savedDialog",el=>el.open),true,"saved shortlist missing");
  await page.click("#savedClose");
+ // Shared links must recover a planning journey, including on a different device.
+ await page.goto(base+"/?area=Beeston&date=2026-10-23",{waitUntil:"networkidle2"});
+ await page.waitForSelector(".result-card",{timeout:12000});
+ assert.deepEqual(await page.evaluate(()=>({mode:app.mode,area:app.area,date:app.date})),{mode:"plan",area:"Beeston",date:"2026-10-23"},"shareable date/area failed");
+
  // Shared area page must be same functional app, NOT disconnected static list.
  await page.goto(base+"/areas/hucknall/",{waitUntil:"networkidle2"});
  await page.waitForSelector(".result-card",{timeout:12000});
@@ -71,6 +81,13 @@ async function test(browser,base,width){
  assert.ok(await page.$(".choices .choice"),"area page lost primary journeys");
  assert.ok(await page.$("#searchInput"),"area page lost search");
  assert.equal(await page.evaluate(()=>app.origin?.[0]),53.038);
+ // Term-time sessions should not be published as occurrences during the confirmed Nottingham half-term.
+ assert.ok(await page.evaluate(()=>{
+  const weekly=app.events.find(e=>e.id==="event-rockets");
+  return occurrence(weekly,"2026-10-16")!==null&&occurrence(weekly,"2026-10-23")===null;
+ }),"half-term exclusions for regular term-time series");
+ // Event-only venues and recurring groups must not become open-all-day attractions in planner.
+ assert.ok(await page.evaluate(()=>app.items.filter(x=>x.kind==="place").every(x=>x.p.kind!=="session")),"undated session shown as anytime attraction");
  // WCAG automated scan, in addition to task testing.
  await page.addScriptTag({path:require.resolve("axe-core/axe.min.js")});
  const violations=await page.evaluate(async()=>{const x=await axe.run({runOnly:{type:"tag",values:["wcag2a","wcag2aa","wcag21a","wcag21aa"]}});return x.violations.map(v=>({id:v.id,impact:v.impact,nodes:v.nodes.length,targets:v.nodes.map(n=>({target:n.target,summary:n.failureSummary?.slice(0,180)}))}))});
@@ -88,6 +105,11 @@ async function testPermissions(browser,base){
  await p.waitForFunction(()=>app.origin!==null);
  assert.deepEqual(await p.evaluate(()=>app.origin),[53.038,-1.202],"existing geolocation permission should auto-apply");
  assert.equal(await p.$eval("#locationPicker",el=>el.hidden),true,"granted permission should skip onboarding");
+ await p.select("#areaInput","Beeston");
+ await p.reload({waitUntil:"networkidle2"});
+ await p.waitForSelector(".result-card");
+ assert.equal(await p.evaluate(()=>app.area),"Beeston","granted geolocation overrode explicit saved area");
+
  await granted.close();
  const denied=await browser.createBrowserContext();
  await denied.overridePermissions(base,[]);

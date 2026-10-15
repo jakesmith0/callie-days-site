@@ -1,8 +1,8 @@
 # Callie Days — family adventures finder
 
-**Live website:** https://jakesmith0.github.io/callie-days-site/
+**Live website:** https://calliedays.digitalhm.uk/ (old GitHub Pages address redirects)
 
-A fast, responsive directory for finding family outings near Nottingham and beyond: date-specific events, recurring sessions, attractions, transport adventures, maps, calendar, filters and local saved ideas.
+A mobile-first, location-aware discovery guide for parents of under-fives across Greater Nottingham, led by three journeys: **Something now**, **Meet other families** and **Plan ahead**. Scheduled events and generally visitable places appear in the same search.
 
 ## Privacy
 
@@ -10,7 +10,7 @@ A fast, responsive directory for finding family outings near Nottingham and beyo
 
 ## Growing the directory
 
-- `data/activities.json`: editable activities with stable IDs, summaries, categories, broad travel bands, approximate area map coordinates, source URLs and honest check dates.
+- `data/activities.json`: editable activities with stable IDs, summaries, categories, legacy travel bands, labelled approximate area or venue-location coordinates, source URLs and honest check dates.
 - `data/events.json`: one-off dates, date ranges and usual weekly sessions linked by `placeId`. Never assume booking availability or term-time sessions are guaranteed.
 - `index.html`, `styles.css`, `app.js`, `assets/`: static public site; no build process required.
 - [UX review and remaining gaps](UX_REVIEW_2026-10-09.md).
@@ -37,7 +37,7 @@ To run tests using macOS's installed Chrome: `CHROME_PATH="/Applications/Google 
 
 CI verifies JSON integrity, privacy indicators, JavaScript syntax, and browser UX/accessibility at phone/tablet/desktop widths. The site deploys via GitHub Pages from `main`.
 
-**Limits:** no automatic web research/refresh, no real-time availability, no accurate door-to-door travel times, no favourites sync across devices. The site warns if its catalogue is old.
+**Limits:** no live opening-hours or booking availability, no verified door-to-door travel times, no favourite synchronisation. The separately scheduled research job is not an on-site live availability service and publishes only when integration is enabled.
 
 ### Open-source and map credits
 
@@ -47,6 +47,19 @@ Leaflet 1.9.4 and Leaflet.markercluster 1.5.3 are bundled under MIT licences (in
 
 - `data/areas.json` is the canonical source for approximate neighbourhood centres. `scripts/generate_areas.py` builds `/areas/` landing pages and CI ensures they match the current catalogue.
 - The Find Nearby feature uses area centres or browser geolocation to rank approximate *straight-line* distances from catalogue **area markers**, not door-to-door route estimates. Do not label these estimates as driving times.
-- The optional UK postcode lookup contacts postcodes.io directly from the visitor's browser only after they enter and submit a postcode; the site has no server receiving this postcode. Browser geolocation is only requested on button click and is not persisted; an explicitly chosen town is remembered locally.
+- The optional UK postcode lookup contacts postcodes.io directly from the visitor's browser only after they enter and submit a postcode; the site has no server receiving this postcode. Browser geolocation is requested on click, or automatically when permission is already granted and there is no manual area selection. Coordinates are not persisted; an explicitly chosen town or deliberate Nottingham-wide selection is remembered locally.
 - Preserve truthful `lastChecked`; editing a display summary or migrating a schema never constitutes re-verification. Prefer well-sourced descriptions over generic prose and provide an organiser link wherever possible.
 - The logo mark lives in `assets/sunshine.svg`; the original green/orange HTML wordmark remains independent. Do not replace it with an image containing lettering.
+
+
+## Parent-first V3 publishing
+
+The live source is on main; the public custom domain is held in the CNAME file. The GitHub Pages address redirects.
+
+* The same app shell is generated under neighbourhood routes by running: python3 scripts/generate_areas.py
+* Before committing, validate: python3 scripts/validate_catalogue.py and npm run test:ui
+* For a term-time weekly event, conservative known council holiday exclusions prevent treating school holidays as regular occurrences; organisers and individual school calendars can differ. Source: https://www.nottinghamshire.gov.uk/education/school-holidays-and-closures/school-holiday-and-term-dates
+* A venue-level coordinate must have source-supported geometry and precision value venue. Otherwise leave precision as area; straight-line approximations are not driving times.
+* Properly licensed photos in assets/photos include photoCredit metadata and attribution in the details view; unrelated venue stock images should not be misrepresented as actual venue photos.
+* A recurring class belongs in the event records, not as a generic anytime place. The site displays human recurring schedule summaries and uses per-date exceptions for changes.
+* The continuous research updater must identify and reconcile existing records with stable IDs, verify facts, regenerate areas, run validation and push only public-safe updates. Do not treat a JSON edit as an independent source check.

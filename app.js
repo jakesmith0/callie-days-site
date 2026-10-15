@@ -25,18 +25,41 @@ const dateLabel=s=>new Intl.DateTimeFormat("en-GB",{weekday:"long",day:"numeric"
 const roundTime=t=>t?String(t).replace(/^0/,""):"Time to check";
 const timeLabel=e=>e.time?roundTime(e.time)+(e.end?"–"+roundTime(e.end):""):"Time to confirm";
 const weekdays=d=>asDate(d).getUTCDay();
-const app={areas:[],places:[],events:[],origin:null,area:"",mode:"now",date:isoUK(),saved:new Set(),query:"",category:"",range:"all",free:false,offset:6,seed:0,items:[],map:null,markerLayer:null};
+// Conservative public school holiday exclusions for explicitly term-time sessions.
+// Individual organisers can differ; known dated overrides win when supported by evidence.
+const SCHOOL_HOLIDAYS=[
+ ["2026-10-19","2026-10-30"],
+ ["2026-12-19","2027-01-03"],
+ ["2027-02-15","2027-02-19"],
+ ["2027-03-26","2027-04-11"],
+ ["2027-05-29","2027-06-06"]
+];
+const isSchoolHoliday=day=>SCHOOL_HOLIDAYS.some(([a,b])=>day>=a&&day<=b);
+
+const afterHours=()=>Number(clockUK().slice(0,2))>=18;
+const app={areas:[],places:[],events:[],origin:null,area:"",mode:"now",date:afterHours()?addDays(isoUK(),1):isoUK(),saved:new Set(),query:"",category:"",range:"all",free:false,offset:6,seed:0,opened:{},dismissed:new Set(),items:[],map:null,markerLayer:null};
+try{const x=JSON.parse(localStorage.getItem("calliedays:recently-opened:v1")||"{}");if(x&&typeof x==="object"&&!Array.isArray(x))app.opened=x}catch{}
 const fromURL=new URLSearchParams(location.search);
 const startingDate=fromURL.get("date");
-if(startingDate&&/^\d{4}-\d{2}-\d{2}$/.test(startingDate)&&!isNaN(asDate(startingDate)))app.date=startingDate;
+if(startingDate&&/^\d{4}-\d{2}-\d{2}$/.test(startingDate)&&!isNaN(asDate(startingDate))){
+ app.date=startingDate;app.mode="plan";
+}
 const areaFromPath=()=>{const m=location.pathname.match(/^\/areas\/([a-z0-9-]+)\/?/);return m?.[1]||""};
 const storedArea=()=>{try{return localStorage.getItem(STORAGE_AREA)||""}catch{return ""}};
 try{const s=JSON.parse(localStorage.getItem(STORAGE_SAVED)||"[]");if(Array.isArray(s))app.saved=new Set(s.filter(x=>typeof x==="string"))}catch{}
 const notify=msg=>{const n=$("toast");n.textContent=msg;n.classList.add("show");setTimeout(()=>n.classList.remove("show"),3000)};
 const deg=Math.PI/180;
 const distance=(a,b)=>{if(!a||!b)return null;const d1=(b[0]-a[0])*deg,d2=(b[1]-a[1])*deg;const v=Math.sin(d1/2)**2+Math.cos(a[0]*deg)*Math.cos(b[0]*deg)*Math.sin(d2/2)**2;return 12742*Math.asin(Math.sqrt(v))};
+// An unknown origin still needs sensible Nottingham-wide ordering; this is ranking only.
+const NOTTINGHAM_CENTRE=[52.954,-1.148];
 const distanceTo=p=>app.origin&&p.mapPoint?distance(app.origin,[p.mapPoint.lat,p.mapPoint.lng]):null;
-const distanceText=p=>{const n=distanceTo(p);return n===null?"Distance to check":n<1?"Less than 1 km away":"About "+Math.round(n)+" km away"};
+const rankingDistance=p=>p.mapPoint?distance(app.origin||NOTTINGHAM_CENTRE,[p.mapPoint.lat,p.mapPoint.lng]):null;
+const distanceText=p=>{
+ const n=distanceTo(p);
+ if(n===null)return p.mapPoint?.precision==="venue"?"Location recorded":"Area location only";
+ if(p.mapPoint?.precision!=="venue")return "Area location approx.";
+ return n<1?"Less than 1 km direct":"~"+Math.round(n)+" km direct";
+};
 function occurrence(e,day){
  const over=(e.exceptions||{})[day]||{};
  if((e.excludedDates||[]).includes(day)&&over.added!==true)return null;
@@ -45,6 +68,7 @@ function occurrence(e,day){
  else if(e.recurrence==="range")yes=day>=e.from&&day<=e.to&&(!e.allowedWeekdays||e.allowedWeekdays.includes(weekdays(day)));
  else if(e.recurrence==="weekly")yes=weekdays(day)===e.weekday&&(!e.startsOn||day>=e.startsOn)&&(!e.endsOn||day<=e.endsOn);
  if(over.added===true)yes=true;
+ if(e.termTime===true&&isSchoolHoliday(day)&&!over.added&&!e.confirmedHolidayDates?.includes(day))yes=false;
  if(!yes)return null;
  return {...e,...over,day,status:over.status||e.status||"scheduled"};
 }
@@ -86,45 +110,62 @@ const eventCandidates=(from,days)=>{
   for(const event of app.events){
    const e=occurrence(event,day),p=getPlace(event.placeId);
    if(!e||!p||exclusion(p)||inactive(e))continue;
-   if(app.mode==="now"&&day===isoUK()){
+   if(["now","social"].includes(app.mode)&&day===isoUK()){
     if(e.end&&e.end<clockUK())continue;
     if(!e.time)continue; // Unknown hours cannot qualify for 'go right now'
    }
    if(app.mode==="social"&&!(p.kind==="session"||p.category.includes("group")))continue;
-   out.push({kind:"event",p,e,day,dist:distanceTo(p)});
+   out.push({kind:"event",p,e,day,dist:distanceTo(p),rankKm:rankingDistance(p)});
   }
  }
  return out;
 };
 const placesCandidates=()=>{
- return app.places.filter(p=>!exclusion(p)&&venueCandidateForDay(p)&&(!seasonalIds.has(p.id)||app.events.some(e=>e.placeId===p.id&&occurrence(e,app.date))))
- .filter(p=>app.mode!=="social"||p.kind==="session")
- .filter(p=>app.mode!=="now"||p.kind!=="session") // Unscheduled groups aren't safe 'right now'
- .map(p=>({kind:"place",p,dist:distanceTo(p)}));
+ return app.places.filter(p=>!exclusion(p)&&p.kind!=="session"&&venueCandidateForDay(p)
+ &&(!seasonalIds.has(p.id)||app.events.some(e=>e.placeId===p.id&&occurrence(e,app.date))))
+ .filter(p=>app.mode!=="social")
+ .map(p=>({kind:"place",p,dist:distanceTo(p),rankKm:rankingDistance(p)}));
 };
 const identity=c=>c.kind==="event"?"event:"+c.e.id+":"+c.day:"place:"+c.p.id;
 const category=c=>c.p.category?.[0]||"nature";
 const isUrgent=c=>c.kind==="event"&&c.day===isoUK()&&c.e.time&&c.e.time>=clockUK()&&Number(c.e.time.slice(0,2))*60+Number(c.e.time.slice(3))-((Number(clockUK().slice(0,2))*60)+Number(clockUK().slice(3)))<=180;
 const seeded=c=>{let h=0;for(const k of identity(c)+isoUK()+app.seed)h=(h*33+k.charCodeAt(0))%997;return h/997};
+const genericPark=p=>/(playground|play area|junior play)/i.test(p.title)&&!(p.editorialPriority>2);
+const passiveExhibition=e=>/exhibit|prehistoric lives|gallery|historic exhibition/i.test(e.title||"")&&!/toddler|child|family|creative play|workshop/i.test(e.title||"");
 function weight(c){
- const d=c.dist;
- let score=d===null?5:Math.max(-50,72-d*3.4);
+ const d=c.rankKm;
+ let score=d===null?0:Math.max(-60,72-d*3.1);
  if(c.kind==="event"){
   if(c.e.status==="sold_out")return -999;
-  score+=c.e.confidence==="dated"?17:10;
+  score+=c.e.confidence==="dated"?13:8;
+  if(passiveExhibition(c.e))score-=app.mode==="now"?48:23;
+  if(c.e.recurrence==="range"&&!/family|children|toddler|play|craft|halloween trail/i.test(c.e.title||""))score-=12;
+  if(c.e.source==null&&!c.p.source)score-=22;
   score+=isUrgent(c)?25:0;
   if(c.e.termTime&&(!c.e.excludedDates||!c.e.excludedDates.length))score-=9;
   if(!c.e.time)score-=24;
   if(app.mode==="now"&&!isUrgent(c))score-=8;
   if(app.mode==="plan")score+=6;
-  if(app.mode==="social")score+=20;
+  if(app.mode==="social"){
+   score+=c.p.kind==="session"?39:6;
+   const daysUntil=Math.max(0,Math.round((asDate(c.day)-asDate(isoUK()))/86400000));
+   score-=Math.min(30,daysUntil*2.5);
+   if(daysUntil<=2)score+=13;
+  }
   if(c.day!==app.date)score-=Math.min(16,Math.round((asDate(c.day)-asDate(app.date))/86400000)*1.4);
  }else{
   score+=app.mode==="now"?16:app.mode==="social"?-12:6;
   if(c.p.kind==="journey")score+=1;
+  if(c.p.kind==="place"&&c.p.category.includes("culture")&&!(c.p.editorialPriority>2))score-=13;
   if(c.p.category?.includes("play"))score+=3;
  }
  if(!c.p.summary)score-=5;
+ score+=(c.p.editorialPriority||0)*6.5;
+ if(genericPark(c.p))score-=36;
+ if(c.p.kind==="journey")score-=app.mode==="now"?8:2;
+ if(!c.p.source&&!c.e?.source)score-=10;
+ if(app.opened[c.p.id]&&app.opened[c.p.id]>=addDays(isoUK(),-7))score-=8;
+ if(app.dismissed.has(c.p.id))score-=110;
  if(app.mode==="now"&&d!==null&&d>16)score-=55;
  if(app.mode==="social"&&d!==null&&d>20)score-=32;
  return score+seeded(c)*7;
@@ -154,7 +195,7 @@ function results(){
  let candidates=eventCandidates(app.date,horizon).concat(placesCandidates()).filter(matches);
  // When no locality context, use diverse Nottingham-wide results.
  if(app.mode==="now"&&app.origin){
-  let local=candidates.filter(c=>c.dist===null||c.dist<=22);
+  let local=candidates.filter(c=>c.rankKm===null||c.rankKm<=22);
   if(local.length>=3)candidates=local;
  }
  app.items=pickDiverse(candidates);
@@ -165,13 +206,13 @@ const metaFor=c=>{
   meta.push(c.day===isoUK()?"Today · "+timeLabel(c.e):longDate(c.day)+" · "+timeLabel(c.e));
   if(c.e.termTime)meta.push("Term-time schedule");
  }else{
-  meta.push("Visit when open");
+  meta.push("Check opening times");
  }
  if(p.price==="free")meta.push("Free");
  else if(p.price==="priced")meta.push("Check admission");
  return meta;
 };
-const pictogram=p=>'<div class="card-art" style="--art:'+colors[category({p})]+'">'+icon(category({p}))+'</div>';
+const pictogram=p=>'<div class="card-art'+(p.photo?" has-photo":"")+'" style="--art:'+colors[category({p})]+'">'+(p.photo?'<img loading="lazy" class="venue-photo" src="'+esc(p.photo)+'" alt="Photo of '+esc(p.title)+'">':icon(category({p})))+'</div>';
 function card(c){
  const p=c.p,ev=c.e;
  const title=ev?ev.title:p.title;
@@ -189,10 +230,10 @@ function render(){
  results();
  const nearbyAreas=[...app.areas].sort((a,b)=>app.origin?(distance(app.origin,[a.lat,a.lng])-distance(app.origin,[b.lat,b.lng])):0);
  $("areaLinks").innerHTML=nearbyAreas.slice(0,10).map(a=>'<a href="/areas/'+esc(a.slug)+'/">'+esc(a.name)+'</a>').join("");
- const text=app.mode==="social"?"Meet other families":app.mode==="plan"?"Ideas for "+longDate(app.date):"Things you could do today";
+ const text=app.mode==="social"?"Meet other families":app.mode==="plan"?"Ideas for "+longDate(app.date):afterHours()?"Ideas for tomorrow":"Things you could do today";
  $("resultsTitle").textContent=text;
  $("resultsKicker").textContent=app.mode==="social"?"GROUPS & OTHER LITTLE PEOPLE":app.mode==="plan"?"PLAN AN OUTING":"RECOMMENDED FOR YOUR AREA";
- $("resultsSubtitle").textContent=app.area?"Around "+app.area+" · "+app.items.length+" ideas to explore":app.origin?"Around your location · "+app.items.length+" ideas to explore":"Around Nottingham · "+app.items.length+" ideas to explore";
+ $("resultsSubtitle").textContent=app.mode==="now"&&afterHours()?"It's evening, so here are ideas to check for tomorrow. Opening is not confirmed.":(app.area?"Around "+app.area+" · "+app.items.length+" ideas to explore":app.origin?"Around your location · "+app.items.length+" ideas to explore":"Around Nottingham · "+app.items.length+" ideas to explore");
  const visible=app.items.slice(0,app.offset);
  $("resultsCards").innerHTML=visible.map(card).join("");
  $("resultEmpty").hidden=app.items.length>0;
@@ -215,13 +256,16 @@ function locationUpdate(){
 }
 function chooseArea(name,persist=true){
  const a=app.areas.find(a=>a.name===name);
- app.area=a?.name||"";app.origin=a?[a.lat,a.lng]:null;
- if(persist)try{localStorage.setItem(STORAGE_AREA,app.area)}catch{}
+ app.area=a?.name||"";app.origin=a?[a.lat,a.lng]:null;app.dismissed.clear();
+ if(persist)try{localStorage.setItem(STORAGE_AREA,app.area||"__nottingham__")}catch{}
  $("locationStatus").textContent="";
  app.offset=6;locationUpdate();render();
 }
 function setCoordinates(lat,lng,label){
- app.origin=[lat,lng];app.area=label||"";app.offset=6;
+ app.origin=[lat,lng];
+ const near=app.areas.map(a=>({a,km:distance([lat,lng],[a.lat,a.lng])})).sort((a,b)=>a.km-b.km)[0];
+ app.area=label||(near&&near.km<=10?near.a.name:"");
+ app.offset=6;app.dismissed.clear();
  try{localStorage.removeItem(STORAGE_AREA)}catch{}
  locationUpdate();render();
 }
@@ -248,7 +292,7 @@ async function detectPermission(){
 }
 function changeMode(mode){
  app.mode=mode;app.offset=6;
- if(mode==="now")app.date=isoUK();
+ if(mode==="now")app.date=afterHours()?addDays(isoUK(),1):isoUK();
  if(mode==="plan"&&app.date<=isoUK())app.date=addDays(isoUK(),3);
  if(mode==="social")app.date=isoUK();
  render();
@@ -271,6 +315,7 @@ function scheduleFacts(p){
 function fact(title,value){return '<div class="fact"><strong>'+esc(title)+'</strong><span>'+esc(value)+'</span></div>'}
 function detail(c){
  const p=c.p,e=c.e,source=validLink(e?.source)||validLink(p.source);
+ app.opened[p.id]=isoUK();try{localStorage.setItem("calliedays:recently-opened:v1",JSON.stringify(app.opened))}catch{}
  const when=e?(e.recurrence==="weekly"?scheduleLine(e):dateLabel(c.day)+" · "+timeLabel(e)):(scheduleFacts(p).length?"See regular sessions below":"Opening varies — check before travelling");
  const age=p.minimumAgeMonths?Math.floor(p.minimumAgeMonths/12)+"+ years":"Suitability details not confirmed";
  const price=p.price==="free"?"Free (check conditions)":p.price==="priced"?"Admission or session charge":"See organiser";
@@ -278,7 +323,7 @@ function detail(c){
  const hasSchedule=!e&&scheduleFacts(p).length;
  const caution=e?.termTime?"Term-time pattern; confirm holiday dates and any changes with the organiser.":e?.status==="sold_out"?"This session is currently listed as fully booked.":p.caution||"";
  const sourceText=e?.source?"Event / booking information":p.source?"Venue / organiser information":"";
- $("detailBody").innerHTML='<div class="detail-cover" style="--art:'+colors[category(c)]+'">'+icon(category(c))+'</div>'+
+ $("detailBody").innerHTML= '<div class="detail-cover'+(p.photo?" photo":"")+'" style="--art:'+colors[category(c)]+'">'+(p.photo?'<img class="detail-photo" src="'+esc(p.photo)+'" alt="Photo of '+esc(p.title)+'">':icon(category(c)))+'</div>'+
  '<div class="detail-content"><p class="eyebrow">'+esc(e?"ACTIVITY · "+p.area:"PLACE · "+p.area)+'</p>'+
  '<h2>'+esc(e?e.title:p.title)+'</h2><p class="lead">'+esc(e?.note||plainSummary(p))+'</p>'+
  '<div class="detail-facts">'+fact("WHERE",p.title+", "+p.area)+fact("WHEN",when)+fact("PRICE",price)+fact("AGE",age)+'</div>'+
@@ -288,7 +333,8 @@ function detail(c){
  '<button type="button" id="detailSave" data-save="'+esc(p.id)+'">'+(app.saved.has(p.id)?"♥ Saved":"♡ Save idea")+'</button></div>'+
  (e&&e.recurrence==="weekly"?'<section class="detail-schedule"><h3>Regular schedule</h3><p>'+esc(scheduleLine(e))+'</p></section>':"")+
  (hasSchedule?'<section class="detail-schedule"><h3>Regular activities here</h3>'+scheduleFacts(p).map(x=>'<p><strong>'+esc(x.title)+'</strong> — '+esc(scheduleLine(x))+'</p>').join("")+'</section>':"")+
- '<p class="detail-secondary">We use organiser listings and approximate area locations. This is not a live opening-hours or ticket-availability service. Source last catalogued: '+esc(p.lastChecked||"unknown")+'.</p></div>';
+ (p.photoCredit?'<p class="detail-secondary">Photo: '+esc(p.photoCredit.author)+' · '+esc(p.photoCredit.license)+' · <a target="_blank" rel="noopener noreferrer" href="'+esc(validLink(p.photoCredit.source))+'">Image and licensing information</a></p>':"")+
+ '<p class="detail-secondary">We use organiser listings and approximate locations. This is not a live opening-hours or booking-availability service. Source last catalogued: '+esc(p.lastChecked||"unknown")+'.</p></div>';
  $("detailDialog").showModal();
 }
 function toggleSaved(id){if(app.saved.has(id))app.saved.delete(id);else app.saved.add(id);try{localStorage.setItem(STORAGE_SAVED,JSON.stringify([...app.saved]))}catch{}render();notify(app.saved.has(id)?"Saved for later":"Removed from saved")}
@@ -343,7 +389,7 @@ function wire(){
  $("rangeInput").addEventListener("change",ev=>{app.range=ev.target.value;app.offset=6;render()});
  $("freeInput").addEventListener("change",ev=>{app.free=ev.target.checked;app.offset=6;render()});
  $("filtersToggle").addEventListener("click",()=>{const e=$("filtersPanel");e.hidden=!e.hidden;$("filtersToggle").setAttribute("aria-expanded",String(!e.hidden))});
- $("differentBtn").addEventListener("click",()=>{app.seed++;render()});
+ $("differentBtn").addEventListener("click",()=>{app.items.slice(0,5).forEach(c=>app.dismissed.add(c.p.id));app.seed++;app.offset=6;render()});
  $("mapToggle").addEventListener("click",()=>{const e=$("mapPanel");e.hidden=!e.hidden;$("mapToggle").textContent=e.hidden?"Map ↗":"Hide map ×";if(!e.hidden)renderMap()});
  $("moreBtn").addEventListener("click",()=>{app.offset+=6;render()});
  $("savedNav").addEventListener("click",openSaved);
@@ -360,7 +406,8 @@ async function initialize(){
   $("areaLinks").innerHTML=app.areas.slice(0,9).map(a=>'<a href="/areas/'+esc(a.slug)+'/">'+esc(a.name)+'</a>').join("");
   const pathArea=app.areas.find(a=>a.slug===areaFromPath()),queryArea=fromURL.get("area");
   const chosen=pathArea?.name||queryArea||storedArea();
-  if(chosen&&app.areas.some(a=>a.name===chosen))chooseArea(chosen,false);
+  if(chosen==="__nottingham__")chooseArea("",false);
+  else if(chosen&&app.areas.some(a=>a.name===chosen))chooseArea(chosen,false);
   else{locationUpdate();render()}
   if(pathArea){
    $("heroTitle").textContent="Things to do near "+pathArea.name;
@@ -371,7 +418,8 @@ async function initialize(){
    $("locationPicker").hidden=false;
    document.title="Explore Nottingham neighbourhoods | Callie Days";
   }
-  detectPermission();
+  // Do not override an explicitly chosen neighbourhood with browser geolocation.
+  if(!chosen)detectPermission();
  }catch(err){$("resultsCards").innerHTML='<p class="empty">Sorry, the activity catalogue failed to load. Refresh to try again.</p>';console.error(err)}
 }
 initialize();
